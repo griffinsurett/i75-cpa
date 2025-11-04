@@ -17,6 +17,8 @@ Greastro extends Astro's content collections with a powerful, database-like quer
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Advanced Features](#advanced-features)
+- [User Preferences System](#user-preferences-system)
+- [Performance Optimizations](#performance-optimizations)
 - [API Reference](#api-reference)
 - [Scripts](#scripts)
 - [Contributing](#contributing)
@@ -209,40 +211,48 @@ src/
 ├── components/
 │   ├── ContentRenderer/      # Universal section renderer
 │   │   ├── variants/         # Layout variants (Grid, Blog, List, etc.)
-│   │   └── utils/            # Variant helpers and ID generation
-│   ├── LoopComponents/       # Individual content cards
-│   ├── LoopTemplates/        # Reusable templates (Accordion, Menu)
-│   ├── Button/               # Polymorphic button system
-│   └── consent/              # Cookie consent components
+│   │   └── ContentRenderer.types.ts
+│   ├── preferences/          # User preference components
+│   │   ├── consent/          # Cookie consent system
+│   │   ├── language/         # Multi-language support
+│   │   ├── accessibility/    # Accessibility features
+│   │   └── theme/            # Dark mode toggle
+│   ├── Button.astro          # Polymorphic button
+│   ├── Icon.tsx              # Icon system
+│   └── Modal.tsx             # Lazy-loaded modal
 ├── content/
-│   ├── blog/                 # Blog posts
-│   │   ├── _meta.mdx        # Collection configuration
-│   │   └── *.mdx            # Individual posts
-│   ├── authors/              # Author data
-│   ├── services/             # Service offerings
-│   └── menu-items/           # Menu structure
+│   ├── config.ts             # Collection definitions
+│   ├── schema.ts             # Shared schemas
+│   ├── [collection]/         # Content collections
+│   │   ├── _meta.mdx         # Collection config
+│   │   └── *.mdx             # Collection items
+│   ├── menus/                # Menu configuration
+│   └── siteData.ts           # Global site config
+├── hooks/
+│   ├── useLocalStorage.ts    # localStorage state management
+│   ├── useTheme.ts           # Dark mode hook
+│   ├── useCookieStorage.ts   # Cookie utilities hook
+│   └── useAccessibility.ts   # Accessibility preferences
 ├── layouts/
-│   ├── BaseLayout.astro      # Root HTML layout
-│   ├── collections/          # Dynamic collection layouts
-│   │   ├── CollectionLayout.astro  # Default item layout
-│   │   └── BlogLayout.astro        # Blog-specific layout
-│   └── SEO.astro             # SEO meta tags
-├── pages/
-│   ├── [collection]/
-│   │   ├── index.astro       # Collection index
-│   │   └── [slug].astro      # Collection items
-│   ├── [slug].astro          # Root-level items
-│   └── index.astro           # Homepage
-└── utils/
-    ├── query/                # Query system
-    │   ├── query.ts          # Main query builder
-    │   ├── graph.ts          # Relationship graph
-    │   ├── relations.ts      # Relation resolution
-    │   └── hierarchy.ts      # Parent-child queries
-    ├── collections/          # Collection utilities
-    ├── redirects/            # Redirect system
-    ├── loaders/              # Custom Astro loaders
-    └── pageGeneration/       # Static page helpers
+│   ├── BaseLayout.astro      # Main layout
+│   ├── PreferencesLayout.astro # User preferences wrapper
+│   └── collections/          # Custom collection layouts
+├── utils/
+│   ├── content/              # Content utilities
+│   │   ├── query.ts          # Query builder
+│   │   ├── graph.ts          # Relation resolution
+│   │   └── hierarchy.ts      # Parent-child queries
+│   ├── storage.ts            # localStorage utilities
+│   ├── cookies.ts            # Cookie utilities
+│   ├── collections/          # Collection utilities
+│   ├── redirects/            # Redirect system
+│   ├── loaders/              # Custom Astro loaders
+│   └── pageGeneration/       # Static page helpers
+└── styles/
+    ├── global.css            # Base styles
+    ├── preferences.css       # Preference button styles
+    ├── accessibility.css     # A11y feature styles
+    └── language-switcher.css # Language UI styles
 ```
 
 ## Configuration
@@ -366,128 +376,22 @@ interface Props extends BaseVariantProps {
   customProp?: string;
 }
 
-const {
-  items = [],
-  title,
-  description,
-  customProp,
-  id,
-} = Astro.props as Props;
+const { entries, title, description, customProp } = Astro.props;
 ---
 
-<section id={id} class="py-16">
+<section>
   {title && <h2>{title}</h2>}
   {description && <p>{description}</p>}
   
-  <div class="custom-grid">
-    {items.map((item) => (
-      <div class="custom-card">
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-      </div>
+  <div class="custom-layout">
+    {entries.map(entry => (
+      <article>
+        <h3>{entry.data.title}</h3>
+        <p>{entry.data.description}</p>
+      </article>
     ))}
   </div>
 </section>
-```
-
-Use it:
-```astro
-<ContentRenderer 
-  query={query('products')} 
-  variant="CustomVariant"
-  customProp="value"
-/>
-```
-
-## API Reference
-
-### Query System
-
-#### Basic Queries
-```typescript
-// Get all items
-const all = await query('blog').all();
-
-// Get with limit
-const limited = await query('blog').limit(10).get();
-
-// Find specific item
-const item = await find('blog', 'my-post');
-```
-
-#### Filtering
-```typescript
-const filtered = await query('blog')
-  .where(whereEquals('status', 'published'))
-  .where(whereContains('title', 'astro', false))
-  .where(whereAfter('publishDate', '2024-01-01'))
-  .get();
-```
-
-#### Sorting
-```typescript
-const sorted = await query('blog')
-  .orderBy(sortByDate('publishDate', 'desc'))
-  .orderBy(sortBy('title', 'asc'))
-  .get();
-```
-
-#### Pagination
-```typescript
-const page = 2;
-const pageSize = 10;
-const results = await query('blog')
-  .orderBy(sortByDate())
-  .limit(pageSize)
-  .offset((page - 1) * pageSize)
-  .get();
-```
-
-#### Relations
-```typescript
-// Get with relations
-const withRelations = await query('blog')
-  .withRelations(true, 2)  // depth of 2
-  .get();
-
-// Direct relation queries
-const relations = await getRelations('blog', 'my-post');
-const references = await getReferencedEntries('blog', 'my-post', {
-  field: 'author',
-  resolve: true,
-});
-```
-
-#### Hierarchy
-```typescript
-// Parent-child
-const parent = await getParent('services', 'frontend-dev');
-const children = await getChildren('services', 'web-dev', {
-  recursive: true,
-  resolve: true,
-});
-
-// Ancestors and descendants
-const ancestors = await getAncestors('services', 'react-dev');
-const descendants = await getDescendants('services', 'web-dev');
-
-// Tree structure
-const tree = await getTree('services', 'web-dev', 3);
-
-// Breadcrumbs
-const breadcrumbs = await getBreadcrumbs('services', 'react-dev');
-```
-
-### ContentRenderer Props
-```typescript
-interface ContentRendererProps {
-  query?: Query;           // Query object
-  variant?: string;        // Variant name (default: 'GridVariant')
-  title?: string;          // Section title
-  description?: string;    // Section description
-  id?: string;            // Manual section ID
-  // Variant-specific props...
-}
 ```
 
 ### Available Variants
@@ -502,6 +406,345 @@ interface ContentRendererProps {
 - **ContactVariant**: Contact information cards
 - **SocialMediaVariant**: Social media icons
 - **MenuVariant**: Navigation menu
+
+## User Preferences System
+
+Greastro includes a comprehensive, unified user preferences system with **zero-performance-impact** for users who never interact with preference features. All preference systems follow the same architectural pattern:
+
+### Core Principles
+
+1. **Zero Load by Default**: Features load 0KB JavaScript until explicitly used
+2. **localStorage First**: All preferences stored client-side, no server required
+3. **Cross-Tab Sync**: Preferences synchronized across browser tabs automatically
+4. **Inline Detection**: Ultra-fast inline scripts detect preferences before page render
+5. **Lazy Loading**: Components load only when user interacts with them
+
+### Cookie Consent System
+
+**Performance**: 0KB for returning users, ~8KB for first-time users
+
+GDPR/CCPA-compliant cookie consent with localStorage-based preference storage:
+```astro
+---
+// src/layouts/PreferencesLayout.astro
+import CookiePreferencesButton from "@/components/preferences/consent/CookiePreferencesButton";
+import CookieConsentBanner from "@/components/preferences/consent/CookieConsentBanner";
+---
+
+<CookiePreferencesButton client:visible />
+<CookieConsentBanner client:idle />
+```
+
+**Features**:
+- **Zero-load optimization**: Banner never loads for users who already consented
+- **Granular controls**: Necessary, Functional, Performance, Targeting categories
+- **Lazy modal**: Settings modal loads only when user clicks "Cookie Settings"
+- **Inline detection**: Quick `document.cookie` check prevents unnecessary React hydration
+
+**Usage in React**:
+```typescript
+import { useCookieStorage } from '@/hooks/useCookieStorage';
+
+const { getCookie, setCookie } = useCookieStorage();
+
+// Check consent
+const consent = getCookie('cookie-consent');
+const parsed = consent ? JSON.parse(consent) : null;
+
+if (parsed?.performance) {
+  // Load analytics
+}
+```
+
+### Multi-Language Support (Google Translate)
+
+**Performance**: 0KB API load when using cached translations
+
+Cookie-based Google Translate integration with localStorage caching:
+```astro
+---
+import LanguageSwitcher from "@/components/preferences/language/LanguageSwitcher";
+import GoogleTranslateScript from "@/components/preferences/language/GoogleTranslateScript.astro";
+import LanguageDetectionScript from "@/components/preferences/language/LanguageDetectionScript.astro";
+---
+
+<!-- Inline script runs before page render -->
+<LanguageDetectionScript />
+
+<!-- Google Translate API loads conditionally -->
+<GoogleTranslateScript />
+
+<!-- Language switcher UI -->
+<LanguageSwitcher client:visible />
+```
+
+**Features**:
+- **Automatic browser language detection**: Detects user's browser language on first visit
+- **Translation caching**: Caches translated page content in localStorage
+- **Zero flicker**: Inline script applies cached translation before DOM render
+- **Smart API loading**: Skips Google Translate API entirely when cache exists
+- **Cookie-based control**: Uses `googtrans` cookie instead of widget manipulation
+
+**Supported Languages**:
+Configure in `src/utils/languageTranslation/languages.ts`:
+```typescript
+export const supportedLanguages = [
+  { name: 'English', code: 'en', flag: '🇺🇸' },
+  { name: 'Español', code: 'es', flag: '🇪🇸' },
+  { name: 'Français', code: 'fr', flag: '🇫🇷' },
+  // Add more languages...
+];
+```
+
+**How Translation Caching Works**:
+1. User selects language → Cookie set → Page reloads
+2. Google Translate API translates page → Clean HTML cached in localStorage
+3. Next page load → Inline script injects cached translation instantly
+4. Result: Instant translations with zero Google API calls on subsequent visits
+
+### Dark Mode System
+
+**Performance**: ~2KB, 0ms blocking time
+
+Fully-featured dark mode with OS preference detection:
+```typescript
+import { useTheme } from '@/hooks/useTheme';
+
+function ThemeToggle() {
+  const { theme, toggleTheme, isDark } = useTheme();
+  
+  return (
+    <button onClick={toggleTheme}>
+      {isDark ? '☀️ Light' : '🌙 Dark'}
+    </button>
+  );
+}
+```
+
+**Features**:
+- **Inline detection script**: Sets theme before page render (prevents flash)
+- **OS preference detection**: Auto-detects `prefers-color-scheme` when no preference set
+- **Dynamic meta tag**: Updates `<meta name="theme-color">` from CSS variables
+- **Cross-tab sync**: Theme changes synchronized across all open tabs
+- **CSS-first approach**: Uses `data-theme` attribute and `--color-*` variables
+
+**Implementation**:
+```astro
+---
+// src/layouts/BaseLayout.astro
+---
+
+<html data-theme="light">
+  <head>
+    <!-- Inline script prevents flash -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const theme = stored || 
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+  </head>
+</html>
+```
+
+**CSS Configuration**:
+```css
+/* src/styles/global.css */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+}
+
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #ffffff;
+}
+```
+
+### Accessibility Features
+
+**Performance**: 0KB until activated, ~12KB when loaded
+
+Comprehensive accessibility preferences with visual and interaction customization:
+```astro
+---
+import AccessibilityButton from "@/components/preferences/accessibility/AccessibilityButton";
+import "@/styles/accessibility.css";
+---
+
+<AccessibilityButton client:idle />
+```
+
+**Available Features**:
+
+**Text Adjustments**:
+- Font size (80% - 140%)
+- Line height (1.3 - 2.0)
+- Letter spacing (0 - 0.3em)
+- Word spacing (0 - 0.5em)
+- Text alignment
+- Font weight
+
+**Visual Enhancements**:
+- Link highlighting
+- Title highlighting  
+- High contrast mode
+- Saturation adjustment
+- Big cursor
+- Focus indicators
+- Reading guide
+- Reading mask
+
+**Content Control**:
+- Hide images
+- Mute sounds
+- Reduced motion
+
+**Usage in React**:
+```typescript
+import { useAccessibility } from '@/hooks/useAccessibility';
+
+function AccessibilityPanel() {
+  const { preferences, setPreferences, resetPreferences } = useAccessibility();
+  
+  return (
+    <div>
+      <input
+        type="range"
+        min="80"
+        max="140"
+        value={preferences.text.fontSize}
+        onChange={(e) => setPreferences({
+          ...preferences,
+          text: { ...preferences.text, fontSize: Number(e.target.value) }
+        })}
+      />
+      <button onClick={resetPreferences}>Reset All</button>
+    </div>
+  );
+}
+```
+
+**Persistence**: All preferences stored in `user-a11y-prefs` localStorage key and automatically applied on every page load.
+
+## Performance Optimizations
+
+Greastro is architected for **maximum performance** with minimal JavaScript:
+
+### Inline Detection Scripts
+
+Critical user preferences detected before DOM render using inline `<script is:inline>`:
+```astro
+<script is:inline>
+  // Runs before DOM parsing - zero delay
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+```
+
+**Why This Matters**:
+- **Prevents visual flicker**: Theme/language applied before user sees content
+- **Zero blocking time**: Inline scripts don't require network requests
+- **Progressive enhancement**: Page renders correctly even if JavaScript disabled
+
+### Lazy Loading Strategy
+
+All interactive features use Astro's hydration directives:
+```astro
+<!-- Load when visible -->
+<Component client:visible />
+
+<!-- Load when browser idle -->
+<Component client:idle />
+
+<!-- Load only in browser (skip SSR) -->
+<Component client:only="react" />
+```
+
+**Component Loading Priorities**:
+- **Critical UI**: `client:load` (navigation, essential interactions)
+- **Above fold**: `client:visible` (hero components, language switcher)
+- **Below fold**: `client:idle` (cookie banner, accessibility features)
+- **Modals**: Lazy imports with `React.lazy()` + `Suspense`
+
+### Zero-Load Pattern
+
+Features that 99% of users never use should load 0KB:
+```typescript
+// Cookie consent example
+useEffect(() => {
+  // Inline check - no React needed
+  if (document.cookie.includes('cookie-consent=')) return;
+  
+  // Only if no cookie, load banner
+  setTimeout(() => setShowBanner(true), 1000);
+}, []);
+```
+
+**Benefits**:
+- Cookie consent: 0KB for returning users
+- Google Translate: 0KB when using cached translations  
+- Accessibility: 0KB until user opens settings
+
+### Storage Utilities
+
+Shared localStorage utilities with built-in cross-tab synchronization:
+```typescript
+// src/utils/storage.ts
+import { getStorageItem, setStorageItem, clearStorageByPrefix } from '@/utils/storage';
+
+// Get item (with SSR safety)
+const theme = getStorageItem('theme');
+
+// Set item
+setStorageItem('theme', 'dark');
+
+// Clear by prefix
+clearStorageByPrefix('translated_body_');
+
+// In React hooks
+const [value, setValue] = useLocalStorage('key', defaultValue, {
+  raw: false,        // JSON encode/decode
+  syncTabs: true,    // Sync across tabs
+  validate: (v) => isValid(v) // Validate before saving
+});
+```
+
+**Cross-Tab Synchronization**:
+```typescript
+// Automatically syncs across tabs
+window.addEventListener('storage', (e) => {
+  if (e.key === 'theme') {
+    // Update UI in all tabs
+  }
+});
+```
+
+### Production Build Optimizations
+```bash
+# Build with maximum optimization
+npm run build
+
+# Result (typical):
+# - HTML pages: 100-500KB (includes content)
+# - JavaScript bundles: 50-150KB total (code split)
+# - CSS: 20-40KB (Tailwind purged)
+# - Images: Optimized by Astro
+```
+
+**Build Features**:
+- **Automatic code splitting**: Each page gets minimal JavaScript
+- **CSS purging**: Tailwind removes unused classes
+- **Image optimization**: WebP/AVIF with responsive sizes
+- **Prerendering**: All pages generated at build time
+- **Asset hashing**: Cache-busting for deployments
 
 ## Scripts
 ```bash
@@ -535,6 +778,7 @@ Greastro sites are highly optimized:
 - **Image optimization**: Automatic image optimization with Astro
 - **Code splitting**: Automatic per-page code splitting
 - **CSS scoping**: Scoped styles prevent bloat
+- **Zero-load features**: Cookie consent, translations, a11y load 0KB until used
 
 Typical Lighthouse scores:
 - Performance: 95-100
@@ -567,6 +811,17 @@ npm run build
 - Verify menu reference: `menu: "main-menu"`
 - Ensure parent items exist
 - Check console for loader warnings
+
+### Dark mode flashing
+- Verify inline script is in `<head>` before any content
+- Check that script uses `is:inline` directive
+- Ensure no SSR/CSR mismatches with hydration
+
+### Translation not working
+- Clear localStorage: `localStorage.clear()`
+- Check browser console for Google Translate errors
+- Verify language is in `supportedLanguages` array
+- Ensure `googtrans` cookie is being set
 
 ## Contributing
 
