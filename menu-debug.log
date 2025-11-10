@@ -1,0 +1,135 @@
+
+> griffins-web-services@0.0.1 dev
+> astro dev
+
+✅ Generated 6 redirects (2 manual, 4 path aliases)
+Site URL: https://greastro.vercel.app
+18:09:27 [types] Generated 1ms
+18:09:28 [content] Syncing content
+18:09:28 [content] Astro config changed
+18:09:28 [content] Clearing content store
+18:09:28 [menu-items-loader] 
+🚀 MenuItemsLoader starting...
+18:09:28 [menu-items-loader] 📦 Loaded 5 items from JSON
+18:09:28 [menu-items-loader] 📂 Found 17 MDX files
+18:09:28 [menu-items-loader] 
+📋 Processing collection-level menus...
+18:09:28 [menu-items-loader] 
+  📁 Collection "contact-us" has 1 addToMenu config(s):
+18:09:28 [menu-items-loader]     Config 0: parent="undefined", menu="main-menu", order=undefined
+18:09:28 [menu-items-loader]     → Processing config 0: baseId="contact-us"
+18:09:28 [menu-items-loader]     → Resolved parent: "null"
+18:09:28 [menu-items-loader]     → Semantic ID: "contact-us"
+18:09:28 [menu-items-loader]     → Final ID: "contact-us"
+18:09:28 [menu-items-loader]     ✅ Created menu item "contact-us"
+18:09:28 [menu-items-loader] 
+  📁 Collection "portfolio" has 1 addToMenu config(s):
+18:09:28 [menu-items-loader]     Config 0: parent="undefined", menu="main-menu", order=undefined
+18:09:28 [menu-items-loader]     → Processing config 0: baseId="portfolio"
+18:09:28 [menu-items-loader]     → Resolved parent: "null"
+18:09:28 [menu-items-loader]     → Semantic ID: "portfolio"
+18:09:28 [menu-items-loader]     → Final ID: "portfolio"
+18:09:28 [menu-items-loader]     ✅ Created menu item "portfolio"
+18:09:28 [menu-items-loader] 
+  📁 Collection "services" has 1 addToMenu config(s):
+18:09:28 [menu-items-loader]     Config 0: parent="undefined", menu="main-menu", order=undefined
+18:09:28 [menu-items-loader]     → Processing config 0: baseId="services"
+18:09:28 [menu-items-loader]     → Resolved parent: "null"
+18:09:28 [menu-items-loader]     → Semantic ID: "services"
+18:09:28 [menu-items-loader]     → Final ID: "services"
+18:09:28 [menu-items-loader]     ✅ Created menu item "services"
+18:09:28 [menu-items-loader] 
+  📦 Collection "services" has 1 itemsAddToMenu config(s)
+18:09:28 [menu-items-loader]     ✅ Added 2 items to menu
+18:09:28 [menu-items-loader] 
+🔗 First parent resolution pass...
+18:09:28 [menu-items-loader] 
+📄 Processing individual item menus...
+18:09:28 [menu-items-loader]   📄 Item "ecommerce-platform" in "portfolio" has 1 addToMenu config(s)
+18:09:28 [menu-items-loader]     Config 0: baseId="ecommerce-platform", parent="undefined"
+18:09:28 [menu-items-loader]     → Resolved parent: "null"
+18:09:28 [menu-items-loader]     → Semantic ID: "ecommerce-platform"
+18:09:28 [menu-items-loader]     → Final ID: "ecommerce-platform"
+18:09:28 [menu-items-loader]   ✅ Processed 1 individual item menu entries
+18:09:28 [menu-items-loader] 
+🔗 Final parent resolution pass...
+18:09:28 [menu-items-loader] 
+🔍 DEBUG: Final menu items in store:
+18:09:28 [menu-items-loader] 
+  ID: "home"
+18:09:28 [menu-items-loader]     title: Home
+18:09:28 [menu-items-loader]     parent: undefined
+18:09:28 [menu-items-loader]     menu: [main-menu, links-menu]
+18:09:28 [menu-items-loader]     url: /
+18:09:28 [menu-items-loader] 
+  ID: "about-us"
+18:09:28 [menu-items-loader]     title: About Us
+18:09:28 [menu-items-loader]     parent: undefined
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /about-us
+18:09:28 [menu-items-loader] 
+  ID: "privacy-policy"
+18:09:28 [menu-items-loader]     title: Privacy Policy
+18:09:28 [menu-items-loader]     parent: undefined
+18:09:28 [menu-items-loader]     menu: [footer-menu]
+18:09:28 [menu-items-loader]     url: /privacy-policy
+18:09:28 [menu-items-loader] 
+  ID: "cookie-policy"
+18:09:28 [menu-items-loader]     title: Cookie Policy
+18:09:28 [menu-items-loader]     parent: undefined
+18:09:28 [menu-items-loader]     menu: [footer-menu]
+18:09:28 [menu-items-loader]     url: /cookie-policy
+18:09:28 [menu-items-loader] 
+  ID: "terms-of-service"
+18:09:28 [menu-items-loader]     title: Terms of Service
+18:09:28 [menu-items-loader]     parent: undefined
+18:09:28 [menu-items-loader]     menu: [footer-menu]
+18:09:28 [menu-items-loader]     url: /terms-of-service
+18:09:28 [menu-items-loader] 
+  ID: "contact-us"
+18:09:28 [menu-items-loader]     title: Contact Us
+18:09:28 [menu-items-loader]     parent: null
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /contact-us
+18:09:28 [menu-items-loader] 
+  ID: "portfolio"
+18:09:28 [menu-items-loader]     title: Portfolio
+18:09:28 [menu-items-loader]     parent: null
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /portfolio
+18:09:28 [menu-items-loader] 
+  ID: "services"
+18:09:28 [menu-items-loader]     title: Services
+18:09:28 [menu-items-loader]     parent: null
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /services
+18:09:28 [menu-items-loader] 
+  ID: "services-digital-marketing-auto-services"
+18:09:28 [menu-items-loader]     title: Digital Marketing
+18:09:28 [menu-items-loader]     parent: "services"
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /services/digital-marketing
+18:09:28 [menu-items-loader] 
+  ID: "services-web-development-auto-services"
+18:09:28 [menu-items-loader]     title: Web Development
+18:09:28 [menu-items-loader]     parent: "services"
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /web-development
+18:09:28 [menu-items-loader] 
+  ID: "ecommerce-platform"
+18:09:28 [menu-items-loader]     title: E-Commerce Platform Redesign
+18:09:28 [menu-items-loader]     parent: null
+18:09:28 [menu-items-loader]     menu: [main-menu]
+18:09:28 [menu-items-loader]     url: /portfolio/ecommerce-platform
+18:09:28 [menu-items-loader] 
+✅ Menu items loader: 11 items loaded
+
+18:09:28 [content] Synced content
+
+ astro  v5.15.3 ready in 1199 ms
+
+┃ Local    http://localhost:9090/
+┃ Network  use --host to expose
+
+18:09:28 watching for file changes...
+18:09:31 [200] / 693ms
