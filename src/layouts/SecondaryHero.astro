@@ -4,7 +4,13 @@
  * Secondary Hero Layout
  * 
  * Full-width hero with optimized background media support.
- * Uses BackgroundMedia component for image optimization.
+ * Uses BackgroundMedia component for responsive image optimization.
+ * 
+ * Features:
+ * - Responsive background images (mobile/tablet/desktop)
+ * - Automatic LCP optimization with aboveTheFold
+ * - Gradient overlay for text readability
+ * - Optional metadata display (date, author, reading time)
  */
 
 import { getAuthorName } from '@/layouts/collections/helpers/layoutHelpers';
@@ -14,7 +20,7 @@ import backgroundSvg from '@/assets/background.svg';
 export interface Props {
   title: string;
   description?: string;
-  image?: any; // Astro image asset or { src, alt }
+  image?: any; // Astro image asset or public path
   publishDate?: Date | string;
   author?: string | { collection: string; id: string };
   readingTime?: number;
@@ -33,11 +39,12 @@ const {
   minHeight = "60vh",
 } = Astro.props;
 
-// Prepare backgroundMedia object for BackgroundMedia component
+// Prepare optimized background media
 const backgroundMedia = {
   image: {
     src: image || backgroundSvg,
     imageClass: "bg-cover bg-center",
+    aboveTheFold: true, // Automatic LCP optimization
   },
   overlayClass: "bg-gradient-to-b from-black/40 via-black/50 to-black/70",
 };

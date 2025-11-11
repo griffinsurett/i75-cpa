@@ -3,13 +3,18 @@
 /**
  * Front Page Hero Layout
  * 
- * Full-width hero section with optimized background media.
+ * Full-width hero section with optimized background media for homepage.
+ * 
  * Features:
+ * - Responsive background images with LCP optimization
+ * - Optional video background with poster image
  * - Large centered text with gradient overlay
  * - Primary and secondary CTAs
- * - Optimized background images/video via BackgroundMedia
- * - Minimum 60vh height
- * - Responsive design
+ * - Configurable minimum height (default 95vh)
+ * - Supports both static images and video backgrounds
+ * 
+ * This is a layout component for landing pages.
+ * Use directly in your homepage or marketing pages.
  */
 
 import Button from "@/components/Button/Button";
@@ -20,7 +25,7 @@ import DefaultImg from "@/assets/background.svg";
 export interface Props {
   title?: string;
   description?: string;
-  image?: any; // Astro image asset
+  image?: any; // Astro image asset or public path
   video?: {
     src: string;
     autoPlay?: boolean;
@@ -58,11 +63,12 @@ const {
   minHeight = "95vh",
 } = Astro.props;
 
-// Prepare backgroundMedia object for BackgroundMedia component
+// Prepare optimized background media
 const backgroundMedia = {
   image: {
     src: image || DefaultImg,
     imageClass: "bg-cover bg-center",
+    aboveTheFold: true, // Front page hero is always LCP
   },
   video: video ? {
     src: video.src,
@@ -79,7 +85,10 @@ const backgroundMedia = {
 ---
 
 <section id={id} class={`relative ${className}`}>
-  <div class="relative flex items-center justify-center overflow-hidden" style={`min-height: ${minHeight}`}>
+  <div 
+    class="relative flex items-center justify-center overflow-hidden" 
+    style={`min-height: ${minHeight}`}
+  >
     {/* Optimized background media with overlay */}
     <BackgroundMedia backgroundMedia={backgroundMedia} />
 

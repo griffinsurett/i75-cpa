@@ -17,7 +17,7 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
 <BaseLayout title="Home" description={siteData.description}>
   <main class="flex-1">
     <!-- Hero ContentRenderer with static content -->
-    <!-- <FrontPageHero
+    <FrontPageHero
       title="Build Amazing Static Sites"
       description="The fastest way to create type-safe, content-driven websites with Astro and React"
       primaryCTA={{
@@ -28,7 +28,7 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
         text: "View Services",
         link: "/services",
       }}
-    /> -->
+    />
 
     <!-- Blog with limit - auto-populates from blog meta -->
     <ContentRenderer
