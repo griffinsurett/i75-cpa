@@ -6,7 +6,15 @@ itemsHasPage: false
 redirectFrom: ["/contact", "/contactus"]
 addToMenu:
   - menu: "main-menu"
-    order: 2
   - menu: "main-menu"
     parent: "about-us"
 ---
+
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query } from "@/utils/query";
+
+    <ContentRenderer
+      query={query("contact-us")}
+      variant="ContactVariant"
+      columns={2}
+    />

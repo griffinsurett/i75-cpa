@@ -196,16 +196,17 @@ export type RedirectFrom = z.infer<typeof redirectFromSchema>;
 // ============================================================================
 // IMAGE SCHEMA
 // ============================================================================
-
 export const imageInputSchema = ({ image }: { image: Function }) =>
   z.union([
-    z.string(),
+    // Direct Astro image (most common)
     image(),
+    
+    // Image object with alt text
     z.object({
-      src: z.union([z.string(), z.any()]),
+      src: image(),
       alt: z.string().optional(),
     }),
-  ]);
+  ]).optional();
 
 export type ImageInput = z.infer<ReturnType<typeof imageInputSchema>>;
 
