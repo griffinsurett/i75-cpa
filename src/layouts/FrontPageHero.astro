@@ -3,28 +3,32 @@
 /**
  * Front Page Hero Layout
  * 
- * Full-width hero section with background image for the homepage.
+ * Full-width hero section with optimized background media.
  * Features:
  * - Large centered text with gradient overlay
  * - Primary and secondary CTAs
+ * - Optimized background images/video via BackgroundMedia
  * - Minimum 60vh height
  * - Responsive design
- * - Optional background image
- * 
- * This is a layout component, not a ContentRenderer variant.
- * Use directly in your homepage or landing pages.
  */
 
 import Button from "@/components/Button/Button";
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
 import { ctaData } from "@/content/siteData";
-import DefaultImg from "@/assets/background.svg"
+import DefaultImg from "@/assets/background.svg";
 
 export interface Props {
   title?: string;
   description?: string;
-  image?: {
+  image?: any; // Astro image asset
+  video?: {
     src: string;
-    alt: string;
+    autoPlay?: boolean;
+    muted?: boolean;
+    loop?: boolean;
+    playsInline?: boolean;
+    controls?: boolean;
+    preload?: string;
   };
   primaryCTA?: {
     text: string;
@@ -36,13 +40,14 @@ export interface Props {
   };
   className?: string;
   id?: string;
-  minHeight?: string; // e.g., "60vh", "500px", "100vh"
+  minHeight?: string;
 }
 
 const {
   title = "Welcome",
   description,
   image,
+  video,
   primaryCTA = {
     text: ctaData.text,
     link: ctaData.link,
@@ -53,27 +58,33 @@ const {
   minHeight = "95vh",
 } = Astro.props;
 
-const imageSrc = image?.src || DefaultImg.src;
-const imageAlt = image?.alt || "";
+// Prepare backgroundMedia object for BackgroundMedia component
+const backgroundMedia = {
+  image: {
+    src: image || DefaultImg,
+    imageClass: "bg-cover bg-center",
+  },
+  video: video ? {
+    src: video.src,
+    autoPlay: video.autoPlay ?? true,
+    muted: video.muted ?? true,
+    loop: video.loop ?? true,
+    playsInline: video.playsInline ?? true,
+    controls: video.controls ?? false,
+    preload: video.preload ?? "metadata",
+    videoClass: "object-cover",
+  } : undefined,
+  overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
+};
 ---
 
 <section id={id} class={`relative ${className}`}>
-  <div class={`relative flex items-center justify-center overflow-hidden`} style={`min-height: ${minHeight}`}>
-    {/* Background Image */}
-    {imageSrc && (
-      <div class="absolute inset-0 -z-10">
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          class="w-full h-full object-cover"
-        />
-        {/* Gradient Overlay */}
-        <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
-      </div>
-    )}
+  <div class="relative flex items-center justify-center overflow-hidden" style={`min-height: ${minHeight}`}>
+    {/* Optimized background media with overlay */}
+    <BackgroundMedia backgroundMedia={backgroundMedia} />
 
     {/* Hero Content */}
-    <div class="relative text-center text-white px-8 max-w-4xl mx-auto">
+    <div class="relative text-center text-white px-8 max-w-4xl mx-auto z-10">
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
         {title}
       </h1>
