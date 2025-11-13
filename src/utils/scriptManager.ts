@@ -6,7 +6,7 @@
  * Supports both regular scripts and Partytown integration.
  */
 
-import { hasConsentFor } from '@/utils/consent/consent';
+import { isTrackingAllowed } from '@/utils/consent/consent';
 import type { CookieCategory } from '@/components/preferences/consent/types';
 
 /**
@@ -24,38 +24,29 @@ interface ConsentScript extends HTMLScriptElement {
  * Enable a single blocked script
  */
 function enableScript(blockedScript: ConsentScript): void {
-  // Don't enable already-enabled scripts
   if (blockedScript.dataset.consentEnabled === 'true') {
     return;
   }
   
-  // Create new script element
   const newScript = document.createElement('script');
   
-  // Copy all attributes except type
   Array.from(blockedScript.attributes).forEach(attr => {
     if (attr.name !== 'type') {
       newScript.setAttribute(attr.name, attr.value);
     }
   });
   
-  // Set correct type
   newScript.type = 'text/javascript';
   
-  // Handle Partytown integration
   if (blockedScript.dataset.partytown === 'true') {
     newScript.type = 'text/partytown';
   }
   
-  // Copy inline content if present
   if (blockedScript.textContent) {
     newScript.textContent = blockedScript.textContent;
   }
   
-  // Mark original as enabled to prevent duplicate execution
   blockedScript.dataset.consentEnabled = 'true';
-  
-  // Insert new script after the blocked one
   blockedScript.parentNode?.insertBefore(newScript, blockedScript.nextSibling);
   
   console.log(`✅ Enabled ${blockedScript.dataset.consent} script:`, blockedScript.src || 'inline');
@@ -91,7 +82,6 @@ export function enableScriptsForCategory(category: CookieCategory): void {
 
 /**
  * Check consent and enable scripts for all consented categories
- * This is called on page load and when consent changes
  */
 export function enableConsentedScripts(): void {
   if (typeof document === 'undefined') return;
@@ -99,7 +89,7 @@ export function enableConsentedScripts(): void {
   const categories: CookieCategory[] = ['necessary', 'functional', 'performance', 'targeting'];
   
   categories.forEach(category => {
-    if (hasConsentFor(category)) {
+    if (isTrackingAllowed(category)) {
       enableScriptsForCategory(category);
     }
   });
@@ -111,7 +101,6 @@ export function enableConsentedScripts(): void {
 export function initScriptManager(): void {
   if (typeof document === 'undefined') return;
   
-  // Enable scripts based on current consent
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       enableConsentedScripts();
