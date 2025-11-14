@@ -3,10 +3,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteData } from "@/content/siteData";
 import { formatPhoneNumber } from "@/utils/string";
-import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { getCollection } from "astro:content";
+import { find } from "@/utils/query";
 
-// const contacts = await getCollection("contact");
+// Query contact information dynamically from contact-us collection by ID
+const emailEntry = await find('contact-us', 'email');
+const phoneEntry = await find('contact-us', 'phone');
 
 const effectiveDate = "May 14, 2025";
 ---
@@ -15,17 +16,14 @@ const effectiveDate = "May 14, 2025";
   title="Cookie Policy"
   description={`How ${siteData.title} uses cookies.`}
 >
-  <h1>Cookie Policy for {siteData.title}</h1>
-
-  <ContentRenderer
-    class="prose mx-auto py-[var(--spacing-lg)] px-[var(--spacing-lg)] w-9/10 lg:w-8/10"
-  >
+  <article class="prose prose-lg mx-auto py-16 px-6 max-w-4xl">
+    <h1>Cookie Policy for {siteData.title}</h1>
+    
     <p>
       For details on how we collect and use all personal data, see our
       <a href="/privacy-policy" class="underline">Privacy Policy</a>.
     </p>
 
-    <h1>Cookie Policy</h1>
     <p><em>Effective date:</em> {effectiveDate}</p>
 
     <h2>What Are Cookies?</h2>
@@ -60,7 +58,7 @@ const effectiveDate = "May 14, 2025";
     <h2>Detected Cookies</h2>
     <p>
       This table lists every cookie set by your browser for {siteData.title}.
-      It’s generated dynamically—any new cookies will appear automatically.
+      It's generated dynamically—any new cookies will appear automatically.
     </p>
     <div id="cookie-table-container">
       <p>Loading cookies…</p>
@@ -74,20 +72,34 @@ const effectiveDate = "May 14, 2025";
 
     <h2>Contact Us</h2>
     <p>If you have questions, reach us at:</p>
-    <!-- <ul>
-      <li>
-        Email:
-        <a href={`${emailEntry.data.linkPrefix}${emailEntry.data.title}`}>
-          {emailEntry.data.title}
-        </a>
-      </li>
-      <li>
-        Phone:
-        <a href={`${phoneEntry.data.linkPrefix}${phoneEntry.data.title}`}>
-          {formatPhoneNumber(phoneEntry.data.title)}
-        </a>
-      </li>
-      <li>Address: {siteData.address}</li>
-    </ul> -->
-  </ContentRenderer>
+    <ul>
+      {emailEntry && (
+        <li>
+          <strong>Email:</strong>{' '}
+          <a 
+            href={`${emailEntry.data.linkPrefix || 'mailto:'}${emailEntry.data.title}`}
+            class="underline hover:text-blue-600"
+          >
+            {emailEntry.data.title}
+          </a>
+        </li>
+      )}
+      {phoneEntry && (
+        <li>
+          <strong>Phone:</strong>{' '}
+          <a 
+            href={`${phoneEntry.data.linkPrefix || 'tel:'}${phoneEntry.data.title}`}
+            class="underline hover:text-blue-600"
+          >
+            {formatPhoneNumber(phoneEntry.data.title)}
+          </a>
+        </li>
+      )}
+      {siteData.address ? (
+        <li><strong>Address:</strong> {siteData.address}</li>
+      ) : siteData.location && (
+        <li><strong>Location:</strong> {siteData.location}</li>
+      )}
+    </ul>
+  </article>
 </BaseLayout>

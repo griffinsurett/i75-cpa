@@ -3,6 +3,12 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { siteData } from "@/content/siteData";
 import OptOutButton from "@/components/preferences/consent/OptOutButton";
+import { find } from "@/utils/query";
+import { formatPhoneNumber } from "@/utils/string";
+
+// Query contact information dynamically from contact-us collection
+const emailEntry = await find('contact-us', 'email');
+const phoneEntry = await find('contact-us', 'phone');
 
 const effectiveDate = "January 14, 2025";
 let sectionNumber = 0;
@@ -173,12 +179,28 @@ let sectionNumber = 0;
       <div class="bg-white border-2 border-gray-300 rounded-lg p-6 mt-4">
         <p class="font-semibold mb-3">Contact Us</p>
         <ul class="space-y-2 mb-4">
-          <li>
-            <strong>Email:</strong>{' '}
-            <a href="mailto:privacy@example.com" class="text-blue-600 underline hover:text-blue-700">
-              privacy@example.com
-            </a>
-          </li>
+          {emailEntry && (
+            <li>
+              <strong>Email:</strong>{' '}
+              <a 
+                href={`${emailEntry.data.linkPrefix || 'mailto:'}${emailEntry.data.title}`}
+                class="text-blue-600 underline hover:text-blue-700"
+              >
+                {emailEntry.data.title}
+              </a>
+            </li>
+          )}
+          {phoneEntry && (
+            <li>
+              <strong>Phone:</strong>{' '}
+              <a 
+                href={`${phoneEntry.data.linkPrefix || 'tel:'}${phoneEntry.data.title}`}
+                class="text-blue-600 underline hover:text-blue-700"
+              >
+                {formatPhoneNumber(phoneEntry.data.title)}
+              </a>
+            </li>
+          )}
           <li><strong>Subject Line:</strong> "CCPA Request - [Right to Know/Delete/Correct]"</li>
           <li><strong>Include:</strong> Your name, email, and description of your request</li>
           <li><strong>Response Time:</strong> We'll respond within 45 days</li>
@@ -210,39 +232,6 @@ let sectionNumber = 0;
       However, no method of transmission over the Internet is 100% secure.
     </p>
 
-    <h2>{++sectionNumber}. Data Retention</h2>
-    <p>
-      We retain your personal information only for as long as necessary to fulfill 
-      the purposes outlined in this Privacy Policy, unless a longer retention period 
-      is required or permitted by law.
-    </p>
-
-    <h2>{++sectionNumber}. Children's Privacy</h2>
-    <p>
-      {siteData.title} does not knowingly collect personal information from anyone 
-      under 16 years old. If you believe we have inadvertently collected such information, 
-      please contact us immediately to have it removed.
-    </p>
-
-    <h2>{++sectionNumber}. International Users</h2>
-    <p>
-      If you are accessing our site from outside the United States, please be 
-      aware that your information may be transferred to, stored, and processed 
-      in the United States where our servers are located and our central database is operated.
-    </p>
-
-    <h2>{++sectionNumber}. Your Rights</h2>
-    <p>Depending on your location, you may have the following rights:</p>
-    <ul>
-      <li>Access the personal information we hold about you</li>
-      <li>Request correction of inaccurate information</li>
-      <li>Request deletion of your information</li>
-      <li>Object to processing of your information</li>
-      <li>Request restriction of processing</li>
-      <li>Request transfer of your information</li>
-      <li>Withdraw consent at any time</li>
-    </ul>
-
     <h2>{++sectionNumber}. Changes to This Policy</h2>
     <p>
       We may update this Privacy Policy from time to time. Changes will be posted 
@@ -254,13 +243,33 @@ let sectionNumber = 0;
     <h2>{++sectionNumber}. Contact Us</h2>
     <p>If you have questions about this Privacy Policy or wish to exercise your rights, contact us:</p>
     <ul>
-      <li>
-        <strong>Email:</strong>{' '}
-        <a href="mailto:privacy@example.com" class="text-blue-600 underline hover:text-blue-700">
-          privacy@example.com
-        </a>
-      </li>
-      <li><strong>Phone:</strong> 1-800-123-4567</li>
+      {emailEntry && (
+        <li>
+          <strong>Email:</strong>{' '}
+          <a 
+            href={`${emailEntry.data.linkPrefix || 'mailto:'}${emailEntry.data.title}`}
+            class="text-blue-600 underline hover:text-blue-700"
+          >
+            {emailEntry.data.title}
+          </a>
+        </li>
+      )}
+      {phoneEntry && (
+        <li>
+          <strong>Phone:</strong>{' '}
+          <a 
+            href={`${phoneEntry.data.linkPrefix || 'tel:'}${phoneEntry.data.title}`}
+            class="text-blue-600 underline hover:text-blue-700"
+          >
+            {formatPhoneNumber(phoneEntry.data.title)}
+          </a>
+        </li>
+      )}
+       {siteData.address ? (
+        <li><strong>Address:</strong> {siteData.address}</li>
+      ) : siteData.location && (
+        <li><strong>Location:</strong> {siteData.location}</li>
+      )}
       <li>
         <strong>Visit:</strong>{' '}
         <a href="/contact" class="text-blue-600 underline hover:text-blue-700">
@@ -270,20 +279,3 @@ let sectionNumber = 0;
     </ul>
   </article>
 </BaseLayout>
-
-<script>
-  // Open cookie preferences modal from CCPA section
-  document.getElementById('open-cookie-preferences')?.addEventListener('click', () => {
-    window.dispatchEvent(new CustomEvent('open-cookie-preferences'));
-  });
-  
-  // Smooth scroll to CCPA section if URL has hash
-  if (window.location.hash === '#ccpa-rights') {
-    setTimeout(() => {
-      document.getElementById('ccpa-rights')?.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }, 100);
-  }
-</script>
