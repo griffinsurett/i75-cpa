@@ -1,32 +1,25 @@
 ---
 // src/pages/cookie-policy.astro
-import BaseLayout from "../layouts/BaseLayout.astro";
+import LegalLayout from "@/layouts/LegalLayout.astro";
 import { siteData } from "@/content/siteData";
-import { formatPhoneNumber } from "@/utils/string";
-import { find } from "@/utils/query";
+import LegalContactSection from "@/components/preferences/consent/PrivacyPolicy/LegalContactSection.astro";
 
-// Query contact information dynamically from contact-us collection by ID
-const emailEntry = await find('contact-us', 'email');
-const phoneEntry = await find('contact-us', 'phone');
-
-const effectiveDate = "May 14, 2025";
+const lastUpdated = "November 14, 2025";
+const effectiveDate = "December 14, 2025";
 ---
 
-<BaseLayout
-  title="Cookie Policy"
+<LegalLayout
+  title={`Cookie Policy`}
   description={`How ${siteData.title} uses cookies.`}
+  lastUpdated={lastUpdated}
+  effectiveDate={effectiveDate}
 >
-  <article class="prose prose-lg mx-auto py-16 px-6 max-w-4xl">
-    <h1>Cookie Policy for {siteData.title}</h1>
-    
-    <p>
-      For details on how we collect and use all personal data, see our
-      <a href="/privacy-policy" class="underline">Privacy Policy</a>.
-    </p>
+  <p>
+    For details on how we collect and use all personal data, see our
+    <a href="/privacy-policy" class="underline">Privacy Policy</a>.
+  </p>
 
-    <p><em>Effective date:</em> {effectiveDate}</p>
-
-    <h2>What Are Cookies?</h2>
+  <h2>What Are Cookies?</h2>
     <p>
       Cookies are small text files placed by your browser when you visit a
       website. They store data such as session identifiers, preferences, and
@@ -70,36 +63,8 @@ const effectiveDate = "May 14, 2025";
       CCPA, you can opt out of the sale of your personal data.
     </p>
 
-    <h2>Contact Us</h2>
-    <p>If you have questions, reach us at:</p>
-    <ul>
-      {emailEntry && (
-        <li>
-          <strong>Email:</strong>{' '}
-          <a 
-            href={`${emailEntry.data.linkPrefix || 'mailto:'}${emailEntry.data.title}`}
-            class="underline hover:text-blue-600"
-          >
-            {emailEntry.data.title}
-          </a>
-        </li>
-      )}
-      {phoneEntry && (
-        <li>
-          <strong>Phone:</strong>{' '}
-          <a 
-            href={`${phoneEntry.data.linkPrefix || 'tel:'}${phoneEntry.data.title}`}
-            class="underline hover:text-blue-600"
-          >
-            {formatPhoneNumber(phoneEntry.data.title)}
-          </a>
-        </li>
-      )}
-      {siteData.address ? (
-        <li><strong>Address:</strong> {siteData.address}</li>
-      ) : siteData.location && (
-        <li><strong>Location:</strong> {siteData.location}</li>
-      )}
-    </ul>
-  </article>
-</BaseLayout>
+    {/* Contact Us Section - Reusable Component */}
+    <LegalContactSection 
+      showContactPageLink={false}
+    />
+</LegalLayout>

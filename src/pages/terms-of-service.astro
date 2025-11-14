@@ -1,38 +1,28 @@
 ---
 // src/pages/terms-of-service.astro
-import BaseLayout from "../layouts/BaseLayout.astro";
+import LegalLayout from "@/layouts/LegalLayout.astro";
 import { siteData } from "@/content/siteData";
-import { getCollection } from "astro:content";
-import { formatPhoneNumber } from "@/utils/string";
 import IntegrationsSnippet from "@/components/preferences/consent/PrivacyPolicy/IntegrationsSnippet.astro";
+import LegalContactSection from "@/components/preferences/consent/PrivacyPolicy/LegalContactSection.astro";
 
-const contacts = await getCollection("contact-us");
-const emailEntry = contacts.find((c) => c.id === "email");
-const phoneEntry = contacts.find((c) => c.id === "phone");
-
-const effectiveDate = "May 14, 2025";
+const lastUpdated = "November 14, 2025";
+const effectiveDate = "December 14, 2025";
 
 // Section counter
 let sectionNumber = 0;
 ---
 
-<BaseLayout
-  title={`Terms of Service — ${siteData.title}`}
+<LegalLayout
+  title="Terms of Service"
   description={`Terms and conditions for using ${siteData.title}'s services.`}
+  lastUpdated={lastUpdated}
+  effectiveDate={effectiveDate}
 >
-  <h1>Terms of Service for {siteData.title}</h1>
+  <p class="text-lg font-semibold text-gray-700">
+    Please read these Terms of Service carefully before using our services.
+  </p>
 
-  <section
-    class="prose mx-auto py-[var(--spacing-lg)] px-[var(--spacing-lg)] w-9/10 lg:w-8/10"
-  >
-    <h1>Terms of Service</h1>
-    <p><em>Effective date:</em> {effectiveDate}</p>
-
-    <p class="text-lg font-semibold text-gray-700">
-      Please read these Terms of Service carefully before using our services.
-    </p>
-
-    <h2>{`${++sectionNumber}. Agreement to Terms`}</h2>
+  <h2>{`${++sectionNumber}. Agreement to Terms`}</h2>
     <p>
       By accessing or using <strong>{siteData.title}</strong> (the "Service"), you
       agree to be bound by these Terms of Service ("Terms"). If you disagree with
@@ -315,52 +305,22 @@ let sectionNumber = 0;
       obligations without restriction.
     </p>
 
-    <h2>{`${++sectionNumber}. Contact Information`}</h2>
-    <p>
-      If you have any questions about these Terms of Service, please contact us:
-    </p>
-    <ul>
-      <li>
-        <strong>Company Name:</strong>
-        {siteData.legalName}
-      </li>
-      <li>
-        <strong>Website:</strong>
-        <a href={siteData.url} class="underline">{siteData.url}</a>
-      </li>
-      {
-        emailEntry && (
-          <li>
-            <strong>Email:</strong>{" "}
-            <a
-              href={`${emailEntry.data.linkPrefix}${emailEntry.data.title}`}
-              class="underline"
-            >
-              {emailEntry.data.title}
-            </a>
-          </li>
-        )
-      }
-      {
-        phoneEntry && (
-          <li>
-            <strong>Phone:</strong>{" "}
-            <a
-              href={`${phoneEntry.data.linkPrefix}${phoneEntry.data.title}`}
-              class="underline"
-            >
-              {formatPhoneNumber(phoneEntry.data.title)}
-            </a>
-          </li>
-        )
-      }
-    </ul>
-
-    <hr class="my-8" />
-
-    <p class="text-sm text-gray-600">
-      <strong>Last Updated:</strong>
-      {effectiveDate}
-    </p>
-  </section>
-</BaseLayout>
+    {/* Contact Information Section - Reusable Component */}
+    <div class="mt-8">
+      <h2>{`${++sectionNumber}. Contact Information`}</h2>
+      <p>
+        If you have any questions about these Terms of Service, please contact us:
+      </p>
+      <ul>
+        <li>
+          <strong>Company Name:</strong> {siteData.legalName}
+        </li>
+        <li>
+          <strong>Website:</strong>
+          <a href={siteData.url} class="underline">{siteData.url}</a>
+        </li>
+      </ul>
+      
+      <LegalContactSection showContactPageLink={false} />
+    </div>
+</LegalLayout>
