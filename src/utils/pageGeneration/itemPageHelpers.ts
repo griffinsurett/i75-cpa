@@ -77,6 +77,8 @@ export interface PreparedPageData {
  * @param buildParams - Function to build path params from entry
  * @returns Array of static path entries
  */
+// src/utils/pageGeneration/itemPageHelpers.ts
+
 export async function generateItemPaths<TParams>(
   filter: ItemFilter,
   buildParams: (collection: string, slug: string) => TParams
@@ -85,22 +87,24 @@ export async function generateItemPaths<TParams>(
   const paths: StaticPath<TParams>[] = [];
 
   for (const coll of collections) {
-    const shouldProcess = await shouldProcessCollection(coll);
+    const collectionKey = coll as CollectionKey;
+    
+    const shouldProcess = await shouldProcessCollection(collectionKey);
     if (!shouldProcess) continue;
 
-    const meta = getCollectionMeta(coll);
-    const entries = await getCollection(coll);
+    const meta = getCollectionMeta(collectionKey);
+    const entries = (await getCollection(collectionKey)) as CollectionEntry<typeof collectionKey>[];
 
     entries
-      .filter((entry) => filter(entry, meta))
+      .filter((entry) => filter(entry as CollectionEntry<CollectionKey>, meta))
       .forEach((entry) => {
         const slug = getItemKey(entry);
         paths.push({
-          params: buildParams(coll, slug),
+          params: buildParams(collectionKey, slug),
           props: {
-            entry,
+            entry: entry as CollectionEntry<CollectionKey>,
             collectionMeta: meta,
-            collectionName: coll,
+            collectionName: collectionKey,
           },
         });
       });

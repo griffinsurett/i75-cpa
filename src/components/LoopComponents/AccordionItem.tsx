@@ -1,33 +1,15 @@
 // src/components/LoopComponents/AccordionItem.tsx
-/**
- * Accordion Item Component
- * 
- * Individual accordion item that can expand/collapse.
- * Used within the Accordion template to create FAQ sections, expandable content lists.
- * 
- * Features:
- * - Controlled expansion state (managed by parent Accordion)
- * - Optional description text
- * - Right-side content slot (for toggles, badges, etc.)
- * - Accessible with proper ARIA attributes
- * - Hidden checkbox for state management
- */
-
 import type { ReactNode } from 'react';
 
 export interface AccordionItemProps {
-  id: string;                    // Unique identifier for this item
-  title: string;                 // Item header text
-  description?: string;          // Optional description shown when expanded
-  children?: ReactNode;          // Main content shown when expanded
-  isExpanded: boolean;           // Current expansion state
-  onToggle: () => void;          // Callback when item is clicked
-  rightContent?: ReactNode;      // Optional content in header (toggle switch, badge, etc.)
+  id: string;
+  title: string;
+  description?: string;
+  children?: ReactNode;
+  isExpanded: boolean;
+  onToggle: () => void;
 }
 
-/**
- * Single accordion item with expand/collapse functionality
- */
 export default function AccordionItem({
   id,
   title,
@@ -35,51 +17,34 @@ export default function AccordionItem({
   children,
   isExpanded,
   onToggle,
-  rightContent,
 }: AccordionItemProps) {
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden">
-      {/* Header - always visible */}
-      <div className="flex items-center justify-between p-4 bg-gray-50">
-        <label
-          htmlFor={id}
-          className="flex items-center gap-2 flex-1 cursor-pointer"
-        >
-          {/* Expand/collapse indicator */}
-          <span className="text-gray-600 font-medium">
+      <button
+        type="button"
+        className="flex items-center justify-between p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors w-full text-left"
+        onClick={onToggle}
+        aria-expanded={isExpanded}
+        aria-controls={`${id}-content`}
+      >
+        <div className="flex items-center gap-3 flex-1">
+          <span className="text-gray-600 font-medium text-xl">
             {isExpanded ? '−' : '+'}
           </span>
-          <span className="font-semibold text-gray-900">{title}</span>
-        </label>
-        
-        {/* Optional right content (toggles, badges, etc.) */}
-        {rightContent && (
-          <div className="ml-4">
-            {rightContent}
+          <div className="flex-1">
+            <h3 className="font-semibold text-gray-900">{title}</h3>
           </div>
-        )}
-      </div>
-      
-      {/* Hidden checkbox for state management */}
-      <input
-        type="checkbox"
-        id={id}
-        checked={isExpanded}
-        onChange={onToggle}
-        className="sr-only"
-      />
-      
-      {/* Expandable content area */}
-      {isExpanded && (
+        </div>
+      </button>
+
+      {isExpanded && children && (
         <div
           id={`${id}-content`}
-          className="p-4 bg-white border-t border-gray-300"
-          aria-labelledby={id}
+          className="p-6 bg-white border-t border-gray-300"
         >
-          {description && (
-            <p className="text-sm text-gray-600">{description}</p>
-          )}
-          {children}
+          <div className="prose prose-gray max-w-none">
+            {children}
+          </div>
         </div>
       )}
     </div>
