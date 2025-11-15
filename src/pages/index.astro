@@ -60,7 +60,7 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
 
     <!-- Portfolio with sorting -->
     <ContentRenderer
-      query={query("portfolio")
+      query={query("projects")
         .orderBy(sortByDate("publishDate", "desc"))
         .limit(5)}
       variant="ListVariant"
@@ -88,7 +88,7 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
 
     <!-- Multi-collection query - requires manual title/description -->
     <ContentRenderer
-      query={query(["blog", "portfolio"]).orderBy(sortByDate()).limit(10)}
+      query={query(["blog", "projects"]).orderBy(sortByDate()).limit(10)}
       variant="ListVariant"
       title="Recent Updates"
       description="Latest from our blog and portfolio"

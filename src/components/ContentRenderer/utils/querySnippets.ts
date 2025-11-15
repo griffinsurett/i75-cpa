@@ -1,13 +1,23 @@
 // src/utils/query/snippets.ts
 /**
  * Query Snippets - Pre-built queries for common patterns
- * 
+ *
  * TODO: Implement these common query patterns
  * These will make it easier to reuse complex queries throughout the site
  */
 
-import { query, whereEquals, whereArrayContains, whereContains, sortByDate, sortByOrder, sortBy, and, or } from '@/utils/query';
-import type { CollectionKey } from 'astro:content';
+import {
+  query,
+  whereEquals,
+  whereArrayContains,
+  whereContains,
+  sortByDate,
+  sortByOrder,
+  sortBy,
+  and,
+  or,
+} from "@/utils/query";
+import type { CollectionKey } from "astro:content";
 
 // ============================================================================
 // GENERAL PATTERNS
@@ -30,11 +40,11 @@ import type { CollectionKey } from 'astro:content';
 // export const byTags = (collection: CollectionKey, tags: string | string[], limit?: number) => {
 //   const tagArray = Array.isArray(tags) ? tags : [tags];
 //   let q = query(collection);
-//   
+//
 //   tagArray.forEach(tag => {
 //     q = q.where(whereArrayContains('tags', tag));
 //   });
-//   
+//
 //   if (limit) q = q.limit(limit);
 //   return q;
 // };
@@ -159,13 +169,13 @@ import type { CollectionKey } from 'astro:content';
 
 // TODO: Portfolio by category
 // export const portfolioByCategory = (category: string) =>
-//   query('portfolio')
+//   query("projects")
 //     .where(whereEquals('category', category))
 //     .orderBy(sortByDate('publishDate', 'desc'));
 
 // TODO: Portfolio with testimonials
 // export const portfolioWithTestimonials = () =>
-//   query('portfolio')
+//   query("projects")
 //     .withRelations(true)
 //     .where(entry => {
 //       // Check if has testimonial references
@@ -174,7 +184,7 @@ import type { CollectionKey } from 'astro:content';
 
 // TODO: Featured portfolio items
 // export const featuredPortfolio = (limit = 6) =>
-//   query('portfolio')
+//   query("projects")
 //     .where(or(
 //       whereArrayContains('tags', 'featured'),
 //       whereEquals('featured', true)
@@ -258,7 +268,7 @@ import type { CollectionKey } from 'astro:content';
 
 // TODO: Search across collections
 // export const searchContent = (searchTerm: string, collections?: CollectionKey[]) => {
-//   const q = collections ? query(collections) : query(['blog', 'portfolio', 'services']);
+//   const q = collections ? query(collections) : query(['blog', "projects", 'services']);
 //   return q
 //     .where(or(
 //       whereContains('title', searchTerm, false),
@@ -270,7 +280,7 @@ import type { CollectionKey } from 'astro:content';
 
 // TODO: Recent updates across all content
 // export const recentUpdates = (limit = 10) =>
-//   query(['blog', 'portfolio', 'services', 'testimonials'])
+//   query(['blog', "projects", 'services', 'testimonials'])
 //     .orderBy(sortByDate('publishDate', 'desc'))
 //     .limit(limit);
 
