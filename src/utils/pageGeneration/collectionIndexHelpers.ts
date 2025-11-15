@@ -12,6 +12,7 @@ import { shouldCollectionHavePage } from "@/utils/pages";
 import { getPageCollections } from "@/utils/pageGeneration";
 import { buildCollectionSEOProps } from "@/utils/seo";
 import { getCollectionMetaMDX } from "@/utils/content";
+import { getLayoutComponent, getCollectionIndexLayoutPath } from "@/layouts/collections/helpers/layoutUtils";
 import type { MetaData } from "@/content/schema";
 
 /**
@@ -73,7 +74,7 @@ export async function generateCollectionIndexPaths(): Promise<CollectionIndexSta
  * Prepare all data needed to render a collection index page
  * 
  * Works just like prepareItemPageData but for collection index pages.
- * Gets the layout component (always CollectionIndexLayout for now)
+ * Gets the layout component from meta.layout field
  * and the MDX content from _meta.mdx body.
  */
 export async function prepareCollectionIndexData(
@@ -83,10 +84,9 @@ export async function prepareCollectionIndexData(
   const { collection } = params;
   const { meta } = props;
 
-  // Import the layout dynamically
-  const { default: LayoutComponent } = await import(
-    "@/layouts/collections/CollectionIndexLayout.astro"
-  );
+  // Get layout path from meta or use default
+  const layoutPath = getCollectionIndexLayoutPath(meta);
+  const LayoutComponent = await getLayoutComponent(layoutPath);
 
   // Get MDX content from _meta.mdx body
   const mdxResult = await getCollectionMetaMDX(collection as CollectionKey);

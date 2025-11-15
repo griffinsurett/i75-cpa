@@ -12,7 +12,7 @@ import { getCollectionMeta, getItemKey } from "@/utils/collections";
 import { shouldItemHavePage, shouldItemUseRootPath, shouldProcessCollection } from "@/utils/pages";
 import { getPageCollections } from "@/utils/pageGeneration";
 import { buildItemSEOProps } from "@/utils/seo";
-import { getLayoutName, getLayoutComponent } from "@/layouts/collections/helpers/layoutUtils";
+import { getLayoutPath, getLayoutComponent } from "@/layouts/collections/helpers/layoutUtils";
 import type { MetaData } from "@/content/schema";
 
 /**
@@ -125,11 +125,11 @@ export async function prepareItemPageData(
 ): Promise<PreparedPageData> {
   const { entry, collectionMeta, collectionName } = props;
 
-  // Get the layout name from meta or use default
-  const layoutName = getLayoutName(collectionMeta, entry, true);
+  // Get the layout path from meta/item
+  const layoutPath = getLayoutPath(collectionMeta, entry, true);
 
   // Get the actual layout component
-  const LayoutComponent = await getLayoutComponent(layoutName);
+  const LayoutComponent = await getLayoutComponent(layoutPath);
 
   // Prepare content if MDX - safe type assertion since we know it might have render
   let Content = null;

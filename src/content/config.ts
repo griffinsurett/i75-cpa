@@ -21,9 +21,8 @@ import { defineCollection, z } from "astro:content";
 import { baseSchema, MenuSchema, MenuItemFields, refSchema } from "./schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
-// Define your collections with the base schema - all support MDX
 export const collections = {
-    // ── menus.json ─────────────────────────────────────────
+  // ── menus.json ─────────────────────────────────────────
   "menus": defineCollection({
     loader: file("src/content/menus/menus.json"),
     schema: MenuSchema,
@@ -48,6 +47,21 @@ export const collections = {
     schema: ({ image }) => baseSchema({ image }).extend({
       link: z.string().optional(),
     }),
+  }),
+
+  // ── legal ───────────────────────────────────────────────
+  "legal": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        effectiveDate: z
+          .union([z.date(), z.string()])
+          .optional()
+          .transform((val) => {
+            if (!val) return undefined;
+            if (val instanceof Date) return val;
+            return new Date(val);
+          }),
+      }),
   }),
 
   "blog": defineCollection({
