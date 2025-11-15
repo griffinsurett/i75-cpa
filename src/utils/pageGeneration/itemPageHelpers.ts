@@ -77,7 +77,6 @@ export interface PreparedPageData {
  * @param buildParams - Function to build path params from entry
  * @returns Array of static path entries
  */
-// src/utils/pageGeneration/itemPageHelpers.ts
 
 export async function generateItemPaths<TParams>(
   filter: ItemFilter,
