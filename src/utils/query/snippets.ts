@@ -6,7 +6,8 @@
  * These will make it easier to reuse complex queries
  */
 
-import { query, whereEquals, whereArrayContains, sortByDate, sortByOrder, and, or } from '@/utils/query';
+import { query, whereEquals, whereArrayContains, whereNoParent, sortByDate, sortByOrder, getLeaves, normalizeId, and, or } from '@/utils/query';
+import { getItemKey } from '@/utils/collections';
 import type { CollectionKey } from 'astro:content';
 
 // ============================================================================
@@ -26,8 +27,24 @@ import type { CollectionKey } from 'astro:content';
 //     .orderBy(sortByDate('publishDate', 'desc'))
 //     .limit(limit);
 
-// TODO: Items by tag(s)
-// export const byTag = (collection: CollectionKey, tags: string | string[], limit?: number) => {}
+export const byTag = (collection: CollectionKey, tags: string | string[], limit?: number) => {
+  const tagList = (Array.isArray(tags) ? tags : [tags]).filter(Boolean);
+  if (tagList.length === 0) {
+    // No tags to match; return empty query
+    return query(collection).where(() => false).limit(0);
+  }
+
+  const filter =
+    tagList.length === 1
+      ? whereArrayContains('tags', tagList[0])
+      : or(...tagList.map((tag) => whereArrayContains('tags', tag)));
+
+  const q = query(collection).where(filter);
+  if (typeof limit === "number") {
+    q.limit(limit);
+  }
+  return q;
+};
 
 // TODO: Items by author
 // export const byAuthor = (collection: CollectionKey, authorId: string, limit?: number) => {}
@@ -36,11 +53,141 @@ import type { CollectionKey } from 'astro:content';
 // HIERARCHICAL QUERIES
 // ============================================================================
 
-// TODO: Root level items only
-// export const roots = (collection: CollectionKey) => {}
+/**
+ * Root level items only (no parent)
+ */
+export const roots = (collection: CollectionKey) =>
+  query(collection)
+    .where(whereNoParent())
+    .orderBy(sortByOrder());
 
-// TODO: Leaf items only (no children)
-// export const leaves = (collection: CollectionKey) => {}
+/**
+ * Leaves (items with no children)
+ */
+export const leaves = async (collection: CollectionKey) => {
+  const entries = await getLeaves(collection);
+  return entries.sort(sortByOrder());
+};
+
+/**
+ * Children of a specific parent
+ */
+export const children = (collection: CollectionKey, parentId: string) => {
+  // Guard against missing/undefined parent ids so the query doesn't crash
+  const targetId = parentId ? normalizeId(parentId) : "";
+  if (!targetId) {
+    // No parent means no children to fetch
+    return query(collection).where(() => false);
+  }
+  return query(collection)
+    .where((entry) => {
+      const parent = (entry.data as any).parent;
+      if (!parent) return false;
+
+      if (Array.isArray(parent)) {
+        return parent.some((p) => {
+          const id = typeof p === "string" ? p : p?.id || p?.slug || "";
+          return normalizeId(id) === targetId;
+        });
+      }
+
+      const id = typeof parent === "string" ? parent : parent?.id || parent?.slug || "";
+      return normalizeId(id) === targetId;
+    })
+    .orderBy(sortByOrder());
+};
+
+/**
+ * Parent(s) of a specific child
+ */
+export const parent = (
+  collection: CollectionKey,
+  child?: { data?: any; parent?: any; id?: string; slug?: string } | string
+) => {
+  // Pull parent info either from explicit string or the child entry's data/parent fields
+  const parentField =
+    typeof child === "string"
+      ? child
+      : child
+      ? (child as any).data?.parent ?? (child as any).parent
+      : undefined;
+
+  const parentRefs = Array.isArray(parentField)
+    ? parentField
+    : parentField
+    ? [parentField]
+    : [];
+
+  const targetIds = parentRefs
+    .map((p) => (typeof p === "string" ? p : p?.id || p?.slug || ""))
+    .filter(Boolean)
+    .map(normalizeId);
+
+  if (targetIds.length === 0) {
+    // No parent data; return empty result
+    return query(collection).where(() => false).limit(0);
+  }
+
+  return query(collection)
+    .where((entry) => {
+      const id = normalizeId(getItemKey(entry));
+      return targetIds.includes(id);
+    })
+    .orderBy(sortByOrder());
+};
+
+/**
+ * Get siblings (entries with the same parent) for a given item.
+ * Requires the full entry so we can read parent data synchronously.
+ */
+export const siblings = (
+  collection: CollectionKey,
+  item?: { data?: any; parent?: any; id?: string; slug?: string }
+) => {
+  const targetId = item ? normalizeId((item as any).id || (item as any).slug || "") : "";
+
+  const parentField = item ? (item as any).data?.parent ?? (item as any).parent : undefined;
+
+  const parentRefs = Array.isArray(parentField)
+    ? parentField
+    : parentField
+    ? [parentField]
+    : [];
+
+  const targetParentIds = parentRefs
+    .map((p) => (typeof p === "string" ? p : p?.id || p?.slug || ""))
+    .filter(Boolean)
+    .map(normalizeId);
+
+  if (targetParentIds.length === 0) {
+    // No parent info; can't determine siblings
+    return query(collection).where(() => false).limit(0);
+  }
+
+  const parentIdSet = new Set(targetParentIds);
+
+  return query(collection)
+    .where((entry) => {
+      // Exclude the target item itself when possible
+      if (targetId && normalizeId(getItemKey(entry)) === targetId) {
+        return false;
+      }
+
+      const parent = (entry.data as any).parent;
+      if (!parent) return false;
+
+      if (Array.isArray(parent)) {
+        return parent.some((p) => {
+          const id = typeof p === "string" ? p : p?.id || p?.slug || "";
+          return id && parentIdSet.has(normalizeId(id));
+        });
+      }
+
+      const id = typeof parent === "string" ? parent : parent?.id || parent?.slug || "";
+      return Boolean(id && parentIdSet.has(normalizeId(id)));
+    })
+    .orderBy(sortByOrder());
+};
 
 // TODO: Items at specific depth
 // export const atDepth = (collection: CollectionKey, depth: number) => {}
@@ -54,39 +201,6 @@ import type { CollectionKey } from 'astro:content';
 
 // TODO: Items with references to any entry in target collection
 // export const withReferencesTo = (collection: CollectionKey, targetCollection: CollectionKey) => {}
-
-// ============================================================================
-// BLOG SPECIFIC
-// ============================================================================
-
-// TODO: Published blog posts (not drafts)
-// export const publishedPosts = (limit?: number) => {}
-
-// TODO: Posts by author with pagination
-// export const postsByAuthor = (authorId: string, page = 1, pageSize = 10) => {}
-
-// TODO: Related posts (same tags or category)
-// export const relatedPosts = (currentPostId: string, limit = 5) => {}
-
-// ============================================================================
-// PORTFOLIO SPECIFIC
-// ============================================================================
-
-// TODO: Portfolio by category
-// export const portfolioByCategory = (category: string) => {}
-
-// TODO: Portfolio with testimonials
-// export const portfolioWithTestimonials = () => {}
-
-// ============================================================================
-// SERVICE SPECIFIC
-// ============================================================================
-
-// TODO: Services by price range
-// export const servicesByPrice = (min?: number, max?: number) => {}
-
-// TODO: Services with specific features
-// export const servicesWithFeatures = (features: string[]) => {}
 
 // ============================================================================
 // CROSS-COLLECTION
@@ -103,5 +217,5 @@ import type { CollectionKey } from 'astro:content';
 // ============================================================================
 
 export const snippets = {
-  // Will be populated with the above functions
+
 };
