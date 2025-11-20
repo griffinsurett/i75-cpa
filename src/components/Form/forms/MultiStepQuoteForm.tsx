@@ -177,25 +177,25 @@ export default function MultiStepQuoteForm() {
           textareaClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
         />
 
-         <Checkbox
-                name="privacy"
-                label={
-                  <>
-                    I have read and agree to the{" "}
-                    <Button
-                      variant="link"
-                      href="/privacy-policy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Privacy Policy
-                    </Button>
-                  </>
-                }
-                required
-                containerClassName="mb-6"
-                checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded focus:ring-2 focus:ring-MainDark"
-              />
+        <Checkbox
+          name="privacy"
+          label={
+            <>
+              I have read and agree to the{" "}
+              <Button
+                variant="link"
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </Button>
+            </>
+          }
+          required
+          containerClassName="mb-6"
+          checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded"
+        />
       </FormStep>
     </FormWrapper>
   );

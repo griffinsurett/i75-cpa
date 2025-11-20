@@ -88,24 +88,24 @@ const handleSubmit = async (values: any) => {
     />
 
     <Checkbox
-        name="privacy"
-        label={
-          <>
-            I have read and agree to the{" "}
-            <Button
-              variant="link"
-              href="/privacy-policy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Privacy Policy
-            </Button>
-          </>
-        }
-        required
-        containerClassName="mb-6"
-        checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded focus:ring-2 focus:ring-MainDark"
-      />
+      name="privacy"
+      label={(
+        <>
+          I have read and agree to the{" "}
+          <Button
+            variant="link"
+            href="/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </Button>
+        </>
+      )}
+      required
+      containerClassName="mb-6"
+      checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded"
+    />
 
     <Button variant="primary" type="submit" className="w-full">
       Get Your Quote

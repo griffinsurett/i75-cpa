@@ -24,7 +24,7 @@ export default function Checkbox({
   required = false,
   containerClassName = "mb-4",
   labelClassName = "flex items-center cursor-pointer",
-  checkboxClassName = "w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500",
+  checkboxClassName = "w-4 h-4 text-blue-600 border-gray-300 rounded",
   ...checkboxProps
 }: CheckboxProps) {
   const labelContent = children ?? label;

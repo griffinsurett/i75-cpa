@@ -95,7 +95,7 @@ export default function QuoteForm() {
         }
         required
         containerClassName="mb-6"
-        checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded focus:ring-2 focus:ring-MainDark"
+        checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded"
       />
 
       <Button variant="primary" type="submit" className="w-full mx-auto">
