@@ -82,9 +82,8 @@ export async function buildRelationshipGraph(
 
   // Get collection names without importing collections utilities that might have circular deps
   const { collections } = await import("@/content/config");
-  const allCollections = Object.keys(collections).filter(
-    (c) => c !== "menus" && c !== "menu-items"
-  ) as CollectionKey[];
+  // Include all collections in the relationship graph (menus/menu-items included)
+  const allCollections = Object.keys(collections) as CollectionKey[];
 
   const {
     collections: requestedCollections = allCollections,

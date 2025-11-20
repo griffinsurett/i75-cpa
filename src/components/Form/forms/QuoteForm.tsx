@@ -1,25 +1,24 @@
-// src/components/Form/forms/ContactForm.tsx
+// src/components/Form/forms/QuoteForm.tsx
 /**
- * Contact Form - React Version
+ * Quote Form - React Version
  * Uses FormWrapper with HTML5 validation
  */
 
 import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import Checkbox from "@/components/Form/inputs/Checkbox";
-import Textarea from "@/components/Form/inputs/Textarea";
 import Button from "@/components/Button/Button";
 
-export default function ContactForm() {
+export default function QuoteForm() {
   const handleSubmit = async (values: any) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", values);
+    console.log("Quote form submitted:", values);
   };
 
   return (
     <FormWrapper
       onSubmit={handleSubmit}
-      successMessage="Thank you for contacting us! We'll get back to you soon."
+      successMessage="Thank you for your quote request! We'll get back to you soon."
       errorMessage="There was an error submitting your form. Please try again."
       resetOnSuccess={true}
       className="w-full gap-0"
@@ -79,17 +78,6 @@ export default function ContactForm() {
         inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
       />
 
-      <Textarea
-        name="message"
-        label="Your Message"
-        required
-        minLength={10}
-        placeholder="Write your message here..."
-        rows={5}
-        containerClassName="mb-4"
-        textareaClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
-      />
-
       <Checkbox
         name="privacy"
         label={
@@ -111,7 +99,7 @@ export default function ContactForm() {
       />
 
       <Button variant="primary" type="submit" className="w-full mx-auto">
-        Submit Form
+        Get Your Quote
       </Button>
     </FormWrapper>
   );

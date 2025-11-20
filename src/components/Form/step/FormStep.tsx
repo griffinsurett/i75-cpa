@@ -1,37 +1,24 @@
-// src/components/forms/FormStep.tsx
+// src/components/Form/step/FormStep.tsx
 /**
  * FormStep Component
- *
- * Wraps a single step in a multi-step form.
- * Only visible when it's the current step.
+ * Wraps a single step in a multi-step form
  */
 
-import type { FormStepProps } from "../types";
+import type { ReactNode } from "react";
 
-function FormStep({
-  id,
-  title,
-  description,
-  children,
-  className = "",
-}: FormStepProps) {
+interface FormStepProps {
+  children: ReactNode;
+  title?: string;
+  description?: string;
+  className?: string;
+}
+
+function FormStep({ children, title, description, className = "" }: FormStepProps) {
   return (
-    <div
-      id={`step-${id}`}
-      className={className}
-      role="tabpanel"
-      aria-labelledby={`step-${id}-label`}
-    >
+    <div className={className}>
       {(title || description) && (
         <div className="mb-6">
-          {title && (
-            <h3
-              id={`step-${id}-label`}
-              className="text-2xl font-bold text-gray-900 mb-2"
-            >
-              {title}
-            </h3>
-          )}
+          {title && <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>}
           {description && <p className="text-gray-600">{description}</p>}
         </div>
       )}
@@ -41,7 +28,6 @@ function FormStep({
   );
 }
 
-// Add displayName for detection in useMultiStep hook
 FormStep.displayName = "FormStep";
 
 export default FormStep;

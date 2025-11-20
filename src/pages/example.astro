@@ -18,6 +18,7 @@ import {
   getRoots,
   getTree,
   buildRelationshipGraph,
+  getRelationMap,
 } from "@/utils/query";
 
 // ============================================================================
@@ -105,7 +106,6 @@ try {
   serviceTree = await getTree("services", "web-development", 2);
 } catch (e) {
   // Service might not exist or have hierarchy
-  console.log("No tree structure for web-development");
 }
 
 // ============================================================================
@@ -145,6 +145,11 @@ const graph = await buildRelationshipGraph({
   maxIndirectDepth: 2,
   cache: true,
 });
+
+// Query all menu items (now included in the graph) with relations
+const allMenuItemsWithRelations = await query("menu-items")
+  .withRelations(true)
+  .get();
 
 // ============================================================================
 // 8. STATISTICS
