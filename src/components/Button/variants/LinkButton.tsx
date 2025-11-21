@@ -13,8 +13,8 @@ import { renderButtonIcon } from '../utils';
 export default function LinkButton({
   leftIcon,
   rightIcon,
-  className = '',
-  size = 'default',
+  className = 'p-0',
+  size = 'md',
   children,
   ...props
 }: ButtonProps) {

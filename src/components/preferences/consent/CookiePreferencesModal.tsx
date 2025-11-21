@@ -159,7 +159,6 @@ function CookiePreferencesModal({
           <Button
             variant="link"
             href="/cookie-policy"
-            className="text-primary underline hover:text-primary-700"
           >
             here
           </Button>{" "}
@@ -170,7 +169,6 @@ function CookiePreferencesModal({
         <Button
           variant="link"
           href="/cookie-policy"
-          className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-700"
         >
           More information
           <svg

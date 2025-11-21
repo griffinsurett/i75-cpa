@@ -296,7 +296,6 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
               variant="link"
               size="sm"
               href="/contact"
-              className="underline text-primary hover:text-primary-700"
             >
               contact us
             </Button>
