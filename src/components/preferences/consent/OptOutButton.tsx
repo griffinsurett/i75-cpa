@@ -3,8 +3,8 @@
  * CCPA Opt-Out Button
  */
 
-import { useState } from 'react';
-import { optOutOfSale } from '@/utils/consent/consent';
+import { useState } from "react";
+import { optOutOfSale } from "@/utils/consent/consent";
 
 export default function OptOutButton() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -29,7 +29,7 @@ export default function OptOutButton() {
   return (
     <button
       onClick={handleOptOut}
-      className="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors"
+      className="bg-primary text-bg px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary-700 transition-colors"
       type="button"
     >
       🚫 Opt Out of Data Sharing

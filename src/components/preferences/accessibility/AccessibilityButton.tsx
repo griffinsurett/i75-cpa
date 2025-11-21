@@ -1,7 +1,7 @@
 // src/components/accessibility/AccessibilityButton.tsx
-import { useState, useTransition, lazy, Suspense, memo } from 'react';
+import { useState, useTransition, lazy, Suspense, memo } from "react";
 
-const AccessibilityModal = lazy(() => import('./AccessibilityModal'));
+const AccessibilityModal = lazy(() => import("./AccessibilityModal"));
 
 function AccessibilityButton() {
   const [showModal, setShowModal] = useState(false);
@@ -23,7 +23,7 @@ function AccessibilityButton() {
     <>
       <button
         onClick={handleOpenModal}
-        className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2"
+        className="text-bg hover:text-surface transition-colors inline-flex items-center gap-2"
         type="button"
         aria-label="Manage reading preferences"
         disabled={isPending}
@@ -46,10 +46,7 @@ function AccessibilityButton() {
 
       {showModal && (
         <Suspense fallback={null}>
-          <AccessibilityModal
-            isOpen={showModal}
-            onClose={handleCloseModal}
-          />
+          <AccessibilityModal isOpen={showModal} onClose={handleCloseModal} />
         </Suspense>
       )}
     </>

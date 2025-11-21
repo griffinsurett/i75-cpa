@@ -6,7 +6,8 @@
 
 import type { InputHTMLAttributes, ReactNode } from "react";
 
-interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+interface CheckboxProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   name: string;
   label?: ReactNode;
   children?: ReactNode;
@@ -24,7 +25,7 @@ export default function Checkbox({
   required = false,
   containerClassName = "mb-4",
   labelClassName = "flex items-center cursor-pointer",
-  checkboxClassName = "w-4 h-4 text-blue-600 border-gray-300 rounded",
+  checkboxClassName = "w-4 h-4 text-primary border-surface rounded",
   ...checkboxProps
 }: CheckboxProps) {
   const labelContent = children ?? label;
@@ -41,7 +42,7 @@ export default function Checkbox({
           {...checkboxProps}
         />
         {labelContent && (
-          <span className="ml-2 text-gray-700">
+          <span className="ml-2 text-text">
             {labelContent}
             {required && <span className="text-red-500 ml-1">*</span>}
           </span>

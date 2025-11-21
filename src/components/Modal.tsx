@@ -1,6 +1,14 @@
 // src/components/Modal.tsx
-import { useState, useEffect, useRef, memo, type ReactNode, type ReactPortal, type MouseEvent } from 'react';
-import { createPortal } from 'react-dom';
+import {
+  useState,
+  useEffect,
+  useRef,
+  memo,
+  type ReactNode,
+  type ReactPortal,
+  type MouseEvent,
+} from "react";
+import { createPortal } from "react-dom";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -13,7 +21,12 @@ export interface ModalProps {
   allowScroll?: boolean;
   ariaLabel?: string;
   ariaDescribedBy?: string;
-  position?: 'center' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+  position?:
+    | "center"
+    | "bottom-left"
+    | "bottom-right"
+    | "top-left"
+    | "top-right";
   ssr?: boolean;
 }
 
@@ -22,22 +35,22 @@ let portalRoot: HTMLElement | null = null;
 
 function getPortalRoot(): HTMLElement {
   if (portalRoot) return portalRoot;
-  
-  if (typeof document === 'undefined') {
+
+  if (typeof document === "undefined") {
     return null as any; // SSR safety
   }
-  
+
   portalRoot = document.body;
   return portalRoot;
 }
 
 // Position classes - computed once
 const POSITION_CLASSES = {
-  'center': 'flex items-center justify-center',
-  'bottom-left': 'flex items-end justify-start p-4',
-  'bottom-right': 'flex items-end justify-end p-4',
-  'top-left': 'flex items-start justify-start p-4',
-  'top-right': 'flex items-start justify-end p-4',
+  center: "flex items-center justify-center",
+  "bottom-left": "flex items-end justify-start p-4",
+  "bottom-right": "flex items-end justify-end p-4",
+  "top-left": "flex items-start justify-start p-4",
+  "top-right": "flex items-start justify-end p-4",
 } as const;
 
 function Modal({
@@ -46,12 +59,12 @@ function Modal({
   children,
   closeButton = true,
   closeButtonClass = "absolute top-4 right-4",
-  overlayClass = 'bg-black bg-opacity-50',
-  className = "bg-white shadow-xl p-6 rounded-lg max-w-lg w-full mx-4",
+  overlayClass = "bg-black bg-opacity-50",
+  className = "bg-bg shadow-xl p-6 rounded-lg max-w-lg w-full mx-4",
   allowScroll = false,
   ariaLabel,
   ariaDescribedBy,
-  position = 'center',
+  position = "center",
   ssr = true,
 }: ModalProps): ReactPortal | null {
   const [mounted, setMounted] = useState<boolean>(ssr ? isOpen : false);
@@ -80,15 +93,16 @@ function Modal({
 
     const originalOverflow = document.body.style.overflow;
     const originalPaddingRight = document.body.style.paddingRight;
-    
+
     // Prevent layout shift from scrollbar
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    
-    document.body.style.overflow = 'hidden';
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = "hidden";
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
-    
+
     return () => {
       document.body.style.overflow = originalOverflow;
       document.body.style.paddingRight = originalPaddingRight;
@@ -98,16 +112,16 @@ function Modal({
   // Handle Escape key - passive listener for better performance
   useEffect(() => {
     if (!mounted || !isOpen) return;
-    
+
     const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown, { passive: true });
+    document.addEventListener("keydown", handleKeyDown, { passive: true });
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [mounted, isOpen, onClose]);
 
@@ -119,7 +133,7 @@ function Modal({
         modalRef.current?.focus();
       });
     }
-    
+
     return () => {
       // Restore focus when unmounting
       if (!isOpen && previousFocusRef.current) {
@@ -148,7 +162,7 @@ function Modal({
   };
 
   // Check if overlay has pointer-events-none
-  const hasNonInteractiveOverlay = overlayClass.includes('pointer-events-none');
+  const hasNonInteractiveOverlay = overlayClass.includes("pointer-events-none");
 
   // Don't render during SSR if ssr is false
   if (!ssr && !mounted) return null;
@@ -160,7 +174,11 @@ function Modal({
   // Render modal as a portal to document.body
   return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] ${POSITION_CLASSES[position]} ${overlayClass} transform transition-opacity duration-300 ease-in-out ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      className={`fixed inset-0 z-[9999] ${
+        POSITION_CLASSES[position]
+      } ${overlayClass} transform transition-opacity duration-300 ease-in-out ${
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
       onClick={handleOverlayClick}
       onTransitionEnd={handleAnimationEnd}
       role="dialog"
@@ -170,7 +188,13 @@ function Modal({
     >
       <div
         ref={modalRef}
-        className={`relative ${className} ${hasNonInteractiveOverlay ? 'pointer-events-auto' : ''} transform-gpu transition-all duration-300 ease-in-out origin-center ${isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-4 opacity-0'}`}
+        className={`relative ${className} ${
+          hasNonInteractiveOverlay ? "pointer-events-auto" : ""
+        } transform-gpu transition-all duration-300 ease-in-out origin-center ${
+          isOpen
+            ? "scale-100 translate-y-0 opacity-100"
+            : "scale-95 translate-y-4 opacity-0"
+        }`}
         onClick={handleModalClick}
         tabIndex={-1}
       >
@@ -181,9 +205,9 @@ function Modal({
             aria-label="Close modal"
             type="button"
           >
-            <svg 
-              className="w-6 h-6" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="w-6 h-6"
+              viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >

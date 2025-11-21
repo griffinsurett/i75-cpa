@@ -1,12 +1,12 @@
 // src/components/LoopComponents/Menu/MobileMenuItem.tsx
 /**
  * Mobile Menu Item Component
- * 
+ *
  * Collapsible menu item for mobile navigation.
  * Accessible navigation pattern with proper ARIA.
  */
 
-import { useState } from 'react';
+import { useState } from "react";
 
 interface MobileMenuItemProps {
   title: string;
@@ -18,9 +18,9 @@ interface MobileMenuItemProps {
   level?: number;
 }
 
-export default function MobileMenuItem({ 
-  title, 
-  url, 
+export default function MobileMenuItem({
+  title,
+  url,
   slug,
   children = [],
   openInNewTab = false,
@@ -30,39 +30,43 @@ export default function MobileMenuItem({
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = children.length > 0;
   const indent = level * 16; // 16px per level
-  
+
   if (hasChildren) {
     return (
       <li>
-        <button 
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full text-left py-3 px-4 flex justify-between items-center hover:bg-gray-50 rounded-md transition-colors"
+          className="w-full text-left py-3 px-4 flex justify-between items-center hover:bg-text/5 rounded-md transition-colors"
           aria-expanded={isExpanded}
           aria-controls={`mobile-submenu-${slug}`}
           style={{ paddingLeft: `${indent + 16}px` }}
           type="button"
         >
-          <span className="font-medium text-gray-900">{title}</span>
-          <svg 
-            className={`w-5 h-5 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-            fill="none" 
-            stroke="currentColor" 
+          <span className="font-medium text-heading">{title}</span>
+          <svg
+            className={`w-5 h-5 text-text transition-transform ${
+              isExpanded ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </button>
-        
+
         {isExpanded && (
-          <ul 
-            id={`mobile-submenu-${slug}`}
-            className="mt-1 space-y-1"
-          >
-            {children.map(child => (
-              <MobileMenuItem 
+          <ul id={`mobile-submenu-${slug}`} className="mt-1 space-y-1">
+            {children.map((child) => (
+              <MobileMenuItem
                 key={child.slug || child.id}
-                {...child} 
+                {...child}
                 onNavigate={onNavigate}
                 level={level + 1}
               />
@@ -72,15 +76,15 @@ export default function MobileMenuItem({
       </li>
     );
   }
-  
+
   return (
     <li>
-      <a 
-        href={url || '#'} 
+      <a
+        href={url || "#"}
         onClick={onNavigate}
-        target={openInNewTab ? '_blank' : undefined}
-        rel={openInNewTab ? 'noopener noreferrer' : undefined}
-        className="block py-3 px-4 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors"
+        target={openInNewTab ? "_blank" : undefined}
+        rel={openInNewTab ? "noopener noreferrer" : undefined}
+        className="block py-3 px-4 text-text hover:text-primary hover:bg-text/5 rounded-md transition-colors"
         style={{ paddingLeft: `${indent + 16}px` }}
       >
         {title}

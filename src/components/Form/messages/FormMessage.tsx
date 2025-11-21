@@ -17,7 +17,7 @@ interface FormMessageProps {
 const messageStyles: Record<MessageType, string> = {
   success: "bg-green-50 text-green-800 border border-green-200",
   error: "bg-red-50 text-red-800 border border-red-200",
-  loading: "bg-blue-50 text-blue-800 border border-blue-200",
+  loading: "bg-primary/10 text-primary border border-primary-200",
 };
 
 const messageIcons: Record<MessageType, string> = {
@@ -26,12 +26,20 @@ const messageIcons: Record<MessageType, string> = {
   loading: "",
 };
 
-export default function FormMessage({ type, children, onDismiss }: FormMessageProps) {
+export default function FormMessage({
+  type,
+  children,
+  onDismiss,
+}: FormMessageProps) {
   if (type === "loading") {
     return (
-      <div className="flex items-center justify-center p-4 mb-4" role="status" aria-live="polite">
+      <div
+        className="flex items-center justify-center p-4 mb-4"
+        role="status"
+        aria-live="polite"
+      >
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-MainDark" />
-        <span className="ml-3 text-gray-700">{children}</span>
+        <span className="ml-3 text-text">{children}</span>
       </div>
     );
   }

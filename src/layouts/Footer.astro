@@ -16,14 +16,37 @@ import { query } from "@/utils/query";
 import PreferencesLayout from "./PreferencesLayout.astro";
 ---
 
-<footer class="bg-gray-900 text-white mt-auto">
+<footer class="bg-text text-bg mt-auto">
   <div class="mx-auto">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-      {/* Copyright notice */}
-      <p class="text-gray-400 text-sm">
-        &copy; {new Date().getFullYear()}
-        {siteData.legalName}. All rights reserved.
-      </p>
+    <div class="flex flex-col justify-between items-center gap-6 py-4">
+      {/* Legal and privacy links */}
+      <div class="flex flex-wrap items-center gap-4 text-sm">
+        <a
+          href="/privacy-policy"
+          class="text-bg hover:text-bg transition-colors"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/cookie-policy"
+          class="text-bg hover:text-bg transition-colors"
+        >
+          Cookie Policy
+        </a>
+        <a
+          href="/terms-of-service"
+          class="text-bg hover:text-bg transition-colors"
+        >
+          Terms of Service
+        </a>
+
+        {/* CCPA Opt-Out Link */}
+        <a href="/privacy-policy#ccpa-rights" class="text-bg hover:text-bg"
+          >Do Not Sell My Personal Information</a
+        >
+
+        <PreferencesLayout />
+      </div>
 
       {/* Social media icons */}
       <ContentRenderer
@@ -31,35 +54,14 @@ import PreferencesLayout from "./PreferencesLayout.astro";
         variant="SocialMediaVariant"
         size="md"
         alignment="left"
-        className="text-white"
+        className="text-bg"
       />
 
-      {/* Legal and privacy links */}
-      <div class="flex flex-wrap items-center gap-4 text-sm">
-        <a
-          href="/privacy-policy"
-          class="text-gray-400 hover:text-white transition-colors"
-        >
-          Privacy Policy
-        </a>
-        <a
-          href="/cookie-policy"
-          class="text-gray-400 hover:text-white transition-colors"
-        >
-          Cookie Policy
-        </a>
-        <a
-          href="/terms-of-service"
-          class="text-gray-400 hover:text-white transition-colors"
-        >
-          Terms of Service
-        </a>
-
-        {/* CCPA Opt-Out Link */}
-        <a href="/privacy-policy#ccpa-rights" class="text-gray-400 hover:text-white">Do Not Sell My Personal Information</a>
-
-        <PreferencesLayout />
-      </div>
+      {/* Copyright notice */}
+      <p class="text-bg text-sm">
+        &copy; {new Date().getFullYear()}
+        {siteData.legalName}. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

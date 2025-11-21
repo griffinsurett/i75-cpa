@@ -35,7 +35,7 @@ export default function MultiStepQuoteForm() {
             minLength={2}
             placeholder="First Name"
             containerClassName="flex-1"
-            inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+            inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
           />
 
           <Input
@@ -46,7 +46,7 @@ export default function MultiStepQuoteForm() {
             minLength={2}
             placeholder="Last Name"
             containerClassName="flex-1"
-            inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+            inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
           />
         </div>
 
@@ -57,7 +57,7 @@ export default function MultiStepQuoteForm() {
           required
           placeholder="me@website.com"
           containerClassName="mb-4"
-          inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Input
@@ -68,7 +68,7 @@ export default function MultiStepQuoteForm() {
           pattern="[0-9]{10,}"
           placeholder="012-345-6789"
           containerClassName="mb-4"
-          inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
       </FormStep>
 
@@ -81,7 +81,7 @@ export default function MultiStepQuoteForm() {
           minLength={2}
           placeholder="Your Company LLC"
           containerClassName="mb-4"
-          inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Select
@@ -98,7 +98,7 @@ export default function MultiStepQuoteForm() {
             { value: "manufacturing", label: "Manufacturing" },
             { value: "other", label: "Other" },
           ]}
-          selectClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          selectClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Select
@@ -114,7 +114,7 @@ export default function MultiStepQuoteForm() {
             { value: "201-500", label: "201-500 employees" },
             { value: "500+", label: "500+ employees" },
           ]}
-          selectClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          selectClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
       </FormStep>
 
@@ -133,7 +133,7 @@ export default function MultiStepQuoteForm() {
             { value: "marketing", label: "Digital Marketing" },
             { value: "consulting", label: "Consulting" },
           ]}
-          selectClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          selectClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Select
@@ -148,7 +148,7 @@ export default function MultiStepQuoteForm() {
             { value: "25k-50k", label: "$25,000 - $50,000" },
             { value: "50k+", label: "$50,000+" },
           ]}
-          selectClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          selectClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Select
@@ -163,7 +163,7 @@ export default function MultiStepQuoteForm() {
             { value: "3-6", label: "3-6 months" },
             { value: "6+", label: "6+ months" },
           ]}
-          selectClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          selectClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Textarea
@@ -174,7 +174,7 @@ export default function MultiStepQuoteForm() {
           placeholder="Tell us about your project..."
           rows={6}
           containerClassName="mb-4"
-          textareaClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
+          textareaClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
         />
 
         <Checkbox
@@ -194,7 +194,7 @@ export default function MultiStepQuoteForm() {
           }
           required
           containerClassName="mb-6"
-          checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded"
+          checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
         />
       </FormStep>
     </FormWrapper>

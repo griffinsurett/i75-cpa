@@ -215,42 +215,42 @@ const affordableServices = await query("services")
   <main class="container mx-auto px-4 py-12 max-w-7xl">
     <header class="mb-12 text-center">
       <h1
-        class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent"
       >
         Query System Playground
       </h1>
-      <p class="text-xl text-gray-600">
+      <p class="text-xl text-text">
         Live examples demonstrating the power of Greastro's content query system
       </p>
     </header>
 
     <!-- System Overview -->
     <section
-      class="mb-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8"
+      class="mb-12 bg-gradient-to-r from-primary-50 to-purple-50 rounded-2xl p-8"
     >
       <h2 class="text-2xl font-bold mb-4">📊 System Overview</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white rounded-lg p-4 text-center">
-          <div class="text-3xl font-bold text-blue-600">
+        <div class="bg-bg rounded-lg p-4 text-center">
+          <div class="text-3xl font-bold text-primary">
             {graph.totalEntries}
           </div>
-          <div class="text-sm text-gray-600">Total Entries</div>
+          <div class="text-sm text-text">Total Entries</div>
         </div>
-        <div class="bg-white rounded-lg p-4 text-center">
-          <div class="text-3xl font-bold text-purple-600">
+        <div class="bg-bg rounded-lg p-4 text-center">
+          <div class="text-3xl font-bold text-accent">
             {graph.collections.length}
           </div>
-          <div class="text-sm text-gray-600">Collections</div>
+          <div class="text-sm text-text">Collections</div>
         </div>
-        <div class="bg-white rounded-lg p-4 text-center">
+        <div class="bg-bg rounded-lg p-4 text-center">
           <div class="text-3xl font-bold text-green-600">{allTags.size}</div>
-          <div class="text-sm text-gray-600">Unique Tags</div>
+          <div class="text-sm text-text">Unique Tags</div>
         </div>
-        <div class="bg-white rounded-lg p-4 text-center">
+        <div class="bg-bg rounded-lg p-4 text-center">
           <div class="text-3xl font-bold text-orange-600">
             {Object.keys(postsByAuthor).length}
           </div>
-          <div class="text-sm text-gray-600">Authors</div>
+          <div class="text-sm text-text">Authors</div>
         </div>
       </div>
     </section>
@@ -258,14 +258,14 @@ const affordableServices = await query("services")
     <!-- 1. Basic Queries -->
     <section class="mb-12">
       <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
-        <span class="text-blue-600">1.</span> Basic Queries
+        <span class="text-primary">1.</span> Basic Queries
       </h2>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">All Blog Posts</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog').all()</code></pre>
           <div class="mt-3 text-sm">
             <span class="font-semibold">Result:</span>
@@ -275,12 +275,12 @@ const affordableServices = await query("services")
                 <ul class="mt-2 space-y-1">
                   {allBlogPosts.slice(0, 3).map((post) => (
                     <li class="flex items-center gap-2">
-                      <span class="text-blue-600">→</span>
+                      <span class="text-primary">→</span>
                       <span>{post.data.title}</span>
                     </li>
                   ))}
                   {allBlogPosts.length > 3 && (
-                    <li class="text-gray-500">
+                    <li class="text-text">
                       ...and {allBlogPosts.length - 3} more
                     </li>
                   )}
@@ -290,10 +290,10 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Find Specific Entry</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await find('services', 'web-development')</code></pre>
           <div class="mt-3 text-sm">
             <span class="font-semibold">Result:</span>
@@ -323,14 +323,14 @@ const affordableServices = await query("services")
     <!-- 2. Filtering -->
     <section class="mb-12">
       <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
-        <span class="text-purple-600">2.</span> Filtering
+        <span class="text-accent">2.</span> Filtering
       </h2>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Filter by Author</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog')
   .where(whereEquals('author', 'jane-doe'))
   .all()</code></pre>
@@ -347,10 +347,10 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Contains Filter</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog')
   .where(whereContains('title', 'astro', false))
   .all()</code></pre>
@@ -367,10 +367,10 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Array Contains</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('services')
   .where(whereArrayContains('features', 'SEO Optimization'))
   .all()</code></pre>
@@ -387,10 +387,10 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Complex Filter (AND)</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog')
   .where(and(
     whereAfter('publishDate', '2024-01-01'),
@@ -411,10 +411,10 @@ const affordableServices = await query("services")
         <span class="text-green-600">3.</span> Sorting & Pagination
       </h2>
 
-      <div class="bg-white border rounded-xl p-6">
+      <div class="bg-bg border rounded-xl p-6">
         <h3 class="font-bold mb-3 text-lg">Paginated Results</h3>
         <pre
-          class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+          class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog')
   .orderBy(sortByDate('publishDate', 'desc'))
   .limit({pageSize})
@@ -426,7 +426,7 @@ const affordableServices = await query("services")
             <span class="font-semibold"
               >Page {paginatedBlog.page || 1} Results:</span
             >
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-text">
               Total: {paginatedBlog.total} | Has Next: {
                 paginatedBlog.hasNext ? "✅" : "❌"
               } | Has Prev: {paginatedBlog.hasPrev ? "✅" : "❌"}
@@ -435,12 +435,12 @@ const affordableServices = await query("services")
 
           {
             paginatedBlog.entries.map((post, i) => (
-              <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
-                <span class="text-gray-400 font-mono text-sm">
+              <div class="flex items-center gap-3 p-2 hover:bg-text/5 rounded">
+                <span class="text-text font-mono text-sm">
                   {i + 1 + (page - 1) * pageSize}.
                 </span>
                 <span class="flex-1">{post.data.title}</span>
-                <span class="text-sm text-gray-500">
+                <span class="text-sm text-text">
                   {post.data.publishDate
                     ? new Date(post.data.publishDate).toLocaleDateString()
                     : "No date"}
@@ -459,10 +459,10 @@ const affordableServices = await query("services")
       </h2>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Root Entries</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await getRoots('services', true)</code></pre>
           <div class="mt-3 text-sm">
             <span class="font-semibold">Result:</span>
@@ -477,10 +477,10 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Service Tree</h3>
           <pre
-            class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+            class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await getTree('services', 'web-development', 2)</code></pre>
           <div class="mt-3 text-sm">
             {
@@ -516,10 +516,10 @@ const affordableServices = await query("services")
         <span class="text-red-600">5.</span> Relations
       </h2>
 
-      <div class="bg-white border rounded-xl p-6">
+      <div class="bg-bg border rounded-xl p-6">
         <h3 class="font-bold mb-3 text-lg">Query with Relations</h3>
         <pre
-          class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+          class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('blog')
   .limit(3)
   .withRelations(true, 2)
@@ -537,19 +537,19 @@ const affordableServices = await query("services")
                   <div class="font-semibold">{entry.data.title}</div>
                   <div class="grid grid-cols-3 gap-2 mt-2 text-sm">
                     <div>
-                      <span class="text-gray-500">References:</span>
+                      <span class="text-text">References:</span>
                       <span class="ml-2 font-mono">
                         {relations?.references.length || 0}
                       </span>
                     </div>
                     <div>
-                      <span class="text-gray-500">Referenced By:</span>
+                      <span class="text-text">Referenced By:</span>
                       <span class="ml-2 font-mono">
                         {relations?.referencedBy.length || 0}
                       </span>
                     </div>
                     <div>
-                      <span class="text-gray-500">Indirect:</span>
+                      <span class="text-text">Indirect:</span>
                       <span class="ml-2 font-mono">
                         {relations?.indirect.length || 0}
                       </span>
@@ -569,10 +569,10 @@ const affordableServices = await query("services")
         <span class="text-pink-600">6.</span> Multi-Collection Queries
       </h2>
 
-      <div class="bg-white border rounded-xl p-6">
+      <div class="bg-bg border rounded-xl p-6">
         <h3 class="font-bold mb-3 text-lg">Query Across Collections</h3>
         <pre
-          class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+          class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query(['blog', "projects", 'services'])
   .orderBy(sortByDate('publishDate', 'desc'))
   .limit(10)
@@ -587,12 +587,12 @@ const affordableServices = await query("services")
           <div class="mt-3 space-y-2">
             {
               allContentItems.entries.map((entry) => (
-                <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
+                <div class="flex items-center gap-3 p-2 hover:bg-text/5 rounded">
                   <span
-                    class={`px-2 py-1 rounded text-xs font-semibold text-white
+                    class={`px-2 py-1 rounded text-xs font-semibold text-bg
                   ${
                     entry.collection === "blog"
-                      ? "bg-blue-500"
+                      ? "bg-primary/100"
                       : entry.collection === "projects"
                         ? "bg-green-500"
                         : "bg-purple-500"
@@ -601,7 +601,7 @@ const affordableServices = await query("services")
                     {entry.collection}
                   </span>
                   <span class="flex-1">{entry.data.title}</span>
-                  <span class="text-sm text-gray-500">
+                  <span class="text-sm text-text">
                     {entry.data.publishDate
                       ? new Date(entry.data.publishDate).toLocaleDateString()
                       : ""}
@@ -621,7 +621,7 @@ const affordableServices = await query("services")
       </h2>
 
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Posts by Author</h3>
           <div class="space-y-2">
             {
@@ -637,12 +637,12 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Unique Tags</h3>
           <div class="flex flex-wrap gap-2">
             {
               Array.from(allTags).map((tag) => (
-                <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                <span class="px-2 py-1 bg-text/5-100 text-text rounded text-xs">
                   {tag}
                 </span>
               ))
@@ -650,7 +650,7 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Portfolio Categories</h3>
           <div class="space-y-2">
             {
@@ -675,9 +675,9 @@ const affordableServices = await query("services")
       </h2>
       
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Content with Images</h3>
-          <pre class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+          <pre class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query(['blog', "projects", 'services'])
   .where((entry) => !!entry.data.featuredImage)
   .all()</code></pre>
@@ -685,7 +685,7 @@ const affordableServices = await query("services")
             <span class="font-semibold">Result:</span> {contentWithImages.length} items with images
             <div class="mt-2 grid grid-cols-2 gap-2">
               {contentWithImages.slice(0, 4).map(item => (
-                <div class="text-xs p-2 bg-gray-50 rounded truncate">
+                <div class="text-xs p-2 bg-text/5 rounded truncate">
                   {item.data.title}
                 </div>
               ))}
@@ -693,9 +693,9 @@ const affordableServices = await query("services")
           </div>
         </div>
 
-        <div class="bg-white border rounded-xl p-6">
+        <div class="bg-bg border rounded-xl p-6">
           <h3 class="font-bold mb-3 text-lg">Custom Price Filter</h3>
-          <pre class="bg-gray-50 p-3 rounded text-sm overflow-x-auto">
+          <pre class="bg-text/5 p-3 rounded text-sm overflow-x-auto">
 <code>await query('services')
   .where((entry) => {
     // Parse price and check if <= $5000
@@ -711,7 +711,7 @@ const affordableServices = await query("services")
           <div class="mt-3 text-sm">
             <span class="font-semibold">Affordable Services (≤ $5000):</span>
             {affordableServices.map(service => (
-              <div class="mt-2 flex justify-between items-center p-2 bg-gray-50 rounded">
+              <div class="mt-2 flex justify-between items-center p-2 bg-text/5 rounded">
                 <span>{service.data.title}</span>
                 <span class="text-green-600 font-semibold">{service.data.price}</span>
               </div>
@@ -727,25 +727,25 @@ const affordableServices = await query("services")
     >
       <h2 class="text-2xl font-bold mb-4">⚡ Query Performance</h2>
       <div class="grid md:grid-cols-3 gap-4 text-sm">
-        <div class="bg-white rounded-lg p-4">
+        <div class="bg-bg rounded-lg p-4">
           <div class="font-semibold mb-2">Graph Build</div>
-          <div class="text-gray-600">
+          <div class="text-text">
             Built once at startup<br />
             Cached for all queries<br />
             {graph.totalEntries} entries indexed
           </div>
         </div>
-        <div class="bg-white rounded-lg p-4">
+        <div class="bg-bg rounded-lg p-4">
           <div class="font-semibold mb-2">Relations</div>
-          <div class="text-gray-600">
+          <div class="text-text">
             Direct & indirect<br />
             Max depth: 3 hops<br />
             Lazy loaded on demand
           </div>
         </div>
-        <div class="bg-white rounded-lg p-4">
+        <div class="bg-bg rounded-lg p-4">
           <div class="font-semibold mb-2">Collections</div>
-          <div class="text-gray-600">
+          <div class="text-text">
             {graph.collections.join(", ")}
           </div>
         </div>
@@ -756,7 +756,7 @@ const affordableServices = await query("services")
     <footer class="text-center py-8">
       <a
         href="/docs"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-bg rounded-lg hover:bg-primary-700 transition"
       >
         <svg
           class="w-5 h-5"

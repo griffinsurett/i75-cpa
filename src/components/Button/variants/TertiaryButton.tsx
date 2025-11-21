@@ -1,9 +1,9 @@
-// src/components/Button/variants/PrimaryButton.tsx
+// src/components/Button/variants/TertiaryButton.tsx
 /**
- * Primary Button Variant
+ * Tertiary Button Variant
  *
- * Solid blue button - the default and most prominent button style.
- * Used for primary actions like form submissions, main CTAs.
+ * Solid accent button - the default and most prominent button style.
+ * Used for tertiary actions like form submissions, main CTAs.
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
@@ -20,7 +20,7 @@ export default function PrimaryButton({
 }: ButtonProps) {
   // Primary button styling
   const variantClasses =
-    "bg-primary text-bg transition-colors hover:bg-primary-700 focus:ring-primary";
+    "bg-accent text-bg hover:bg-accent-700 focus:ring-accent";
 
   return (
     <ButtonBase

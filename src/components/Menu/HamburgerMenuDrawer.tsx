@@ -1,14 +1,14 @@
 // src/components/HamburgerMenuDrawer.tsx
 /**
  * Mobile Menu Drawer Template
- * 
+ *
  * Manages open/close state for mobile menu with checkbox-based hamburger button.
  */
 
-import { useState } from 'react';
-import Modal from '@/components/Modal';
-import MobileMenuItem from '@/components/LoopComponents/Menu/MobileMenuItem';
-import HamburgerButton from './HamburgerButton';
+import { useState } from "react";
+import Modal from "@/components/Modal";
+import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
+import HamburgerButton from "./HamburgerButton";
 
 interface MobileMenuDrawerProps {
   items: any[];
@@ -16,17 +16,17 @@ interface MobileMenuDrawerProps {
   hamburgerTransform?: boolean;
 }
 
-export default function MobileMenuDrawer({ 
-  items, 
-  className = '',
+export default function MobileMenuDrawer({
+  items,
+  className = "",
   hamburgerTransform = true,
 }: MobileMenuDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const handleNavigate = () => {
     setIsOpen(false);
   };
-  
+
   return (
     <>
       {/* Checkbox-based Hamburger Button */}
@@ -34,22 +34,25 @@ export default function MobileMenuDrawer({
         isOpen={isOpen}
         onChange={setIsOpen}
         hamburgerTransform={hamburgerTransform}
-        ariaLabel={isOpen ? 'Close menu' : 'Open menu'}
+        ariaLabel={isOpen ? "Close menu" : "Open menu"}
         id="mobile-menu-toggle"
       />
-      
+
       {/* Mobile Menu Modal */}
       <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         position="center"
-        className="w-full max-w-full h-full bg-white p-0 rounded-none"
+        className="w-full max-w-full h-full bg-bg p-0 rounded-none"
         overlayClass="bg-black/50"
         closeButton={false}
         ariaLabel="Mobile navigation menu"
         ssr={false}
       >
-        <nav className={`${className} h-full overflow-y-auto p-6`} aria-label="Mobile navigation">
+        <nav
+          className={`${className} h-full overflow-y-auto p-6`}
+          aria-label="Mobile navigation"
+        >
           <ul className="space-y-1">
             {items.map((item) => (
               <MobileMenuItem

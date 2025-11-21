@@ -32,7 +32,7 @@ export default function QuoteForm() {
           minLength={2}
           placeholder="First Name"
           containerClassName="mb-0 flex-1"
-          inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
 
         <Input
@@ -43,7 +43,7 @@ export default function QuoteForm() {
           minLength={2}
           placeholder="Last Name"
           containerClassName="mb-0 flex-1"
-          inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />
       </div>
 
@@ -54,7 +54,7 @@ export default function QuoteForm() {
         required
         placeholder="me@website.com"
         containerClassName="mb-4"
-        inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
       />
 
       <Input
@@ -66,7 +66,7 @@ export default function QuoteForm() {
         title="Please enter at least 10 digits"
         placeholder="012-345-6789"
         containerClassName="mb-4"
-        inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
       />
 
       <Input
@@ -75,7 +75,7 @@ export default function QuoteForm() {
         type="text"
         placeholder="LLC or whatever you trade as"
         containerClassName="mb-4"
-        inputClassName="w-full px-4 py-3 bg-gray-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        inputClassName="w-full px-4 py-3 bg-text/5-100 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
       />
 
       <Checkbox
@@ -95,7 +95,7 @@ export default function QuoteForm() {
         }
         required
         containerClassName="mb-6"
-        checkboxClassName="w-4 h-4 text-MainDark border-gray-300 rounded"
+        checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
       />
 
       <Button variant="primary" type="submit" className="w-full mx-auto">

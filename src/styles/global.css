@@ -2,6 +2,47 @@
 @import "tailwindcss";
 @import "@/styles/language-switcher.css";
 @import "@/styles/legal.css";
+@import "@/styles/system.css";
+
+@import "tailwindcss";
+
+@theme {
+  /* ───── PRIMARY – change ONLY this one line for the brand ───── */
+  --color-primary: var(--color-blue-500);   /* your main brand color */
+  /* ───── ACCENT – secondary / interactive ───── */
+  --color-accent: var(--color-purple-500);  /* complementary accent color */
+
+  /* ───── Neutrals ───── */
+  --color-text:         oklch(18% 0.03 260);   /* almost black */
+  --color-heading:      oklch(14% 0.03 260);   /* slightly darker */
+  --color-bg:   oklch(99.5% 0.004 260); /* off-white */
+  --color-surface:      oklch(97.5% 0.006 260); /* cards, nav, modals */
+
+  /* color helpers */
+  --color-primary-50:   oklch(from var(--color-primary) calc(l + 0.40) c h);
+  --color-primary-100:  oklch(from var(--color-primary) calc(l + 0.35) c h);
+  --color-primary-200:  oklch(from var(--color-primary) calc(l + 0.25) c h);
+  --color-primary-300:  oklch(from var(--color-primary) calc(l + 0.15) c h);
+  --color-primary-400:  oklch(from var(--color-primary) calc(l + 0.08) c h);
+  --color-primary-500:  var(--color-primary);
+  --color-primary-600:  oklch(from var(--color-primary) calc(l - 0.08) c h);
+  --color-primary-700:  oklch(from var(--color-primary) calc(l - 0.15) c h);
+  --color-primary-800:  oklch(from var(--color-primary) calc(l - 0.25) c h);
+  --color-primary-900:  oklch(from var(--color-primary) calc(l - 0.35) c h);
+  --color-primary-950:  oklch(from var(--color-primary) calc(l - 0.45) c h);
+
+  --color-accent-50:   oklch(from var(--color-accent) calc(l + 0.40) c h);
+  --color-accent-100:  oklch(from var(--color-accent) calc(l + 0.35) c h);
+  --color-accent-200:  oklch(from var(--color-accent) calc(l + 0.25) c h);
+  --color-accent-300:  oklch(from var(--color-accent) calc(l + 0.15) c h);
+  --color-accent-400:  oklch(from var(--color-accent) calc(l + 0.08) c h);
+  --color-accent-500:  var(--color-accent);
+  --color-accent-600:  oklch(from var(--color-accent) calc(l - 0.08) c h);
+  --color-accent-700:  oklch(from var(--color-accent) calc(l - 0.15) c h);
+  --color-accent-800:  oklch(from var(--color-accent) calc(l - 0.25) c h);
+  --color-accent-900:  oklch(from var(--color-accent) calc(l - 0.35) c h);
+  --color-accent-950:  oklch(from var(--color-accent) calc(l - 0.45) c h);
+}
 
 @layer components {
     button, a {
@@ -32,7 +73,7 @@
   /* Link base styles */
   .link-base {
     @apply inline-flex items-center gap-1;
-    @apply text-blue-600 hover:text-blue-700 underline;
+    @apply text-primary hover:text-primary-700 hover:underline;
     @apply bg-transparent font-normal;
     @apply transition-colors duration-200;
     @apply focus:outline-none focus:ring-0 focus:ring-offset-0;

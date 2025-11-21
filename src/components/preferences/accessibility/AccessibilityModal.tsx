@@ -79,14 +79,14 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
       isOpen={isOpen}
       onClose={onClose}
       closeButton={true}
-      className="bg-white rounded-lg p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+      className="bg-bg rounded-lg p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto"
       overlayClass="bg-black/50"
       ariaLabel="Reading preferences"
       ssr={false}
     >
       <div className="mb-6">
         <h2 className="text-3xl font-bold mb-2">Reading Preferences</h2>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-text">
           Customize how content appears on this site. These preferences are
           saved locally and sync across tabs.
         </p>
@@ -275,7 +275,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
       </Section>
 
       {/* DISCLAIMER */}
-      <div className="text-xs text-gray-500 mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div className="text-xs text-text mt-8 p-4 bg-text/5 rounded-lg border border-surface">
         <p className="font-semibold mb-2">📌 Important Information:</p>
         <ul className="space-y-1.5 list-disc list-inside">
           <li>
@@ -293,10 +293,10 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
           <li>
             For accessibility support, please{" "}
             <Button
-              variant='link'
+              variant="link"
               size="sm"
               href="/contact"
-              className="underline text-blue-600 hover:text-blue-700"
+              className="underline text-primary hover:text-primary-700"
             >
               contact us
             </Button>

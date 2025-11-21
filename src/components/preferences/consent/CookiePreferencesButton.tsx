@@ -1,7 +1,7 @@
 // src/components/consent/CookiePreferencesButton.tsx
-import { useState, useTransition, lazy, Suspense, memo } from 'react';
+import { useState, useTransition, lazy, Suspense, memo } from "react";
 
-const CookiePreferencesModal = lazy(() => import('./CookiePreferencesModal'));
+const CookiePreferencesModal = lazy(() => import("./CookiePreferencesModal"));
 
 function CookiePreferencesButton() {
   const [showModal, setShowModal] = useState(false);
@@ -23,7 +23,7 @@ function CookiePreferencesButton() {
     <>
       <button
         onClick={handleOpenModal}
-        className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2"
+        className="text-bg hover:text-surface transition-colors inline-flex items-center gap-2"
         type="button"
         aria-label="Manage cookie preferences"
         disabled={isPending}

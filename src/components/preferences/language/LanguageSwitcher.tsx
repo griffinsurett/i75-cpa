@@ -4,7 +4,7 @@
  *
  * Simple dropdown that reads current language from localStorage
  * and calls window.changeLanguage() to switch.
- * 
+ *
  * NOW WITH CONSENT CHECKING:
  * - Only allows language switching if functional consent is given
  * - Shows warning message if consent not granted
@@ -23,8 +23,8 @@ export default function LanguageSwitcher() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { hasConsentFor } = useConsent();
-  
-  const hasFunctionalConsent = hasConsentFor('functional');
+
+  const hasFunctionalConsent = hasConsentFor("functional");
 
   // Get current language from localStorage
   const getCurrentLanguage = () => {
@@ -73,10 +73,12 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = (code: string) => {
     // Check for functional consent before allowing language change
     if (!hasFunctionalConsent) {
-      alert('Please enable functional cookies to use the language switcher. You can manage your preferences in the cookie settings.');
+      alert(
+        "Please enable functional cookies to use the language switcher. You can manage your preferences in the cookie settings."
+      );
       return;
     }
-    
+
     setIsOpen(false);
 
     // Update localStorage and reload page
@@ -95,7 +97,11 @@ export default function LanguageSwitcher() {
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label="Choose language"
-        title={hasFunctionalConsent ? "Choose language" : "Enable functional cookies to change language"}
+        title={
+          hasFunctionalConsent
+            ? "Choose language"
+            : "Enable functional cookies to change language"
+        }
       >
         {currentLanguage.flag && (
           <span className="text-xl leading-none notranslate" aria-hidden="true">
@@ -133,7 +139,7 @@ export default function LanguageSwitcher() {
             Enable functional cookies to use translation
           </div>
         )}
-        
+
         {supportedLanguages.map((language) => (
           <button
             key={language.code}
@@ -143,7 +149,11 @@ export default function LanguageSwitcher() {
             className="language-option notranslate"
             onClick={() => handleLanguageChange(language.code)}
             disabled={!hasFunctionalConsent}
-            style={!hasFunctionalConsent ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+            style={
+              !hasFunctionalConsent
+                ? { opacity: 0.5, cursor: "not-allowed" }
+                : undefined
+            }
           >
             {language.flag && (
               <span
@@ -161,7 +171,7 @@ export default function LanguageSwitcher() {
             </div>
             {language.code === currentLanguage.code && (
               <svg
-                className="w-5 h-5 text-blue-600 flex-shrink-0"
+                className="w-5 h-5 text-primary flex-shrink-0"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 aria-hidden="true"

@@ -1,5 +1,7 @@
 // src/components/accessibility/controls/ButtonGroupControl.tsx
 
+import Button from "@/components/Button/Button";
+
 interface ButtonGroupOption {
   value: string;
   label: string;
@@ -22,26 +24,18 @@ export default function ButtonGroupControl({
 }: ButtonGroupControlProps) {
   return (
     <div className="mb-6">
-      <label className="block font-semibold text-gray-900 mb-2">
-        {label}
-      </label>
-      {description && (
-        <p className="text-sm text-gray-600 mb-3">{description}</p>
-      )}
+      <label className="block font-semibold text-heading mb-2">{label}</label>
+      {description && <p className="text-sm text-text mb-3">{description}</p>}
       <div className="flex gap-2">
         {options.map((option) => (
-          <button
+          <Button
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
-              value === option.value
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            variant="primary"
           >
             {option.label}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

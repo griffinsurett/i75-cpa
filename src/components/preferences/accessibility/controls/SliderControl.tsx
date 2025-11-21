@@ -18,20 +18,19 @@ export default function SliderControl({
   min,
   max,
   step,
-  suffix = '',
+  suffix = "",
   onChange,
 }: SliderControlProps) {
   return (
     <div className="mb-6">
       <div className="flex justify-between items-baseline mb-2">
-        <label className="font-semibold text-gray-900">{label}</label>
-        <span className="text-sm font-mono text-gray-600">
-          {value}{suffix}
+        <label className="font-semibold text-heading">{label}</label>
+        <span className="text-sm font-mono text-text">
+          {value}
+          {suffix}
         </span>
       </div>
-      {description && (
-        <p className="text-sm text-gray-600 mb-3">{description}</p>
-      )}
+      {description && <p className="text-sm text-text mb-3">{description}</p>}
       <input
         type="range"
         min={min}
@@ -39,11 +38,17 @@ export default function SliderControl({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+        className="w-full h-2 bg-text/10 rounded-lg appearance-none cursor-pointer accent-blue-600"
       />
-      <div className="flex justify-between text-xs text-gray-500 mt-1">
-        <span>{min}{suffix}</span>
-        <span>{max}{suffix}</span>
+      <div className="flex justify-between text-xs text-text mt-1">
+        <span>
+          {min}
+          {suffix}
+        </span>
+        <span>
+          {max}
+          {suffix}
+        </span>
       </div>
     </div>
   );

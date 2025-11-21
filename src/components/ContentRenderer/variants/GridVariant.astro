@@ -47,35 +47,41 @@ const columnClasses = {
 ---
 
 <section id={id} class={`py-16 ${className}`}>
-  {(title || description) && (
-    <div class="text-center mb-12">
-      {title && <h2 class="text-4xl font-bold mb-4">{title}</h2>}
-      {description && (
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">{description}</p>
-      )}
-    </div>
-  )}
+  {
+    (title || description) && (
+      <div class="text-center mb-12">
+        {title && <h2 class="text-4xl text-heading font-bold mb-4">{title}</h2>}
+        {description && (
+          <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
+        )}
+      </div>
+    )
+  }
 
-  {items.length > 0 && (
-    <ul class={`grid ${columnClasses[columns]} ${gapClasses[gap]} list-none`}>
-      {items.map((item) => (
-        <li>
-          <GridCard {...item} />
-        </li>
-      ))}
-    </ul>
-  )}
+  {
+    items.length > 0 && (
+      <ul class={`grid ${columnClasses[columns]} ${gapClasses[gap]} list-none`}>
+        {items.map((item) => (
+          <li>
+            <GridCard {...item} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
-  {shouldShowCollectionCTA(collectionUrl, items.length) && (
-    <div class="mt-12 text-center">
-      <Button
-        href={collectionUrl}
-        rightIcon="lu:arrow-right"
-        variant="primary"
-        size="lg"
-      >
-        {viewAllText}
-      </Button>
-    </div>
-  )}
+  {
+    shouldShowCollectionCTA(collectionUrl, items.length) && (
+      <div class="mt-12 text-center">
+        <Button
+          href={collectionUrl}
+          rightIcon="lu:arrow-right"
+          variant="primary"
+          size="lg"
+        >
+          {viewAllText}
+        </Button>
+      </div>
+    )
+  }
 </section>

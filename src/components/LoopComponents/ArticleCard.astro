@@ -2,19 +2,19 @@
 // src/components/LoopComponents/ArticleCard.astro
 /**
  * Article Card Component
- * 
+ *
  * Card component for displaying blog posts/articles with:
  * - Title with optional link
  * - Description with line clamping
  * - Publication date
  * - Tags (max 3 shown)
  * - Author information with avatar/initials
- * 
+ *
  * Used in BlogVariant for blog post listings.
  * Author data is queried on-demand from references.
  */
 
-import { find, isCollectionReference } from '@/utils/query';
+import { find, isCollectionReference } from "@/utils/query";
 
 export interface Props {
   title: string;
@@ -37,75 +37,84 @@ if (isCollectionReference(author)) {
 }
 
 // Extract author display data
-const authorName = authorData?.title || authorData?.name || '';
-const authorRole = authorData?.role || '';
+const authorName = authorData?.title || authorData?.name || "";
+const authorRole = authorData?.role || "";
 
 // Generate initials from name
-const authorInitials = authorData?.initials || 
-  (authorName ? authorName.split(' ').map((w: string) => w[0]).join('').toUpperCase() : '??');
+const authorInitials =
+  authorData?.initials ||
+  (authorName
+    ? authorName
+        .split(" ")
+        .map((w: string) => w[0])
+        .join("")
+        .toUpperCase()
+    : "??");
 ---
-<article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+
+<article
+  class="bg-bg rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+>
   <div class="p-6">
     {/* Article metadata and content */}
     <div class="mb-4">
       {/* Tags - show first 3 */}
-      {tags && tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mb-3">
-          {tags.slice(0, 3).map((tag: string) => (
-            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
-      
+      {
+        tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-3">
+            {tags.slice(0, 3).map((tag: string) => (
+              <span class="text-xs bg-primary-100 text-primary px-2 py-1 rounded">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
       {/* Title - linked if URL provided */}
       <h3 class="text-2xl font-bold mb-2">
-        {url ? (
-          <a href={url} class="text-gray-900 hover:text-blue-600 transition-colors">
-            {title}
-          </a>
-        ) : (
-          <span class="text-gray-900">{title}</span>
-        )}
+        {
+          url ? (
+            <a
+              href={url}
+              class="text-heading hover:text-primary transition-colors"
+            >
+              {title}
+            </a>
+          ) : (
+            <span class="text-heading">{title}</span>
+          )
+        }
       </h3>
-      
+
       {/* Description with 2-line clamp */}
-      {description && (
-        <p class="text-gray-600 mb-4 line-clamp-2">
-          {description}
-        </p>
-      )}
-      
+      {description && <p class="text-text mb-4 line-clamp-2">{description}</p>}
+
       {/* Publication date */}
-      <div class="flex items-center text-sm text-gray-500 gap-4">
-        {date && (
-          <time>{new Date(date).toLocaleDateString()}</time>
-        )}
+      <div class="flex items-center text-sm text-text gap-4">
+        {date && <time>{new Date(date).toLocaleDateString()}</time>}
       </div>
     </div>
-    
+
     {/* Author info with avatar */}
-    {authorName && (
-      <div class="pt-4 mt-4 border-t border-gray-200">
-        <div class="flex items-center gap-3">
-          {/* Avatar circle with initials */}
-          <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-            <span class="text-blue-600 text-sm font-bold">
-              {authorInitials}
-            </span>
-          </div>
-          <div>
-            <p class="font-medium text-gray-900">
-              {authorName}
-            </p>
-            {authorRole && (
-              <p class="text-xs text-gray-500">{authorRole}</p>
-            )}
+    {
+      authorName && (
+        <div class="pt-4 mt-4 border-t border-surface">
+          <div class="flex items-center gap-3">
+            {/* Avatar circle with initials */}
+            <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+              <span class="text-primary text-sm font-bold">
+                {authorInitials}
+              </span>
+            </div>
+            <div>
+              <p class="font-medium text-heading">{authorName}</p>
+              {authorRole && <p class="text-xs text-text">{authorRole}</p>}
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )
+    }
   </div>
 </article>
 

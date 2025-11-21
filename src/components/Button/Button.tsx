@@ -97,6 +97,7 @@ const VARIANT_MAP = {
   secondary: SecondaryButton,
   ghost: GhostButton,
   link: LinkButton,
+  tertiary: PrimaryButton,
 };
 
 export type ButtonVariant = keyof typeof VARIANT_MAP;

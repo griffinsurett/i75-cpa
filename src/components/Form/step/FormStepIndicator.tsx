@@ -11,9 +11,9 @@ import type { FormStepIndicatorProps } from "../types";
 
 export default function FormStepIndicator({
   className = "flex items-center justify-between mb-8",
-  activeClassName = "bg-blue-600 text-white",
-  completedClassName = "bg-green-600 text-white",
-  inactiveClassName = "bg-gray-200 text-gray-600",
+  activeClassName = "bg-primary text-bg",
+  completedClassName = "bg-green-600 text-bg",
+  inactiveClassName = "bg-text text-text",
   showNumbers = true,
   showTitles = true,
 }: FormStepIndicatorProps) {
@@ -47,7 +47,7 @@ export default function FormStepIndicator({
               disabled={!step.isCompleted && !step.isActive}
               className={`
                 w-10 h-10 rounded-full flex items-center justify-center font-semibold
-                transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
                 ${step.isCompleted ? completedClassName : ""}
                 ${step.isActive ? activeClassName : ""}
                 ${!step.isCompleted && !step.isActive ? inactiveClassName : ""}
@@ -74,7 +74,7 @@ export default function FormStepIndicator({
               <div
                 className={`
                   flex-1 h-1 mx-2
-                  ${step.isCompleted ? "bg-green-600" : "bg-gray-200"}
+                  ${step.isCompleted ? "bg-green-600" : "bg-text"}
                 `}
                 aria-hidden="true"
               />

@@ -1,21 +1,21 @@
 // src/components/preferences/consent/CookieConsentBanner.tsx
 /**
  * Cookie Consent Banner
- * 
+ *
  * Initial consent prompt that appears for first-time visitors.
  * Lazy loads the detailed preferences modal only when needed.
- * 
+ *
  * After consent is given, enables scripts via scriptManager.
  */
 
-import { useState, useEffect, lazy, Suspense, useTransition } from 'react';
-import { useCookieStorage } from '@/hooks/useCookieStorage';
-import { enableConsentedScripts } from '@/utils/scriptManager';
-import Modal from '@/components/Modal';
-import type { CookieConsent } from './types';
-import Button from '@/components/Button/Button';
+import { useState, useEffect, lazy, Suspense, useTransition } from "react";
+import { useCookieStorage } from "@/hooks/useCookieStorage";
+import { enableConsentedScripts } from "@/utils/scriptManager";
+import Modal from "@/components/Modal";
+import type { CookieConsent } from "./types";
+import Button from "@/components/Button/Button";
 
-const CookiePreferencesModal = lazy(() => import('./CookiePreferencesModal'));
+const CookiePreferencesModal = lazy(() => import("./CookiePreferencesModal"));
 
 export default function CookieConsentBanner() {
   const [showBanner, setShowBanner] = useState(false);
@@ -25,13 +25,13 @@ export default function CookieConsentBanner() {
 
   useEffect(() => {
     // Quick inline check - if consent exists, don't show banner
-    if (document.cookie.includes('cookie-consent=')) return;
+    if (document.cookie.includes("cookie-consent=")) return;
 
     // Delay banner appearance slightly for better UX
     const timer = setTimeout(() => {
       setShowBanner(true);
     }, 1000);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -43,16 +43,16 @@ export default function CookieConsentBanner() {
       targeting: true,
       timestamp: Date.now(),
     };
-    
+
     // Save consent
-    setCookie('cookie-consent', JSON.stringify(consent), { expires: 365 });
-    
+    setCookie("cookie-consent", JSON.stringify(consent), { expires: 365 });
+
     // Enable all consented scripts immediately
     enableConsentedScripts();
-    
+
     // Dispatch custom event for cross-tab/component sync
-    window.dispatchEvent(new Event('consent-changed'));
-    
+    window.dispatchEvent(new Event("consent-changed"));
+
     startTransition(() => {
       setShowBanner(false);
     });
@@ -66,16 +66,16 @@ export default function CookieConsentBanner() {
       targeting: false,
       timestamp: Date.now(),
     };
-    
+
     // Save minimal consent
-    setCookie('cookie-consent', JSON.stringify(consent), { expires: 365 });
-    
+    setCookie("cookie-consent", JSON.stringify(consent), { expires: 365 });
+
     // Enable only necessary scripts (if any)
     enableConsentedScripts();
-    
+
     // Dispatch custom event
-    window.dispatchEvent(new Event('consent-changed'));
-    
+    window.dispatchEvent(new Event("consent-changed"));
+
     startTransition(() => {
       setShowBanner(false);
     });
@@ -94,7 +94,7 @@ export default function CookieConsentBanner() {
         onClose={() => setShowBanner(false)}
         closeButton={false}
         position="bottom-left"
-        className="bg-white border border-transparent rounded-lg p-6 shadow-xl max-w-lg w-full"
+        className="bg-bg border border-transparent rounded-lg p-6 shadow-xl max-w-lg w-full"
         overlayClass="bg-transparent pointer-events-none"
         allowScroll={true}
         ssr={false}
@@ -105,14 +105,14 @@ export default function CookieConsentBanner() {
             🍪
           </span>
           <div className="flex-1">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-text">
               We use cookies to improve your browsing experience and for
-              marketing purposes.{' '}
+              marketing purposes.{" "}
               <Button
-                variant='link'
+                variant="link"
                 size="sm"
                 onClick={handleOpenSettings}
-                className="text-blue-600 underline hover:text-blue-700"
+                className="text-primary underline hover:text-primary-700"
                 type="button"
               >
                 Manage preferences
@@ -123,7 +123,7 @@ export default function CookieConsentBanner() {
 
         <div className="flex flex-col sm:flex-row gap-3">
           <Button
-            variant='secondary'
+            variant="secondary"
             onClick={handleRejectAll}
             className="flex-1"
             type="button"
@@ -132,7 +132,7 @@ export default function CookieConsentBanner() {
             Reject All
           </Button>
           <Button
-            variant='primary'
+            variant="primary"
             onClick={handleAcceptAll}
             className="flex-1"
             type="button"

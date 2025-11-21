@@ -1,19 +1,19 @@
 // src/components/preferences/consent/CookiePreferencesModal.tsx
 /**
  * Cookie Preferences Modal
- * 
+ *
  * Detailed consent preferences with granular category controls.
  * Allows users to enable/disable specific cookie categories.
- * 
+ *
  * After preferences are saved, enables scripts via scriptManager.
  */
 
-import { useState, useMemo, useTransition, memo } from 'react';
-import Modal from '@/components/Modal';
-import { useCookieStorage } from '@/hooks/useCookieStorage';
-import { enableConsentedScripts } from '@/utils/scriptManager';
-import type { CookieConsent, CookieCategoryInfo } from './types';
-import Button from '@/components/Button/Button';
+import { useState, useMemo, useTransition, memo } from "react";
+import Modal from "@/components/Modal";
+import { useCookieStorage } from "@/hooks/useCookieStorage";
+import { enableConsentedScripts } from "@/utils/scriptManager";
+import type { CookieConsent, CookieCategoryInfo } from "./types";
+import Button from "@/components/Button/Button";
 
 interface CookiePreferencesModalProps {
   isOpen: boolean;
@@ -22,110 +22,114 @@ interface CookiePreferencesModalProps {
 
 const cookieCategories: CookieCategoryInfo[] = [
   {
-    id: 'necessary',
-    title: 'Strictly Necessary Cookies',
+    id: "necessary",
+    title: "Strictly Necessary Cookies",
     description:
-      'These cookies are essential for the website to function properly. They enable core functionality such as security, network management, and accessibility.',
+      "These cookies are essential for the website to function properly. They enable core functionality such as security, network management, and accessibility.",
     required: true,
   },
   {
-    id: 'functional',
-    title: 'Functional Cookies',
+    id: "functional",
+    title: "Functional Cookies",
     description:
-      'These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third party providers.',
+      "These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third party providers.",
   },
   {
-    id: 'performance',
-    title: 'Performance Cookies',
+    id: "performance",
+    title: "Performance Cookies",
     description:
-      'These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.',
+      "These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.",
   },
   {
-    id: 'targeting',
-    title: 'Targeting Cookies',
+    id: "targeting",
+    title: "Targeting Cookies",
     description:
-      'These cookies may be set through our site by our advertising partners to build a profile of your interests and show you relevant adverts.',
+      "These cookies may be set through our site by our advertising partners to build a profile of your interests and show you relevant adverts.",
   },
 ];
 
 // Memoize the category component for better performance
-const CategoryItem = memo(({ 
-  category, 
-  isExpanded, 
-  isEnabled, 
-  onToggleExpand, 
-  onToggleEnabled 
-}: {
-  category: CookieCategoryInfo;
-  isExpanded: boolean;
-  isEnabled: boolean;
-  onToggleExpand: () => void;
-  onToggleEnabled: () => void;
-}) => (
-  <div className="border border-gray-300 rounded-lg overflow-hidden">
-    <div className="flex items-center justify-between p-4 bg-gray-50">
-      <button
-        onClick={onToggleExpand}
-        className="flex items-center gap-2 flex-1 text-left"
-        type="button"
-        aria-expanded={isExpanded}
-      >
-        <span className="text-gray-600 font-medium">
-          {isExpanded ? '−' : '+'}
-        </span>
-        <span className="font-semibold text-gray-900">
-          {category.title}
-        </span>
-      </button>
-
-      {category.required ? (
-        <span className="text-sm text-blue-600 font-medium">
-          Always Active
-        </span>
-      ) : (
+const CategoryItem = memo(
+  ({
+    category,
+    isExpanded,
+    isEnabled,
+    onToggleExpand,
+    onToggleEnabled,
+  }: {
+    category: CookieCategoryInfo;
+    isExpanded: boolean;
+    isEnabled: boolean;
+    onToggleExpand: () => void;
+    onToggleEnabled: () => void;
+  }) => (
+    <div className="border border-surface rounded-lg overflow-hidden">
+      <div className="flex items-center justify-between p-4 bg-text/5">
         <button
-          onClick={onToggleEnabled}
-          className={`relative ${isEnabled ? 'bg-blue-600' : 'bg-gray-300'} inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+          onClick={onToggleExpand}
+          className="flex items-center gap-2 flex-1 text-left"
           type="button"
-          role="switch"
-          aria-checked={isEnabled}
-          aria-label={`Toggle ${category.title}`}
+          aria-expanded={isExpanded}
         >
-          <span
-            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-              isEnabled ? 'translate-x-6' : 'translate-x-1'
-            }`}
-          />
+          <span className="text-text font-medium">
+            {isExpanded ? "−" : "+"}
+          </span>
+          <span className="font-semibold text-heading">{category.title}</span>
         </button>
+
+        {category.required ? (
+          <span className="text-sm text-primary font-medium">
+            Always Active
+          </span>
+        ) : (
+          <button
+            onClick={onToggleEnabled}
+            className={`relative ${
+              isEnabled ? "bg-primary" : "bg-text"
+            } inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
+            type="button"
+            role="switch"
+            aria-checked={isEnabled}
+            aria-label={`Toggle ${category.title}`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-bg transition-transform ${
+                isEnabled ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
+        )}
+      </div>
+
+      {isExpanded && (
+        <div className="p-4 bg-bg border-t border-surface">
+          <p className="text-sm text-text">{category.description}</p>
+        </div>
       )}
     </div>
+  )
+);
 
-    {isExpanded && (
-      <div className="p-4 bg-white border-t border-gray-300">
-        <p className="text-sm text-gray-600">{category.description}</p>
-      </div>
-    )}
-  </div>
-));
-
-CategoryItem.displayName = 'CategoryItem';
+CategoryItem.displayName = "CategoryItem";
 
 function CookiePreferencesModal({
   isOpen,
   onClose,
 }: CookiePreferencesModalProps) {
   const { getCookie, setCookie } = useCookieStorage();
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set()
+  );
   const [isPending, startTransition] = useTransition();
-  
+
   // Parse cookie only once with useMemo
   const initialPreferences = useMemo(() => {
-    const existingConsent = getCookie('cookie-consent');
+    const existingConsent = getCookie("cookie-consent");
     if (existingConsent) {
       try {
         return JSON.parse(existingConsent) as CookieConsent;
       } catch (error) {
-        console.error('Failed to parse cookie consent:', error);
+        console.error("Failed to parse cookie consent:", error);
       }
     }
     return {
@@ -137,7 +141,8 @@ function CookiePreferencesModal({
     };
   }, [getCookie]);
 
-  const [preferences, setPreferences] = useState<CookieConsent>(initialPreferences);
+  const [preferences, setPreferences] =
+    useState<CookieConsent>(initialPreferences);
 
   const toggleCategory = (category: string) => {
     startTransition(() => {
@@ -153,8 +158,8 @@ function CookiePreferencesModal({
     });
   };
 
-  const handleToggle = (categoryId: keyof Omit<CookieConsent, 'timestamp'>) => {
-    if (categoryId === 'necessary') return;
+  const handleToggle = (categoryId: keyof Omit<CookieConsent, "timestamp">) => {
+    if (categoryId === "necessary") return;
 
     setPreferences((prev) => ({
       ...prev,
@@ -170,16 +175,16 @@ function CookiePreferencesModal({
       targeting: false,
       timestamp: Date.now(),
     };
-    
+
     // Save consent
-    setCookie('cookie-consent', JSON.stringify(consent), { expires: 365 });
-    
+    setCookie("cookie-consent", JSON.stringify(consent), { expires: 365 });
+
     // Enable scripts based on new consent
     enableConsentedScripts();
-    
+
     // Dispatch custom event
-    window.dispatchEvent(new Event('consent-changed'));
-    
+    window.dispatchEvent(new Event("consent-changed"));
+
     startTransition(() => {
       onClose();
     });
@@ -190,16 +195,16 @@ function CookiePreferencesModal({
       ...preferences,
       timestamp: Date.now(),
     };
-    
+
     // Save consent
-    setCookie('cookie-consent', JSON.stringify(consent), { expires: 365 });
-    
+    setCookie("cookie-consent", JSON.stringify(consent), { expires: 365 });
+
     // Enable scripts based on new consent
     enableConsentedScripts();
-    
+
     // Dispatch custom event
-    window.dispatchEvent(new Event('consent-changed'));
-    
+    window.dispatchEvent(new Event("consent-changed"));
+
     startTransition(() => {
       onClose();
     });
@@ -210,35 +215,35 @@ function CookiePreferencesModal({
       isOpen={isOpen}
       onClose={onClose}
       closeButton={true}
-      className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+      className="bg-bg rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
       overlayClass="bg-black/50 bg-opacity-50"
       ariaLabel="Manage cookie consent preferences"
       ssr={false}
     >
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+        <h2 className="text-2xl font-bold text-heading mb-3">
           Manage Consent Preferences
         </h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <p className="text-text text-sm leading-relaxed">
           We use cookies and similar technologies to help personalize content
-          and offer a better experience. You can click{' '}
+          and offer a better experience. You can click{" "}
           <Button
-            variant='link'
+            variant="link"
             size="sm"
             href="/cookie-policy"
-            className="text-blue-600 underline hover:text-blue-700"
+            className="text-primary underline hover:text-primary-700"
           >
             here
-          </Button>{' '}
+          </Button>{" "}
           to find out more and change our default settings. However, blocking
           some types of cookies may impact your experience of the site and the
           services we are able to offer.
         </p>
         <Button
-          variant='link'
+          variant="link"
           size="sm"
           href="/cookie-policy"
-          className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 mt-2"
+          className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-700 mt-2"
         >
           More information
           <svg
@@ -272,18 +277,18 @@ function CookiePreferencesModal({
 
       <div className="flex flex-col sm:flex-row gap-3">
         <Button
-          variant='secondary'
+          variant="secondary"
           onClick={handleRejectAll}
-          className="flex-1 rounded-lg border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-blue-600 transition-colors hover:bg-blue-50 disabled:opacity-50"
+          className="flex-1 rounded-lg border-2 border-primary bg-bg px-6 py-3 font-semibold text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
           type="button"
           disabled={isPending}
         >
           Reject All
         </Button>
         <Button
-          variant='primary'
+          variant="primary"
           onClick={handleConfirm}
-          className="flex-1 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+          className="flex-1 rounded-lg bg-primary px-6 py-3 font-semibold text-bg transition-colors hover:bg-primary-700 disabled:opacity-50"
           type="button"
           disabled={isPending}
         >

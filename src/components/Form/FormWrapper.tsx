@@ -41,13 +41,16 @@ export default function FormWrapper({
   onError,
 }: FormWrapperProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
   const childrenArray = Children.toArray(children);
   const formSteps = childrenArray.filter(
-    (child) => isValidElement(child) && (child.type as any).displayName === "FormStep"
+    (child) =>
+      isValidElement(child) && (child.type as any).displayName === "FormStep"
   );
   const isMultiStep = formSteps.length > 0;
   const totalSteps = isMultiStep ? formSteps.length : 1;
@@ -151,7 +154,9 @@ export default function FormWrapper({
   return (
     <FormContext.Provider value={contextValue}>
       <form onSubmit={handleSubmit} className={className} noValidate={false}>
-        {status === "submitting" && <LoadingMessage>{loadingMessage}</LoadingMessage>}
+        {status === "submitting" && (
+          <LoadingMessage>{loadingMessage}</LoadingMessage>
+        )}
 
         {status === "success" && message && (
           <SuccessMessage onDismiss={dismissMessage}>{message}</SuccessMessage>
@@ -170,7 +175,7 @@ export default function FormWrapper({
                 type="button"
                 onClick={previousStep}
                 disabled={isSubmitting}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 border border-surface rounded-lg text-text hover:bg-text/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
@@ -178,7 +183,7 @@ export default function FormWrapper({
               <div />
             )}
 
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-text">
               Step {currentStep + 1} of {totalSteps}
             </div>
 
@@ -187,7 +192,7 @@ export default function FormWrapper({
                 type="button"
                 onClick={nextStep}
                 disabled={isSubmitting}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-primary text-bg rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </button>
@@ -195,7 +200,7 @@ export default function FormWrapper({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-green-600 text-bg rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
               </button>
