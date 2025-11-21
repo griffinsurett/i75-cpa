@@ -158,7 +158,6 @@ function CookiePreferencesModal({
           and offer a better experience. You can click{" "}
           <Button
             variant="link"
-            size="sm"
             href="/cookie-policy"
             className="text-primary underline hover:text-primary-700"
           >
@@ -170,7 +169,6 @@ function CookiePreferencesModal({
         </p>
         <Button
           variant="link"
-          size="sm"
           href="/cookie-policy"
           className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-700"
         >

@@ -7,15 +7,14 @@
  * Can still render as either <a> or <button> based on href.
  */
 
-import type { ButtonProps } from '../Button';
+import { ButtonBase, type ButtonProps } from '../Button';
 import { renderButtonIcon } from '../utils';
 
 export default function LinkButton({
   leftIcon,
   rightIcon,
   className = '',
-  size = 'md',
-  href,
+  size = 'default',
   children,
   ...props
 }: ButtonProps) {
@@ -23,30 +22,15 @@ export default function LinkButton({
   const sizeClass = size === 'sm' ? 'link-sm' : size === 'lg' ? 'link-lg' : 'link-md';
   const baseClasses = `link-base ${sizeClass} ${className}`.trim();
 
-  // Render as anchor if href provided
-  if (href) {
-    return (
-      <a 
-        href={href} 
-        className={baseClasses} 
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
-        {renderButtonIcon(leftIcon, size)}
-        {children}
-        {renderButtonIcon(rightIcon, size)}
-      </a>
-    );
-  }
-
-  // Render as button otherwise
   return (
-    <button 
-      className={baseClasses} 
-      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    <ButtonBase
+      {...props}
+      className={baseClasses}
+      leftIcon={renderButtonIcon(leftIcon, size)}
+      rightIcon={renderButtonIcon(rightIcon, size)}
+      size={size}
     >
-      {renderButtonIcon(leftIcon, size)}
       {children}
-      {renderButtonIcon(rightIcon, size)}
-    </button>
+    </ButtonBase>
   );
 }

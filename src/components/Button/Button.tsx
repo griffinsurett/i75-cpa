@@ -21,7 +21,7 @@ import TertiaryButton from './variants/TertiaryButton';
 export interface BaseButtonProps {
   leftIcon?: string | ReactNode;   // Icon before text
   rightIcon?: string | ReactNode;  // Icon after text
-  size?: 'sm' | 'md' | 'lg';       // Button size
+  size?: 'default' | 'sm' | 'md' | 'lg';       // Button size
   children: ReactNode;              // Button text/content
   className?: string;               // Additional CSS classes
 }
@@ -52,7 +52,14 @@ export type ButtonProps = ButtonAsButton | ButtonAsLink;
 export const ButtonBase = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ href, className = '', leftIcon, rightIcon, size = 'md', children, ...props }, ref) => {
     // Map size prop to Tailwind classes
-    const sizeClass = size === 'sm' ? 'btn-sm' : size === 'lg' ? 'btn-lg' : 'btn-md';
+    const sizeClass =
+      size === 'default'
+        ? 'btn-none'
+        : size === 'sm'
+        ? 'btn-sm'
+        : size === 'lg'
+        ? 'btn-lg'
+        : 'btn-md';
     const baseClasses = `btn-base ${sizeClass} ${className}`.trim();
 
     // Render as anchor if href is provided

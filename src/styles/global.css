@@ -58,6 +58,10 @@
   }
 
   /* Size variants */
+  .btn-none {
+    @apply p-0 text-sm;
+  }
+
   .btn-sm {
     @apply px-3 py-1.5 text-sm;
   }
