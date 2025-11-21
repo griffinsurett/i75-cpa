@@ -4,11 +4,11 @@ import { useState, useEffect, useTransition, memo } from "react";
 import Modal from "@/components/Modal";
 import { useAccessibility } from "@/hooks/useAccessibility";
 import type { A11yPreferences } from "./types";
-import Section from "./controls/Section";
-import SliderControl from "./controls/SliderControl";
-import ToggleControl from "./controls/ToggleControl";
-import SelectControl from "./controls/SelectControl";
-import ButtonGroupControl from "./controls/ButtonGroupControl";
+import Section from "../controls/Section";
+import SliderControl from "../controls/SliderControl";
+import ToggleControl from "../controls/ToggleControl";
+import SelectControl from "../controls/SelectControl";
+import ButtonGroupControl from "../controls/ButtonGroupControl";
 import LanguageSwitcher from "../language/LanguageSwitcher";
 import Button from "@/components/Button/Button";
 

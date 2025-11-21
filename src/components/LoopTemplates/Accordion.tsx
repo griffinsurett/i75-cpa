@@ -1,5 +1,5 @@
 // src/components/LoopTemplates/Accordion.tsx
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import AccordionItem from "@/components/LoopComponents/AccordionItem";
 
 interface AccordionItemData {
@@ -13,12 +13,20 @@ interface AccordionProps {
   items: AccordionItemData[];
   allowMultiple?: boolean;
   className?: string;
+  headerSlot?: (params: {
+    item: AccordionItemData;
+    id: string;
+    expanded: boolean;
+  }) => ReactNode;
+  headerClassName?: string;
 }
 
 export default function Accordion({
   items,
   allowMultiple = false,
   className = "",
+  headerSlot,
+  headerClassName = "",
 }: AccordionProps) {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const panelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -74,6 +82,12 @@ export default function Accordion({
             description={item.description}
             isExpanded={expandedItems.has(itemId)}
             onToggle={() => toggleItem(itemId)}
+            headerSlot={
+              headerSlot
+                ? headerSlot({ item, id: itemId, expanded: expandedItems.has(itemId) })
+                : undefined
+            }
+            headerClassName={headerClassName}
           >
             {/* Simple container - content gets cloned here when panel opens */}
             <div 

@@ -14,6 +14,8 @@ import { useCookieStorage } from "@/hooks/useCookieStorage";
 import { enableConsentedScripts } from "@/utils/scriptManager";
 import type { CookieConsent, CookieCategoryInfo } from "./types";
 import Button from "@/components/Button/Button";
+import ToggleControl from "../controls/ToggleControl";
+import Accordion from "@/components/LoopTemplates/Accordion";
 
 interface CookiePreferencesModalProps {
   isOpen: boolean;
@@ -48,78 +50,11 @@ const cookieCategories: CookieCategoryInfo[] = [
   },
 ];
 
-// Memoize the category component for better performance
-const CategoryItem = memo(
-  ({
-    category,
-    isExpanded,
-    isEnabled,
-    onToggleExpand,
-    onToggleEnabled,
-  }: {
-    category: CookieCategoryInfo;
-    isExpanded: boolean;
-    isEnabled: boolean;
-    onToggleExpand: () => void;
-    onToggleEnabled: () => void;
-  }) => (
-    <div className="border border-surface rounded-lg overflow-hidden">
-      <div className="flex items-center justify-between p-4 bg-text/5">
-        <button
-          onClick={onToggleExpand}
-          className="flex items-center gap-2 flex-1 text-left"
-          type="button"
-          aria-expanded={isExpanded}
-        >
-          <span className="text-text font-medium">
-            {isExpanded ? "−" : "+"}
-          </span>
-          <span className="font-semibold text-heading">{category.title}</span>
-        </button>
-
-        {category.required ? (
-          <span className="text-sm text-primary font-medium">
-            Always Active
-          </span>
-        ) : (
-          <button
-            onClick={onToggleEnabled}
-            className={`relative ${
-              isEnabled ? "bg-primary" : "bg-text"
-            } inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
-            type="button"
-            role="switch"
-            aria-checked={isEnabled}
-            aria-label={`Toggle ${category.title}`}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-bg transition-transform ${
-                isEnabled ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
-          </button>
-        )}
-      </div>
-
-      {isExpanded && (
-        <div className="p-4 bg-bg border-t border-surface">
-          <p className="text-sm text-text">{category.description}</p>
-        </div>
-      )}
-    </div>
-  )
-);
-
-CategoryItem.displayName = "CategoryItem";
-
 function CookiePreferencesModal({
   isOpen,
   onClose,
 }: CookiePreferencesModalProps) {
   const { getCookie, setCookie } = useCookieStorage();
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set()
-  );
   const [isPending, startTransition] = useTransition();
 
   // Parse cookie only once with useMemo
@@ -141,29 +76,23 @@ function CookiePreferencesModal({
     };
   }, [getCookie]);
 
-  const [preferences, setPreferences] =
-    useState<CookieConsent>(initialPreferences);
+  const [preferences, setPreferences] = useState<CookieConsent>(initialPreferences);
+  const accordionItems = cookieCategories.map((category, idx) => ({
+    slug: category.id,
+    title: category.title,
+    description: category.description,
+    contentSlotId: `cookie-category-${idx}-content`,
+  }));
 
-  const toggleCategory = (category: string) => {
-    startTransition(() => {
-      setExpandedCategories((prev) => {
-        const next = new Set(prev);
-        if (next.has(category)) {
-          next.delete(category);
-        } else {
-          next.add(category);
-        }
-        return next;
-      });
-    });
-  };
-
-  const handleToggle = (categoryId: keyof Omit<CookieConsent, "timestamp">) => {
+  const handleToggle = (
+    categoryId: keyof Omit<CookieConsent, "timestamp">,
+    nextValue?: boolean
+  ) => {
     if (categoryId === "necessary") return;
 
     setPreferences((prev) => ({
       ...prev,
-      [categoryId]: !prev[categoryId],
+      [categoryId]: typeof nextValue === "boolean" ? nextValue : !prev[categoryId],
     }));
   };
 
@@ -215,16 +144,16 @@ function CookiePreferencesModal({
       isOpen={isOpen}
       onClose={onClose}
       closeButton={true}
-      className="bg-bg rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-      overlayClass="bg-black/50 bg-opacity-50"
+      className="bg-bg rounded-2xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl"
+      overlayClass="bg-black/60"
       ariaLabel="Manage cookie consent preferences"
       ssr={false}
     >
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-heading mb-3">
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-heading mb-4">
           Manage Consent Preferences
         </h2>
-        <p className="text-text text-sm leading-relaxed">
+        <p className="text-text text-sm leading-relaxed mb-3">
           We use cookies and similar technologies to help personalize content
           and offer a better experience. You can click{" "}
           <Button
@@ -243,7 +172,7 @@ function CookiePreferencesModal({
           variant="link"
           size="sm"
           href="/cookie-policy"
-          className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-700 mt-2"
+          className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-700"
         >
           More information
           <svg
@@ -262,24 +191,62 @@ function CookiePreferencesModal({
         </Button>
       </div>
 
-      <div className="space-y-3 mb-6">
-        {cookieCategories.map((category) => (
-          <CategoryItem
-            key={category.id}
-            category={category}
-            isExpanded={expandedCategories.has(category.id)}
-            isEnabled={preferences[category.id]}
-            onToggleExpand={() => toggleCategory(category.id)}
-            onToggleEnabled={() => handleToggle(category.id)}
-          />
-        ))}
-      </div>
+      <Accordion
+        allowMultiple
+        className="space-y-3"
+        items={accordionItems}
+        headerSlot={({ item, id, expanded }) => {
+          const category = cookieCategories.find((c) => c.id === item.slug);
+          if (!category) return null;
+          const toggleId = `${id}-toggle`;
+          return (
+            <div className="flex items-center gap-3 w-full">
+              <span className="font-semibold text-heading text-base flex-1">
+                {category.title}
+              </span>
+              <div className="shrink-0 flex items-center gap-3">
+                {category.required && (
+                  <span className="text-sm font-semibold text-primary">
+                    Always Active
+                  </span>
+                )}
+                <ToggleControl
+                  label={category.title}
+                  description={category.description}
+                  checked={preferences[category.id as keyof Omit<CookieConsent, "timestamp">]}
+                  onChange={(checked) =>
+                    handleToggle(category.id as keyof Omit<CookieConsent, "timestamp">, checked)
+                  }
+                  disabled={category.required}
+                  id={toggleId}
+                  bordered={false}
+                  className="py-0"
+                  hideText={true}
+                  size="lg"
+                />
+              </div>
+            </div>
+          );
+        }}
+      />
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      {accordionItems.map((item, idx) => (
+        <div
+          key={item.slug}
+          id={`cookie-category-${idx}-content`}
+          style={{ display: "none" }}
+        >
+          <p className="text-sm text-text leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      ))}
+
+      <div className="flex flex-col sm:flex-row gap-3 mt-8">
         <Button
           variant="secondary"
           onClick={handleRejectAll}
-          className="flex-1 rounded-lg border-2 border-primary bg-bg px-6 py-3 font-semibold text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
+          className="flex-1 rounded-xl border-2 border-primary bg-bg px-6 py-4 font-semibold text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
           type="button"
           disabled={isPending}
         >
@@ -288,7 +255,7 @@ function CookiePreferencesModal({
         <Button
           variant="primary"
           onClick={handleConfirm}
-          className="flex-1 rounded-lg bg-primary px-6 py-3 font-semibold text-bg transition-colors hover:bg-primary-700 disabled:opacity-50"
+          className="flex-1 rounded-xl bg-primary px-6 py-4 font-semibold text-bg transition-colors hover:bg-primary-700 disabled:opacity-50"
           type="button"
           disabled={isPending}
         >
