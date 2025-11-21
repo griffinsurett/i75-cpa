@@ -17,7 +17,7 @@ export default function SecondaryButton({
 }: ButtonProps) {
   // Outlined style with blue border
   const variantClasses =
-    "bg-bg text-primary border-2 border-primary hover:bg-primary/10 focus:ring-primary";
+    "bg-bg text-bg border-2 border-primary hover:bg-primary/10 focus:ring-primary";
 
   return (
     <ButtonBase

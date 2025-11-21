@@ -15,9 +15,9 @@ export default function GhostButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Transparent with hover effect
+  // Outlined style with blue border
   const variantClasses =
-    "bg-text/25 border-text/25 text-bg hover:text-heading hover:bg-text";
+    "bg-bg text-text border-2 border-primary hover:bg-primary/10 focus:ring-primary";
 
   return (
     <ButtonBase
