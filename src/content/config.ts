@@ -65,6 +65,11 @@ export const collections = {
       }),
   }),
 
+  "about-us": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image })
+  }),
+
   "blog": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({

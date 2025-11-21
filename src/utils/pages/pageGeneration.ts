@@ -1,4 +1,4 @@
-// src/utils/pageGeneration.ts
+// src/utils/pages/pageGeneration.ts
 /**
  * Page Generation Configuration
  *

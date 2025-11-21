@@ -5,6 +5,7 @@ import { capitalize } from '@/utils/string';
 import { parseContentPath, isMetaFile } from '@/utils/paths';
 import { SimpleIdRegistry } from '@/utils/idRegistry';
 import { parseFrontmatterFromString } from '@/utils/filesystem/frontmatter';
+import { shouldItemHavePageData, shouldItemUseRootPathData } from '../pages/pageRules';
 import { readFileSync, readdirSync } from 'fs';
 import { join, relative } from 'path';
 
@@ -140,26 +141,6 @@ function normalizeMenuReference(menu: any): any {
 
 function ensureArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value];
-}
-
-function getItemProperty<T>(
-  itemData: any,
-  metaData: any,
-  itemKey: string,
-  metaKey: string,
-  defaultValue: T
-): T {
-  if (itemData?.[itemKey] !== undefined) return itemData[itemKey];
-  if (metaData?.[metaKey] !== undefined) return metaData[metaKey];
-  return defaultValue;
-}
-
-function shouldItemHavePage(itemData: any, metaData: any): boolean {
-  return getItemProperty(itemData, metaData, 'hasPage', 'itemsHasPage', true);
-}
-
-function shouldItemUseRootPath(itemData: any, metaData: any): boolean {
-  return getItemProperty(itemData, metaData, 'rootPath', 'itemsRootPath', false);
 }
 
 function getCollectionMetaFromModules(
@@ -308,7 +289,7 @@ async function processItemMenus(
       const itemId = getUniqueId(semanticId);
 
       const meta = getCollectionMetaFromModules(collection, modules);
-      const useRootPath = shouldItemUseRootPath(data, meta);
+      const useRootPath = shouldItemUseRootPathData(data, meta);
       const itemUrl = useRootPath ? `/${slug}` : `/${collection}/${slug}`;
 
       store.set({
@@ -396,9 +377,9 @@ async function processCollectionMenus(
           const itemData = itemMod.frontmatter ?? {};
           const { slug } = parseContentPath(itemPath);
 
-          if (!shouldItemHavePage(itemData, meta)) continue;
+          if (!shouldItemHavePageData(itemData, meta)) continue;
 
-          const useRootPath = shouldItemUseRootPath(itemData, meta);
+          const useRootPath = shouldItemUseRootPathData(itemData, meta);
           const itemUrl = useRootPath ? `/${slug}` : `/${collection}/${slug}`;
           
           let parent = attachTo;

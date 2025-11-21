@@ -281,6 +281,7 @@ export const baseSchema = ({ image }: { image: Function }) =>
     seo: seoSchema({ image }),
     addToMenu: z.array(AddToMenuFields).optional(),
     redirectFrom: redirectFromSchema,
+    draft: z.boolean().default(false),
     publishDate: z
       .union([z.date(), z.string()])
       .optional()

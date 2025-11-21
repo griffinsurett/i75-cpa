@@ -1,4 +1,4 @@
-// src/utils/pageGeneration/collectionIndexHelpers.ts
+// src/utils/pages/pageGeneration/collectionIndexHelpers.ts
 /**
  * Collection Index Page Generation Helpers
  *
@@ -9,7 +9,7 @@
 import type { CollectionKey } from "astro:content";
 import { getCollectionMeta } from "@/utils/collections";
 import { shouldCollectionHavePage } from "@/utils/pages";
-import { getPageCollections } from "@/utils/pageGeneration";
+import { getPageCollections } from "@/utils/pages/pageGeneration";
 import { buildCollectionSEOProps } from "@/utils/seo";
 import { getCollectionMetaMDX } from "@/utils/content";
 import {

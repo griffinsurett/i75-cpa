@@ -1,9 +1,9 @@
-// src/utils/pages.ts
+// src/utils/pages/index.ts
 /**
  * Page Generation Decision Logic
  *
  * Determines which collections and items should have pages generated.
- * Uses the override pattern from metaOverrides.ts to respect both
+ * Uses the override pattern from pages/pageRules.ts to respect both
  * collection-level and item-level settings.
  *
  * Four key functions:
@@ -17,7 +17,12 @@ import type { CollectionEntry, CollectionKey } from "astro:content";
 import { getCollection } from "astro:content";
 import { getCollectionMeta } from "@/utils/collections";
 import type { MetaData } from "@/content/schema";
-import { getItemProperty } from "@/utils/metaOverrides";
+import {
+  shouldItemHavePageData,
+  shouldItemUseRootPathData,
+  shouldCollectionHavePageMeta,
+  shouldProcessCollectionData,
+} from "./pageRules";
 
 /**
  * Determine if an individual item should have its own page
@@ -41,13 +46,7 @@ export function shouldItemHavePage(
   item: CollectionEntry<CollectionKey>,
   meta: MetaData
 ): boolean {
-  return getItemProperty(
-    item.data,
-    meta,
-    "hasPage", // item-level property
-    "itemsHasPage", // collection-level property
-    true // default value
-  );
+  return shouldItemHavePageData(item.data, meta, true);
 }
 
 /**
@@ -75,13 +74,7 @@ export function shouldItemUseRootPath(
   item: CollectionEntry<CollectionKey>,
   meta: MetaData
 ): boolean {
-  return getItemProperty(
-    item.data,
-    meta,
-    "rootPath", // item-level property
-    "itemsRootPath", // collection-level property
-    false // default value
-  );
+  return shouldItemUseRootPathData(item.data, meta, false);
 }
 
 /**
@@ -98,7 +91,7 @@ export function shouldItemUseRootPath(
  * shouldCollectionHavePage({}) // true (default)
  */
 export function shouldCollectionHavePage(meta: MetaData): boolean {
-  return meta.hasPage !== false;
+  return shouldCollectionHavePageMeta(meta, true);
 }
 
 /**
@@ -126,8 +119,5 @@ export async function shouldProcessCollection(
 
   // Otherwise, check if any individual items override this
   const entries = await getCollection(collectionName);
-  return entries.some((entry) => {
-    const itemData = entry.data as any;
-    return itemData.hasPage === true;
-  });
+  return shouldProcessCollectionData(entries, meta);
 }

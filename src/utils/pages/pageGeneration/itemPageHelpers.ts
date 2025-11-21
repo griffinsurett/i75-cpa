@@ -1,4 +1,4 @@
-// src/utils/pageGeneration/itemPageHelpers.ts
+// src/utils/pages/pageGeneration/itemPageHelpers.ts
 /**
  * Item Page Generation Helpers
  *
@@ -14,7 +14,7 @@ import {
   shouldItemUseRootPath,
   shouldProcessCollection,
 } from "@/utils/pages";
-import { getPageCollections } from "@/utils/pageGeneration";
+import { getPageCollections } from "@/utils/pages/pageGeneration";
 import { buildItemSEOProps } from "@/utils/seo";
 import {
   getLayoutPath,

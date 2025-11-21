@@ -1,0 +1,17 @@
+---
+title: "About Us"
+description: "Learn more about our company and team"
+hasPage: true
+itemsHasPage: false
+redirectFrom:
+  - "/about"
+  - "/aboutus"
+---
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query } from "@/utils/query";
+
+<ContentRenderer
+  query={query("about-us")}
+  variant="AccordionVariant"
+  columns={1}
+/>
