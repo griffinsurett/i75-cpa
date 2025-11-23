@@ -10,7 +10,7 @@ import ContactCard from "@/components/LoopComponents/ContactCard.astro";
 import Button from "@/components/Button/Button";
 import { query } from "@/utils/query";
 import { shouldShowCollectionCTA } from "../utils/helpers";
-import ContactForm from "@/components/Form/forms/ContactForm";
+import ContactForm from "@/components/Form/forms/ContactForm.astro";
 
 interface Props extends BaseVariantProps {
   columns?: 1 | 2 | 3;
@@ -37,7 +37,7 @@ const columnClasses = {
 ---
 
 <section id={id} class={`py-16 w-full ${className}`}>
-  <div class="flex flex-col-reverse lg:flex-row">
+  <div class="flex flex-col-reverse lg:flex-row w-full">
     <div class="px-4">
       {
         items.length > 0 && (
@@ -66,8 +66,8 @@ const columnClasses = {
         )
       }
     </div>
-    <div class="flex flex-col items-start w-full">
-      <ContactForm client:visible />
+    <div class="flex flex-col justify-between w-full">
+      <ContactForm />
       <ContentRenderer
         query={query("social-media")}
         variant="SocialMediaVariant"

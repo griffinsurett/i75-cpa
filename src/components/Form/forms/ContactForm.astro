@@ -1,13 +1,14 @@
 ---
-// src/components/Form/forms/QuoteForm.astro
+// src/components/Form/forms/ContactForm.astro
 /**
- * Quote Form - Astro Version
+ * Contact Form - Astro Version
  * Pure HTML with optional React enhancement via client:idle
  */
 import Button from "@/components/Button/Button";
 import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import Checkbox from "@/components/Form/inputs/Checkbox";
+import Textarea from "@/components/Form/inputs/Textarea";
 
 interface Props {
   title?: string;
@@ -18,7 +19,7 @@ interface Props {
 const { title, description, className = "" } = Astro.props;
 
 const handleSubmit = async (values: any) => {
-  console.log("Quote form submitted:", values);
+  console.log("Contact form submitted:", values);
 };
 ---
 
@@ -29,9 +30,10 @@ const handleSubmit = async (values: any) => {
   <FormWrapper
     client:idle
     onSubmit={handleSubmit}
-    successMessage="Thank you for your quote request! We'll get back to you soon."
+    successMessage="Thank you for contacting us! We'll get back to you soon."
+    errorMessage="There was an error submitting your form. Please try again."
     resetOnSuccess={true}
-    className="w-full gap-0"
+    className="w-full"
   >
     <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
       <Input
@@ -73,6 +75,7 @@ const handleSubmit = async (values: any) => {
       type="tel"
       required={true}
       pattern="[0-9]{10,}"
+      title="Please enter at least 10 digits"
       placeholder="012-345-6789"
       containerClassName="mb-4"
       inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
@@ -85,6 +88,17 @@ const handleSubmit = async (values: any) => {
       placeholder="LLC or whatever you trade as"
       containerClassName="mb-4"
       inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    />
+
+    <Textarea
+      name="message"
+      label="Your Message"
+      required={true}
+      minLength={10}
+      placeholder="Write your message here..."
+      rows={5}
+      containerClassName="mb-4"
+      textareaClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
     />
 
     <Checkbox
@@ -104,8 +118,8 @@ const handleSubmit = async (values: any) => {
       </Button>
     </Checkbox>
 
-    <Button variant="primary" type="submit" className="w-full">
-      Get Your Quote
+    <Button variant="primary" type="submit" className="w-full mx-auto">
+      Submit Form
     </Button>
   </FormWrapper>
 </div>
