@@ -377,10 +377,10 @@ async function processCollectionMenus(
           const itemData = itemMod.frontmatter ?? {};
           const { slug } = parseContentPath(itemPath);
 
-          if (!shouldItemHavePageData(itemData, meta)) continue;
-
-          const useRootPath = shouldItemUseRootPathData(itemData, meta);
-          const itemUrl = useRootPath ? `/${slug}` : `/${collection}/${slug}`;
+          const hasRenderablePage = shouldItemHavePageData(itemData, meta);
+          const itemUrl = hasRenderablePage
+            ? (shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`)
+            : undefined;
           
           let parent = attachTo;
           // If attachTo is the collection but no explicit collection parent exists in the store,

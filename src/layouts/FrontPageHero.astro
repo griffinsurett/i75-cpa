@@ -85,6 +85,7 @@ const backgroundMedia = {
   overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
 };
 ---
+
 <section id={id} class={`relative ${className}`}>
   <div
     class="relative flex items-center justify-center overflow-hidden"
@@ -124,12 +125,7 @@ const backgroundMedia = {
 
         {
           secondaryCTA && (
-            <Button
-              href={secondaryCTA.link}
-              variant="secondary"
-              size="lg"
-              className="bg-bg/10 backdrop-blur-sm text-bg border-2 border-white/30 hover:bg-bg/20"
-            >
+            <Button href={secondaryCTA.link} variant="ghost" size="lg">
               {secondaryCTA.text}
             </Button>
           )

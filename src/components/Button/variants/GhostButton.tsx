@@ -17,7 +17,7 @@ export default function GhostButton({
 }: ButtonProps) {
   // Outlined style with blue border
   const variantClasses =
-    "bg-bg text-text border-2 border-primary hover:bg-primary/10 focus:ring-primary";
+    "bg-bg/25 text-bg border-0 hover:bg-primary focus:ring-primary";
 
   return (
     <ButtonBase
