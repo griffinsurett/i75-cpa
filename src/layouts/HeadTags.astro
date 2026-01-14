@@ -13,10 +13,8 @@
  * Separated into its own component for easier maintenance
  * and conditional loading of third-party scripts.
  */
-import GoogleTagManager from "@/components/analytics/GoogleTagManager.astro";
-// import LanguageDetectionScript from "@/components/preferences/language/LanguageDetectionScript.astro";
+import IntHeadScripts from "@/integrations/IntHeadScripts.astro";
 ---
-<GoogleTagManager />
-<!-- <LanguageDetectionScript /> -->
+<IntHeadScripts />
 <!-- Additional head tags can be added here as needed -->
 <!-- Example: Google Analytics, Plausible, font preloads, etc. -->

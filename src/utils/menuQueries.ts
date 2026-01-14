@@ -115,7 +115,27 @@ const resolveParentNode = (parentRef: any, lookup: Map<string, MenuNode>): MenuN
     );
   }
 
-  return resolveFromValue(parentRef);
+  return resolveFromValue(parentRef) ?? resolveBySegments(parentRef, lookup);
+};
+
+const resolveBySegments = (value?: string | null, lookup?: Map<string, MenuNode>) => {
+  if (!lookup) return undefined;
+  const normalized = normalizeKey(value);
+  if (!normalized) return undefined;
+
+  let current = normalized;
+  while (current.length > 0) {
+    const match = lookup.get(current);
+    if (match) return match;
+
+    const hyphenIndex = current.lastIndexOf('-');
+    const slashIndex = current.lastIndexOf('/');
+    const cutIndex = Math.max(hyphenIndex, slashIndex);
+    if (cutIndex === -1) break;
+    current = current.slice(0, cutIndex);
+  }
+
+  return lookup.get(current);
 };
 
 export function buildMenuTree(items: any[]): MenuNode[] {

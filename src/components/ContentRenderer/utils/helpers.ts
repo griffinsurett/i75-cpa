@@ -1,4 +1,4 @@
-// src/components/ContentRenderer/utils/helpers.ts
+// src/components/starter/ContentRenderer/utils/helpers.ts
 
 /**
  * Check if collection CTA should be displayed

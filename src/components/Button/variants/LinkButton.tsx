@@ -13,14 +13,14 @@ import { renderButtonIcon } from '../utils';
 export default function LinkButton({
   leftIcon,
   rightIcon,
-  className = 'p-0',
+  className = '',
   size = 'md',
   children,
   ...props
 }: ButtonProps) {
   // Map size to link-specific classes (no padding like buttons)
   const sizeClass = size === 'sm' ? 'link-sm' : size === 'lg' ? 'link-lg' : 'link-md';
-  const baseClasses = `link-base ${sizeClass} ${className}`.trim();
+  const baseClasses = `link-base ${sizeClass} p-0 ${className}`.trim();
 
   return (
     <ButtonBase

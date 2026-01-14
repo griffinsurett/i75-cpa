@@ -33,13 +33,48 @@ export function getItemProperty<T>(
   return defaultValue;
 }
 
+/**
+ * Determine if an item should have a page based on priority resolution:
+ * 1. Item's explicit hasPage (highest priority)
+ * 2. Parent's childHasPage
+ * 3. Collection's itemsChildHasPage (for items with parents)
+ * 4. Collection's itemsHasPage
+ * 5. Default value (lowest priority)
+ */
 export function shouldItemHavePageData(
   itemData: any,
   metaData: any,
-  defaultValue: boolean = true
+  defaultValue: boolean = true,
+  parentData?: any
 ): boolean {
-  if (isDraft(itemData)) return false;
-  return getItemProperty(itemData, metaData, "hasPage", "itemsHasPage", defaultValue);
+  const item = getItemData(itemData);
+  const parent = parentData ? getItemData(parentData) : undefined;
+
+  // Drafts never get pages
+  if (isDraft(item)) return false;
+
+  // 1. Item's explicit hasPage takes highest priority
+  if (item?.hasPage !== undefined) {
+    return item.hasPage;
+  }
+
+  // 2. Check parent's childHasPage (if item has a parent)
+  if (parent?.childHasPage !== undefined) {
+    return parent.childHasPage;
+  }
+
+  // 3. Check collection's itemsChildHasPage for items with parents
+  if (item?.parent && metaData?.itemsChildHasPage !== undefined) {
+    return metaData.itemsChildHasPage;
+  }
+
+  // 4. Fall back to collection's itemsHasPage
+  if (metaData?.itemsHasPage !== undefined) {
+    return metaData.itemsHasPage;
+  }
+
+  // 5. Default value
+  return defaultValue;
 }
 
 export function shouldItemUseRootPathData(

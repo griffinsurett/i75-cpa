@@ -4,9 +4,13 @@ import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
-import partytown from '@astrojs/partytown';
+import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel';
 import { buildRedirectConfig } from './src/utils/redirects';
 import { manualChunks, assetFileNames } from './vite.chunks.js';
+import iconGeneratorIntegration from './src/integrations/icons/icon-generator.integration.mjs';
+import clientDirectivesIntegration from './src/integrations/client-directives/client-directives.integration.mjs';
+import conditionalPartytown from './src/integrations/partytown/partytown.integration.mjs';
 
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 const redirects = await buildRedirectConfig();
@@ -17,6 +21,8 @@ console.log(`Site URL: ${siteUrl}`);
 export default defineConfig({
   site: siteUrl,
   server: { port: 9090 },
+  adapter: vercel(),
+  output: 'static',
   
   vite: {
     plugins: [tailwindcss()],
@@ -25,36 +31,42 @@ export default defineConfig({
       cssCodeSplit: true,
       cssMinify: 'esbuild',
       rollupOptions: {
-        output: { assetFileNames, manualChunks },
+        output: {
+          assetFileNames,
+          manualChunks,
+        },
       },
     },
     css: {
       devSourcemap: false,
     },
     optimizeDeps: {
-      include: ['react', 'react-dom'],
-      exclude: ['@astrojs/react'],
+      include: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
     },
   },
   
   integrations: [
+    clientDirectivesIntegration(),
+    iconGeneratorIntegration(),
     mdx(),
     react({
       include: ['**/react/*', '**/components/**/*.jsx', '**/components/**/*.tsx', '**/hooks/**/*.js', '**/hooks/**/*.ts'],
     }),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-        debug: process.env.NODE_ENV === 'development',
-      },
-    }),
+    sitemap(),
+    conditionalPartytown(),
   ],
   
   build: {
     inlineStylesheets: 'always',
     split: true,
   },
+
+  prefetch: false,
   
   compressHTML: true,
   redirects,
+
+  experimental: {
+    clientPrerender: false,
+  },
 });

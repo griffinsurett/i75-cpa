@@ -1,10 +1,15 @@
 /* src/styles/global.css */
 @import "tailwindcss";
-@import "@/styles/language-switcher.css";
+
+/* Tell Tailwind to scan integration components for class usage */
+@source "../integrations";
+
+@import "../integrations/preferences/language/styles/language-switcher.css";
+@import "../integrations/preferences/shared/styles/preferences.css";
+@import "../integrations/preferences/accessibility/styles/accessibility.css";
 @import "@/styles/legal.css";
 @import "@/styles/system.css";
-
-@import "tailwindcss";
+@import "@/styles/menu.css";
 
 @theme {
   /* ───── PRIMARY – change ONLY this one line for the brand ───── */
@@ -15,7 +20,7 @@
   /* ───── Neutrals ───── */
   --color-text:         oklch(18% 0.03 260);   /* almost black */
   --color-heading:      oklch(14% 0.03 260);   /* slightly darker */
-  --color-bg:   oklch(99.5% 0.004 260); /* off-white */
+  --color-bg:           oklch(99.5% 0.004 260); /* off-white */
   --color-surface:      oklch(97.5% 0.006 260); /* cards, nav, modals */
 
   /* color helpers */
@@ -49,9 +54,9 @@ body {
 }
 
 @layer components {
-    button, a {
+  button, a {
     @apply cursor-pointer;
-    }
+  }
 
   /* Base button styles */
   .btn-base {
@@ -69,11 +74,11 @@ body {
   .btn-sm {
     @apply px-3 py-1.5 text-sm;
   }
-  
+
   .btn-md {
     @apply px-4 py-2 text-base;
   }
-  
+
   .btn-lg {
     @apply px-6 py-3 text-lg;
   }
@@ -92,57 +97,29 @@ body {
   .link-sm {
     @apply text-sm;
   }
-  
+
   .link-md {
     @apply text-base;
   }
-  
+
   .link-lg {
     @apply text-lg;
   }
 }
 
 @layer utilities {
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
-}
-}
-
-/* src/styles/global.css */
-
-/* Menu hover behavior - works for infinite nesting */
-.menu-item:hover > .menu-dropdown {
-  display: block;
-}
-
-/* Arrow rotation on hover */
-.menu-item:hover > a .menu-arrow {
-  transform: rotate(180deg);
-}
-
-/* Dropdown animation */
-.menu-dropdown {
-  animation: menu-slide-down 0.2s ease-out;
-}
-
-@keyframes menu-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
   }
 }

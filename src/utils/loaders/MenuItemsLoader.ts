@@ -361,15 +361,58 @@ async function processCollectionMenus(
     }
 
     if (data.itemsAddToMenu) {
+      // Build a lookup of which items have pages
+      const itemsWithPages = new Set<string>();
+      // Build a lookup of parent -> children relationships
+      const parentToChildren = new Map<string, string[]>();
+
+      for (const [itemPath, itemMod] of Object.entries(modules)) {
+        if (!itemPath.includes(`content/${collection}/`)) continue;
+        if (isMetaFile(itemPath)) continue;
+
+        const itemData = itemMod.frontmatter ?? {};
+        const { slug } = parseContentPath(itemPath);
+
+        // Track which items have pages
+        if (shouldItemHavePageData(itemData, meta)) {
+          itemsWithPages.add(slug);
+        }
+
+        // Track parent -> children relationships
+        const parents = itemData.parent;
+        const parentList = Array.isArray(parents) ? parents : parents ? [parents] : [];
+
+        for (const parent of parentList) {
+          if (typeof parent === "string") {
+            const children = parentToChildren.get(parent) ?? [];
+            children.push(slug);
+            parentToChildren.set(parent, children);
+          }
+        }
+      }
+
+      // Check if a slug has any descendants with pages (recursive)
+      const hasDescendantWithPage = (slug: string, visited = new Set<string>()): boolean => {
+        if (visited.has(slug)) return false; // Prevent cycles
+        visited.add(slug);
+
+        const children = parentToChildren.get(slug) ?? [];
+        for (const child of children) {
+          if (itemsWithPages.has(child)) return true;
+          if (hasDescendantWithPage(child, visited)) return true;
+        }
+        return false;
+      };
+
       const configs = ensureArray(data.itemsAddToMenu);
 
       for (const menuConfig of configs) {
         const menus = normalizeMenuReference(menuConfig.menu);
-        
+
         const attachTo = menuConfig.attachTo === undefined || menuConfig.attachTo === true
           ? collection
           : menuConfig.attachTo;
-        
+
         for (const [itemPath, itemMod] of Object.entries(modules)) {
           if (!itemPath.includes(`content/${collection}/`)) continue;
           if (isMetaFile(itemPath)) continue;
@@ -378,10 +421,16 @@ async function processCollectionMenus(
           const { slug } = parseContentPath(itemPath);
 
           const hasRenderablePage = shouldItemHavePageData(itemData, meta);
+          const isParentContainer = parentToChildren.has(slug);
+          const hasPageableDescendants = isParentContainer && hasDescendantWithPage(slug);
+
+          // Skip items with no page unless they are parent containers with descendants that have pages
+          if (!hasRenderablePage && !hasPageableDescendants) continue;
+
           const itemUrl = hasRenderablePage
             ? (shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`)
             : undefined;
-          
+
           let parent = attachTo;
           // If attachTo is the collection but no explicit collection parent exists in the store,
           // avoid creating an implicit menu item and instead drop to root.

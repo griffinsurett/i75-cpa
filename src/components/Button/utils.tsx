@@ -1,7 +1,7 @@
 // src/components/Button/utils.tsx
 import { isValidElement, type ReactNode } from 'react';
 import Icon from '@/components/Icon';
-import type { IconSize } from '@/utils/icons/iconLoader';
+import type { IconSize } from '@/integrations/icons';
 import type { ButtonSize } from './Button';
 
 function mapButtonSizeToIconSize(size?: ButtonSize): IconSize {

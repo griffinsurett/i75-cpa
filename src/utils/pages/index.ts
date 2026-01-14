@@ -27,13 +27,16 @@ import {
 /**
  * Determine if an individual item should have its own page
  *
- * Uses override pattern:
- * - Item's hasPage field (if present)
- * - Collection's itemsHasPage setting from _meta.mdx
- * - Default: true (most items should have pages)
+ * Uses priority resolution:
+ * 1. Item's hasPage field (highest priority)
+ * 2. Parent's childHasPage (if item has a parent)
+ * 3. Collection's itemsChildHasPage (for items with parents)
+ * 4. Collection's itemsHasPage setting from _meta.mdx
+ * 5. Default: true (most items should have pages)
  *
  * @param item - Collection entry to check
  * @param meta - Collection metadata
+ * @param parentItem - Optional parent entry (for childHasPage resolution)
  * @returns True if item should get a dedicated page
  * @example
  * // Item explicitly says no page
@@ -41,12 +44,16 @@ import {
  *
  * // Item has no preference, use collection default
  * shouldItemHavePage({ data: {} }, { itemsHasPage: false }) // false
+ *
+ * // Parent controls child pages
+ * shouldItemHavePage(child, meta, { data: { childHasPage: false } }) // false
  */
 export function shouldItemHavePage(
   item: CollectionEntry<CollectionKey>,
-  meta: MetaData
+  meta: MetaData,
+  parentItem?: CollectionEntry<CollectionKey>
 ): boolean {
-  return shouldItemHavePageData(item.data, meta, true);
+  return shouldItemHavePageData(item.data, meta, true, parentItem?.data);
 }
 
 /**

@@ -14,6 +14,7 @@
  */
 
 import "../styles/global.css";
+import "../integrations/scroll-animations/styles/animations.css";
 ---
 
 <!-- Favicons - multiple sizes for different contexts -->
@@ -47,3 +48,9 @@ import "../styles/global.css";
     }
   });
 </script> -->
+
+<!-- Scroll animations (deferred to avoid blocking initial render) -->
+<script>
+  // Import observer directly to avoid pulling in React via index barrel exports
+  import "@/integrations/scroll-animations/observer";
+</script>

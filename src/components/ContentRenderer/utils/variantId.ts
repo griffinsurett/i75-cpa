@@ -1,4 +1,4 @@
-// src/components/ContentRenderer/utils/variantId.ts
+// src/components/starter/ContentRenderer/utils/variantId.ts
 /**
  * Variant ID Generation Utility
  *

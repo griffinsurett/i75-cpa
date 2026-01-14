@@ -12,25 +12,23 @@
  */
 
 // Cookie Consent Preferences
-import CookiePreferencesButton from "@/components/preferences/consent/CookiePreferencesButton";
-import CookieConsentBanner from "@/components/preferences/consent/CookieConsentBanner";
-import ConsentScript from "@/components/preferences/consent/ConsentScript.astro";
+import CookiePreferencesButton from "@/integrations/preferences/consent/ui/CookiePreferencesButton";
+import CookieConsentBanner from "@/integrations/preferences/consent/ui/CookieConsentBanner";
+import ConsentScript from "@/integrations/preferences/consent/core/scripts/ConsentScript.astro";
 
 // Accessibility Preferences
-import AccessibilityButton from "@/components/preferences/accessibility/AccessibilityButton";
-import "../styles/accessibility.css";
+import AccessibilityButton from "@/integrations/preferences/accessibility/ui/AccessibilityButton";
 
 // Language Switcher
-import LanguageSwitcher from "@/components/preferences/language/LanguageSwitcher";
-import GoogleTranslateScript from "@/components/preferences/language/GoogleTranslateScript.astro";
-import "../styles/language-switcher.css";
+import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
+import BrowserTranslateScript from "@/integrations/preferences/language/core/scripts/BrowserTranslateScript.astro";
 ---
 
 {/* Consent Script - Inline initialization, runs immediately */}
 <ConsentScript />
 
-{/* Google Translate Script - Only loads if user has language preference */}
-<GoogleTranslateScript />
+{/* Browser Translation Script - Both native and Google enabled */}
+<BrowserTranslateScript enableNative={true} enableGoogle={true} />
 
 <div class="flex flex-wrap justify-center items-center gap-3">
 
