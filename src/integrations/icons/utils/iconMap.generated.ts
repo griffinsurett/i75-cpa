@@ -2,9 +2,8 @@
 // Do not edit manually. Run "npm run generate:icons" (or node src/integrations/icons/utils/generate-icon-map.mjs) to regenerate.
 
 import type { IconType } from 'react-icons';
-import { LuBookOpen, LuChevronRight, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuPhone, LuSettings, LuStar, LuTwitter } from 'react-icons/lu';
-import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEnvelope, FaEye, FaFacebook, FaFeather, FaFileLines, FaHeadset, FaInstagram, FaLayerGroup, FaLifeRing, FaLink, FaLinkedin, FaMapPin, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark, FaYoutube } from 'react-icons/fa6';
-import { SiFacebook } from 'react-icons/si';
+import { LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings, LuStar } from 'react-icons/lu';
+import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEnvelope, FaEye, FaFacebook, FaFeather, FaFileLines, FaHeadset, FaInstagram, FaLayerGroup, FaLifeRing, FaLink, FaLinkedin, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark, FaYoutube } from 'react-icons/fa6';
 
 export const iconMap = {
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
@@ -22,7 +21,6 @@ export const iconMap = {
   'fa6:life-ring': FaLifeRing,
   'fa6:link': FaLink,
   'fa6:linkedin': FaLinkedin,
-  'fa6:map-pin': FaMapPin,
   'fa6:palette': FaPalette,
   'fa6:phone': FaPhone,
   'fa6:robot': FaRobot,
@@ -36,16 +34,12 @@ export const iconMap = {
   'lu:book-open': LuBookOpen,
   'lu:chevron-right': LuChevronRight,
   'lu:contact': LuContact,
-  'lu:github': LuGithub,
   'lu:globe': LuGlobe,
   'lu:image': LuImage,
-  'lu:linkedin': LuLinkedin,
   'lu:mail': LuMail,
   'lu:phone': LuPhone,
   'lu:settings': LuSettings,
   'lu:star': LuStar,
-  'lu:twitter': LuTwitter,
-  'si:facebook': SiFacebook,
 } satisfies Record<string, IconType>;
 
 export type IconKey = keyof typeof iconMap;

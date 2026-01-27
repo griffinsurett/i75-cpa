@@ -23,12 +23,14 @@ import AccessibilityButton from "@/integrations/preferences/accessibility/ui/Acc
 // import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
 import BrowserTranslateScript from "@/integrations/preferences/language/core/scripts/BrowserTranslateScript.astro";
 
+import type { ButtonVariant, ButtonSize } from "@/components/Button/Button";
+
 interface Props {
   layout?: "horizontal" | "vertical";
   linkClassName?: string;
   buttonClassName?: string;
-  buttonVariant?: "link" | "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite" | "borderPrimary" | "underline" | "hoverUnderline";
-  buttonSize?: "sm" | "md" | "lg";
+  buttonVariant?: ButtonVariant;
+  buttonSize?: ButtonSize;
 }
 
 const {

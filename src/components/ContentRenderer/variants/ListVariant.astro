@@ -6,7 +6,7 @@
  */
 
 import type { BaseVariantProps } from "../ContentRenderer.types";
-import Button from "@/components/Button/Button";
+import Button, { type ButtonVariant } from "@/components/Button/Button";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
 type Props = BaseVariantProps & {
@@ -14,7 +14,7 @@ type Props = BaseVariantProps & {
   listClassName?: string;
   itemClassName?: string;
   buttonClassName?: string;
-  buttonVariant?: "link" | "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite" | "borderPrimary" | "underline";
+  buttonVariant?: ButtonVariant;
   listAs?: "nav" | "ul" | "ol";
   showCollectionCta?: boolean;
 };

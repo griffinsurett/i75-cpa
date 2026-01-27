@@ -55,10 +55,10 @@ const menuTree = buildMenuTree(items);
 const showDesktop = mode === 'responsive' || mode === 'flat-only';
 const showMobile = mode === 'responsive' || mode === 'hamburger-only';
 
-// Responsive visibility classes
-const desktopClasses = mode === 'responsive' ? 'hidden md:block' : '';
+// Responsive visibility classes (lg breakpoint for header menu)
+const desktopClasses = mode === 'responsive' ? 'hidden lg:block' : '';
 const mobileClasses =
-  showMobile && mode === 'responsive' ? 'md:hidden' : '';
+  showMobile && mode === 'responsive' ? 'lg:hidden' : '';
 
 const inferredTopLevel = isTopLevelPlacement({
   id,
@@ -131,7 +131,7 @@ const resolvedSubmenuListClassName = isFlatOnly
           items={menuTree}
           closeButton={closeButton}
           hamburgerTransform={hamburgerTransform}
-          client:media="(max-width: 768px)"
+          client:media="(max-width: 1024px)"
         />
       )}
     </div>

@@ -50,7 +50,7 @@ export const collections = {
       }),
   }),
 
-  "facebook-groups": defineCollection({
+  "study-groups": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         link: z.string().optional(),

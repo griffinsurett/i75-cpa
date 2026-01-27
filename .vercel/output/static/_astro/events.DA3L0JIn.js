@@ -1,0 +1,1 @@
+const e="open-cookie-preferences";function o(){return typeof window>"u"?!1:(window.dispatchEvent(new CustomEvent(e)),!0)}function r(n){return typeof window>"u"?()=>{}:(window.addEventListener(e,n),()=>window.removeEventListener(e,n))}export{o as r,r as s};

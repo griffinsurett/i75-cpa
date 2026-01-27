@@ -77,7 +77,7 @@ function getAncestorChain(parentRef: any, store: any): string[] {
   const ancestors: string[] = [];
   let current = parentRef;
   const visited = new Set<string>();
-  
+
   while (current) {
     const resolvedId = resolveParentReference(current, store);
     const parentId = resolvedId ?? (
@@ -85,20 +85,20 @@ function getAncestorChain(parentRef: any, store: any): string[] {
         ? current
         : (current?.id || String(current))
     );
-    
+
     if (visited.has(parentId)) {
       console.warn(`Circular parent reference detected: ${parentId}`);
       break;
     }
     visited.add(parentId);
     ancestors.push(parentId);
-    
+
     const parentEntry = store.get(parentId);
     if (!parentEntry?.data?.parent) break;
-    
+
     current = parentEntry.data.parent;
   }
-  
+
   return ancestors;
 }
 
@@ -108,12 +108,12 @@ function buildSemanticId(
   store: any
 ): string {
   const parts = [baseId];
-  
+
   if (context.parent) {
     const ancestors = getAncestorChain(context.parent, store);
     parts.push(...ancestors.reverse());
   }
-  
+
   if (context.includeMenu && context.menu) {
     const menuId = typeof context.menu === 'string'
       ? context.menu
@@ -122,7 +122,7 @@ function buildSemanticId(
         : (context.menu.id || String(context.menu));
     parts.push(menuId);
   }
-  
+
   return parts.join('-');
 }
 
@@ -132,10 +132,10 @@ function getUniqueId(semanticId: string): string {
 
 function normalizeMenuReference(menu: any): any {
   if (!menu) return [];
-  
+
   const normalizeOne = (m: any) =>
     typeof m === 'string' ? { collection: MENUS_COLLECTION, id: m } : m;
-  
+
   return Array.isArray(menu) ? menu.map(normalizeOne) : [normalizeOne(menu)];
 }
 
@@ -150,7 +150,7 @@ function getCollectionMetaFromModules(
   const metaPath = Object.keys(modules).find(
     path => path.includes(`/${collectionName}/_meta.mdx`)
   );
-  
+
   if (metaPath) {
     const data = modules[metaPath].frontmatter ?? {};
     return {
@@ -162,7 +162,7 @@ function getCollectionMetaFromModules(
       ...data
     };
   }
-  
+
   return {
     title: capitalize(collectionName),
     hasPage: false,
@@ -174,25 +174,25 @@ function getCollectionMetaFromModules(
 function resolveAllParents(store: any, maxPasses: number = 5): void {
   let passCount = 0;
   let changesInLastPass = 0;
-  
+
   do {
     passCount++;
     changesInLastPass = 0;
-    
+
     const updates: Array<{ id: string; resolvedParent: string }> = [];
-    
+
     for (const [id, entry] of store.entries()) {
       const parent = entry.data.parent;
       if (!parent || typeof parent !== 'string') continue;
-      
+
       const resolved = resolveParentReference(parent, store);
-      
+
       if (resolved && resolved !== parent) {
         updates.push({ id, resolvedParent: resolved });
         changesInLastPass++;
       }
     }
-    
+
     for (const { id, resolvedParent } of updates) {
       const entry = store.get(id);
       if (entry) {
@@ -208,7 +208,7 @@ function resolveAllParents(store: any, maxPasses: number = 5): void {
 export function MenuItemsLoader(): Loader {
   return {
     name: 'menu-items-loader',
-    
+
     async load(context: LoaderContext) {
       const { store, logger } = context;
 
@@ -221,24 +221,24 @@ export function MenuItemsLoader(): Loader {
       }
 
       const frontmatterModules: Record<string, any> = {};
-      
+
       function walkDir(dir: string) {
         const entries = readdirSync(dir, { withFileTypes: true });
-        
+
         for (const entry of entries) {
           const fullPath = join(dir, entry.name);
-          
+
           if (entry.isDirectory()) {
             walkDir(fullPath);
           } else if (entry.isFile() && /\.(mdx?|md)$/.test(entry.name)) {
             try {
               const raw = readFileSync(fullPath, 'utf-8');
               const frontmatter = parseFrontmatterFromString(raw);
-              
+
               const relativePath = relative(process.cwd(), fullPath)
                 .replace(/\\/g, '/')
                 .replace('src/', '../../');
-              
+
               frontmatterModules[relativePath] = { frontmatter };
             } catch (error) {
               logger.warn(`Failed to read ${fullPath}: ${error}`);
@@ -246,7 +246,7 @@ export function MenuItemsLoader(): Loader {
           }
         }
       }
-      
+
       walkDir(join(process.cwd(), 'src/content'));
 
       await processCollectionMenus(frontmatterModules, store);
@@ -275,12 +275,12 @@ async function processItemMenus(
     for (let i = 0; i < configs.length; i++) {
       const menuConfig = configs[i];
       const menus = normalizeMenuReference(menuConfig.menu);
-      
+
       const baseId = menuConfig.id ||
         (configs.length > 1 && !menuConfig.parent ? `${slug}-${i}` : slug);
-      
+
       const resolvedParent = resolveParentReference(menuConfig.parent, store);
-      
+
       const semanticId = buildSemanticId(
         baseId,
         { parent: resolvedParent, menu: menuConfig.menu, includeMenu: false },
@@ -329,12 +329,12 @@ async function processCollectionMenus(
       for (let i = 0; i < configs.length; i++) {
         const menuConfig = configs[i];
         const menus = normalizeMenuReference(menuConfig.menu);
-        
+
         const baseId = menuConfig.id ||
           (configs.length > 1 && !menuConfig.parent ? `${collection}-${i}` : collection);
-        
+
         const resolvedParent = resolveParentReference(menuConfig.parent, store);
-        
+
         const semanticId = buildSemanticId(
           baseId,
           { parent: resolvedParent, menu: menuConfig.menu, includeMenu: false },
@@ -423,13 +423,19 @@ async function processCollectionMenus(
           const hasRenderablePage = shouldItemHavePageData(itemData, meta);
           const isParentContainer = parentToChildren.has(slug);
           const hasPageableDescendants = isParentContainer && hasDescendantWithPage(slug);
+          const hasExternalLink = Boolean(itemData.link || itemData.url);
 
           // Skip items with no page unless they are parent containers with descendants that have pages
-          if (!hasRenderablePage && !hasPageableDescendants) continue;
+          // or they have an external link
+          if (!hasRenderablePage && !hasPageableDescendants && !hasExternalLink) continue;
 
-          const itemUrl = hasRenderablePage
-            ? (shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`)
-            : undefined;
+          // Use external link if available, otherwise generate page URL
+          let itemUrl: string | undefined;
+          if (hasExternalLink) {
+            itemUrl = itemData.link || itemData.url;
+          } else if (hasRenderablePage) {
+            itemUrl = shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`;
+          }
 
           let parent = attachTo;
           // If attachTo is the collection but no explicit collection parent exists in the store,
@@ -459,7 +465,7 @@ async function processCollectionMenus(
               url: itemUrl,
               menu: menus,
               parent: resolvedParent,
-              openInNewTab: menuConfig.openInNewTab ?? false,
+              openInNewTab: itemData.openInNewTab ?? menuConfig.openInNewTab ?? false,
               order: itemData.order,
             },
           });

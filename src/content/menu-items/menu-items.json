@@ -25,6 +25,32 @@
     "menu": "main-menu"
   },
   {
+    "id": "other-i75-courses",
+    "title": "Other i75 Courses",
+    "description": "Explore other i75 exam review courses",
+    "order": 1020,
+    "openInNewTab": false,
+    "menu": "main-menu"
+  },
+  {
+    "id": "i75-ea-review",
+    "title": "i75 EA Review",
+    "url": "https://i75eareview.com",
+    "order": 1,
+    "openInNewTab": true,
+    "parent": "other-i75-courses",
+    "menu": "main-menu"
+  },
+  {
+    "id": "i75-cma-review",
+    "title": "i75 CMA Review",
+    "url": "https://i75cmareview.com",
+    "order": 2,
+    "openInNewTab": true,
+    "parent": "other-i75-courses",
+    "menu": "main-menu"
+  },
+  {
     "id": "my-account",
     "title": "My Account",
     "url": "https://course.i75cpa.com/account/login",

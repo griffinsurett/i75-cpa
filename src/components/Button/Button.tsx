@@ -10,11 +10,9 @@ import { forwardRef } from "react";
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode, Ref } from "react";
 import PrimaryButton from "./variants/PrimaryButton";
 import SecondaryButton from "./variants/SecondaryButton";
-import GhostButton from "./variants/GhostButton";
 import LinkButton from "./variants/LinkButton";
 import TertiaryButton from "./variants/TertiaryButton";
 import BorderWhiteButton from "./variants/BorderWhiteButton";
-import BorderPrimaryButton from "./variants/BorderPrimaryButton";
 import UnderlineButton from "./variants/UnderlineButton";
 import HoverUnderlineButton from "./variants/HoverUnderlineButton";
 
@@ -71,11 +69,9 @@ ButtonBase.displayName = "ButtonBase";
 const VARIANT_MAP = {
   primary: PrimaryButton,
   secondary: SecondaryButton,
-  ghost: GhostButton,
   link: LinkButton,
   tertiary: TertiaryButton,
   borderWhite: BorderWhiteButton,
-  borderPrimary: BorderPrimaryButton,
   underline: UnderlineButton,
   hoverUnderline: HoverUnderlineButton,
 };

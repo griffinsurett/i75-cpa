@@ -1,0 +1,118 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "^/about$",
+			"headers": {
+				"Location": "/about-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/aboutus$",
+			"headers": {
+				"Location": "/about-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/contact$",
+			"headers": {
+				"Location": "/contact-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/contactus$",
+			"headers": {
+				"Location": "/contact-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/first-post$",
+			"headers": {
+				"Location": "/blog/first-post"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/cookie-policy$",
+			"headers": {
+				"Location": "/cookie-policy"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/privacy-policy$",
+			"headers": {
+				"Location": "/privacy-policy"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/terms-of-service$",
+			"headers": {
+				"Location": "/terms-of-service"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/aud$",
+			"headers": {
+				"Location": "/aud"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/bar$",
+			"headers": {
+				"Location": "/bar"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/far$",
+			"headers": {
+				"Location": "/far"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/isc$",
+			"headers": {
+				"Location": "/isc"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/reg$",
+			"headers": {
+				"Location": "/reg"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/part/tcp$",
+			"headers": {
+				"Location": "/tcp"
+			},
+			"status": 301
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"src": "^/.*$",
+			"dest": "/404.html",
+			"status": 404
+		}
+	]
+}
