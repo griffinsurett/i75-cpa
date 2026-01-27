@@ -14,6 +14,7 @@ import { enableConsentedScripts } from "@/integrations/preferences/consent/core/
 import Modal from "@/components/Modal";
 import type { CookieConsent } from "@/integrations/preferences/consent/core/types";
 import Button from "@/components/Button/Button";
+import ArrowIcon from "@/components/Button/ArrowIcon";
 
 const CookiePreferencesModal = lazy(() => import("./CookiePreferencesModal"));
 
@@ -101,49 +102,48 @@ export default function CookieConsentBanner() {
         ariaLabel="Cookie consent banner"
       >
         <div className="group text-left transition-all duration-300">
-          <div className="rounded-3xl border border-text/10 bg-surface p-6 shadow-md backdrop-blur-sm">
+          <div className="rounded-2xl p-6 shadow-xl bg-primary text-light-primary ring-3 ring-white">
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-3">
                 <span className="text-2xl" role="img" aria-label="Cookie">
                   🍪
                 </span>
-                <p className="text-sm text-text leading-relaxed">
+                <p className="text-sm text-light-primary/90 leading-relaxed">
                   We use cookies to improve your browsing experience and for
                   marketing purposes.{" "}
                   <Button
-                    variant="link"
+                    variant="hoverUnderline"
                     onClick={handleOpenSettings}
                     type="button"
-                    className="text-sm"
+                    className="text-sm text-light-primary"
                   >
                     Manage preferences
                   </Button>
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 items-center">
                 <Button
-                  variant="secondary"
-                  onClick={handleRejectAll}
-                  fullWidth={true}
-                  type="button"
-                  buttonWrapperClasses="text-center"
-                  size="md"
-                  disabled={isPending}
-                >
-                  Reject All
-                </Button>
-                <Button
-                  variant="primary"
+                  variant="borderWhite"
                   onClick={handleAcceptAll}
-                  fullWidth={true}
-                  className="flex-1"
+                  className="w-full sm:w-auto"
                   animated={false}
                   type="button"
                   size="md"
                   disabled={isPending}
+                  leftIcon={ArrowIcon({ hoverOnly: false, position: "left" })}
                 >
                   Accept All
+                </Button>
+                <Button
+                  variant="link"
+                  onClick={handleRejectAll}
+                  className="mx-auto text-light-primary"
+                  type="button"
+                  size="md"
+                  disabled={isPending}
+                >
+                  Decline Cookies
                 </Button>
               </div>
             </div>

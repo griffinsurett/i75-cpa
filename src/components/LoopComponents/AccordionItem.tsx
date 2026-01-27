@@ -11,6 +11,9 @@ export interface AccordionItemProps {
   onToggle: () => void;
   headerClassName?: string;
   headerSlot?: ReactNode;
+  indicatorClassName?: string;
+  panelClassName?: string;
+  contentClassName?: string;
 }
 
 export default function AccordionItem({
@@ -23,6 +26,9 @@ export default function AccordionItem({
   onToggle,
   headerClassName = "",
   headerSlot,
+  indicatorClassName = "",
+  panelClassName = "",
+  contentClassName = "",
 }: AccordionItemProps) {
   return (
     <div className={`border border-surface bg-surface rounded-lg overflow-hidden ${className}`}>
@@ -33,7 +39,7 @@ export default function AccordionItem({
         aria-expanded={isExpanded}
         aria-controls={`${id}-content`}
       >
-          <span className="text-text font-medium text-xl px-2">
+          <span className={`text-text font-medium text-xl px-2 ${indicatorClassName}`}>
             {isExpanded ? "−" : "+"}
           </span>
           {headerSlot ? (
@@ -46,8 +52,10 @@ export default function AccordionItem({
       </button>
 
       {isExpanded && children && (
-        <div id={`${id}-content`} className="p-6">
-          <div className="prose prose-surface max-w-none">{children}</div>
+        <div id={`${id}-content`} className={`p-6 ${panelClassName}`}>
+          <div className={contentClassName || "prose prose-surface max-w-none"}>
+            {children}
+          </div>
         </div>
       )}
     </div>

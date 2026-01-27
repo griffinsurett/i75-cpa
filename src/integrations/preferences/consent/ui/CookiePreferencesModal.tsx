@@ -24,6 +24,7 @@ import type {
   CookieCategoryInfo,
 } from "@/integrations/preferences/consent/core/types";
 import Button from "@/components/Button/Button";
+import ArrowIcon from "@/components/Button/ArrowIcon";
 import ToggleControl from "@/integrations/preferences/shared/ui/ToggleControl";
 import Accordion from "@/components/LoopTemplates/Accordion";
 import Icon from "@/components/Icon";
@@ -183,130 +184,142 @@ function CookiePreferencesModal({
       isOpen={isOpen}
       onClose={onClose}
       closeButton={true}
-      className="bg-bg rounded-2xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] flex flex-col shadow-2xl"
+      className="bg-transparent p-0 max-w-3xl w-full mx-4 max-h-[90vh] flex flex-col shadow-none"
       overlayClass="bg-primary-dark/60"
       ariaLabel="Manage cookie consent preferences"
       ssr={false}
     >
-      <div className="mb-6 shrink-0">
-        <h2 className="text-3xl font-bold text-heading mb-4">
-          Manage Consent Preferences
-        </h2>
-        <p className="text-text text-xs lg:text-sm leading-relaxed mb-3">
-          We use cookies and similar technologies to help personalize content
-          and offer a better experience. You can click{" "}
-          <Button variant="link" href="/cookie-policy">
-            here
-          </Button>{" "}
-          to find out more and change our default settings. However, blocking
-          some types of cookies may impact your experience of the site and the
-          services we are able to offer.
-        </p>
-        <Button variant="link" href="/cookie-policy">
-          More information
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
-
-      {/* Scrollable accordion container */}
-      <div className="relative flex-1 min-h-0">
-        <div
-          ref={scrollContainerRef}
-          className="overflow-y-auto max-h-[40vh] pr-2"
-        >
-          <Accordion
-            allowMultiple
-            className="space-y-3"
-            items={accordionItems}
-            showIndicator={false}
-            headerSlot={({ item, id, expanded }) => {
-              const category = cookieCategories.find((c) => c.id === item.slug);
-              if (!category) return null;
-              const toggleId = `${id}-toggle`;
-              return (
-                <div className="flex items-center gap-3 w-full">
-                  <span className="font-semibold text-heading text-base flex-1">
-                    {category.title}
-                  </span>
-                  <div className="shrink-0 flex items-center gap-3">
-                    {category.required && (
-                      <span className="text-sm font-semibold text-primary">
-                        Always Active
-                      </span>
-                    )}
-                    <ToggleControl
-                      label={category.title}
-                      description={category.description}
-                      checked={
-                        preferences[
-                          category.id as keyof Omit<CookieConsent, "timestamp">
-                        ]
-                      }
-                      onChange={(checked) =>
-                        handleToggle(
-                          category.id as keyof Omit<CookieConsent, "timestamp">,
-                          checked
-                        )
-                      }
-                      disabled={category.required}
-                      id={toggleId}
-                      bordered={false}
-                      className="py-0"
-                      hideText={true}
-                      size="lg"
-                    />
-                  </div>
-                </div>
-              );
-            }}
-          />
-
-          {accordionItems.map((item, idx) => (
-            <div
-              key={item.slug}
-              id={`cookie-category-${idx}-content`}
-              style={{ display: "none" }}
+      <div className="rounded-2xl p-6 md:p-8 shadow-xl bg-primary text-light-primary ring-3 ring-white w-full max-h-[90vh] flex flex-col">
+        <div className="mb-6 shrink-0">
+          <h2 className="text-3xl font-bold text-light-primary mb-3">
+            Manage Consent Preferences
+          </h2>
+          <p className="text-light-primary/90 text-xs lg:text-sm leading-relaxed mb-3">
+            We use cookies and similar technologies to help personalize content
+            and offer a better experience. You can click{" "}
+            <Button variant="hoverUnderline" href="/cookie-policy" className="text-light-primary">
+              here
+            </Button>{" "}
+            to find out more and change our default settings. However, blocking
+            some types of cookies may impact your experience of the site and the
+            services we are able to offer.
+          </p>
+          <Button variant="hoverUnderline" href="/cookie-policy" className="text-light-primary">
+            More information
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <p className="text-sm text-text leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          ))}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </Button>
         </div>
-      </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 shrink-0">
-        <Button
-          variant="secondary"
-          onClick={handleRejectAll}
-          className="flex-1"
-          type="button"
-          disabled={isPending}
-        >
-          Reject All
-        </Button>
-        <Button
-          variant="primary"
-          onClick={handleConfirm}
-          className="flex-1"
-          animated={false}
-          type="button"
-          disabled={isPending}
-        >
-          Confirm My Choices
-        </Button>
+        {/* Scrollable accordion container */}
+        <div className="relative flex-1 min-h-0">
+          <div
+            ref={scrollContainerRef}
+            className="overflow-y-auto max-h-[40vh] pr-2"
+          >
+            <Accordion
+              allowMultiple
+              className="space-y-3"
+              items={accordionItems}
+              showIndicator={false}
+              itemClassName="border border-white/30 bg-transparent"
+              headerClassName="!bg-transparent hover:!bg-transparent"
+              indicatorClassName="text-light-primary"
+              panelClassName="bg-transparent"
+              contentClassName="prose prose-invert text-light-primary/90 max-w-none"
+              headerSlot={({ item, id, expanded }) => {
+                const category = cookieCategories.find((c) => c.id === item.slug);
+                if (!category) return null;
+                const toggleId = `${id}-toggle`;
+                return (
+                  <div className="flex items-center gap-3 w-full">
+                    <span className="font-semibold text-light-primary text-base flex-1">
+                      {category.title}
+                    </span>
+                    <div className="shrink-0 flex items-center gap-3">
+                      {category.required && (
+                        <span className="text-sm font-semibold text-light-primary/80">
+                          Always Active
+                        </span>
+                      )}
+                      <ToggleControl
+                        label={category.title}
+                        description={category.description}
+                        checked={
+                          preferences[
+                            category.id as keyof Omit<CookieConsent, "timestamp">
+                          ]
+                        }
+                        onChange={(checked) =>
+                          handleToggle(
+                            category.id as keyof Omit<CookieConsent, "timestamp">,
+                            checked
+                          )
+                        }
+                        disabled={category.required}
+                        id={toggleId}
+                        bordered={false}
+                        className="py-0"
+                        hideText={true}
+                        size="lg"
+                        labelClassName="text-light-primary"
+                        descriptionClassName="text-light-primary/80"
+                        noteClassName="text-light-primary/80"
+                        trackClassName="focus:ring-white"
+                      />
+                    </div>
+                  </div>
+                );
+              }}
+            />
+
+            {accordionItems.map((item, idx) => (
+              <div
+                key={item.slug}
+                id={`cookie-category-${idx}-content`}
+                style={{ display: "none" }}
+              >
+                <p className="text-sm text-light-primary/80 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 shrink-0 items-center">
+          <Button
+            variant="borderWhite"
+            onClick={handleConfirm}
+            className="w-full sm:w-auto"
+            animated={false}
+            type="button"
+            disabled={isPending}
+            leftIcon={ArrowIcon({ hoverOnly: false, position: "left" })}
+          >
+            Accept Cookies
+          </Button>
+          <Button
+            variant="link"
+            onClick={handleRejectAll}
+            className="mx-auto text-light-primary"
+            type="button"
+            disabled={isPending}
+          >
+            Decline Cookies
+          </Button>
+        </div>
       </div>
     </Modal>
   );

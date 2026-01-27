@@ -14,6 +14,11 @@ interface ToggleControlProps {
   className?: string;
   hideText?: boolean;
   size?: "sm" | "md" | "lg";
+  labelClassName?: string;
+  descriptionClassName?: string;
+  noteClassName?: string;
+  trackClassName?: string;
+  thumbClassName?: string;
 }
 
 export default function ToggleControl({
@@ -28,6 +33,11 @@ export default function ToggleControl({
   className = "",
   hideText = false,
   size = "md",
+  labelClassName = "",
+  descriptionClassName = "",
+  noteClassName = "",
+  trackClassName = "",
+  thumbClassName = "",
 }: ToggleControlProps) {
   const generatedId = useId();
   const controlId = id ?? generatedId;
@@ -60,21 +70,25 @@ export default function ToggleControl({
       >
         <p
           id={labelId}
-          className={`font-semibold text-heading ${hideText ? "sr-only" : ""}`}
+          className={`font-semibold text-heading ${hideText ? "sr-only" : ""} ${labelClassName}`}
         >
           {label}
         </p>
         {description && (
           <p
             id={descriptionId}
-            className={`text-sm text-text mt-1 ${hideText ? "sr-only" : ""}`}
+            className={`text-sm text-text mt-1 ${hideText ? "sr-only" : ""} ${descriptionClassName}`}
           >
             {description}
           </p>
         )}
       </div>
       <div className="flex flex-col items-end gap-1">
-        {note && <span className="text-xs font-semibold text-primary">{note}</span>}
+        {note && (
+          <span className={`text-xs font-semibold text-primary ${noteClassName}`}>
+            {note}
+          </span>
+        )}
         <button
           type="button"
           id={controlId}
@@ -85,12 +99,12 @@ export default function ToggleControl({
           aria-disabled={disabled}
           disabled={disabled}
           onClick={handleToggle}
-          className={`relative inline-flex ${trackSizes.track} items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+          className={`relative inline-flex ${trackSizes.track} items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${trackClassName} ${
             checked ? "bg-primary" : "bg-text/20"
           } ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
         >
           <span
-            className={`inline-block ${trackSizes.thumb} transform rounded-full bg-bg transition-transform shadow ${
+            className={`inline-block ${trackSizes.thumb} transform rounded-full bg-bg transition-transform shadow ${thumbClassName} ${
               checked ? trackSizes.on : trackSizes.off
             }`}
           />

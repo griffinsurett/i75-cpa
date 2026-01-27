@@ -19,6 +19,10 @@ interface AccordionProps {
     expanded: boolean;
   }) => ReactNode;
   headerClassName?: string;
+  itemClassName?: string;
+  indicatorClassName?: string;
+  panelClassName?: string;
+  contentClassName?: string;
 }
 
 export default function Accordion({
@@ -27,6 +31,10 @@ export default function Accordion({
   className = "",
   headerSlot,
   headerClassName = "",
+  itemClassName = "",
+  indicatorClassName = "",
+  panelClassName = "",
+  contentClassName = "",
 }: AccordionProps) {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const panelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -82,12 +90,16 @@ export default function Accordion({
             description={item.description}
             isExpanded={expandedItems.has(itemId)}
             onToggle={() => toggleItem(itemId)}
+            className={itemClassName}
             headerSlot={
               headerSlot
                 ? headerSlot({ item, id: itemId, expanded: expandedItems.has(itemId) })
                 : undefined
             }
             headerClassName={headerClassName}
+            indicatorClassName={indicatorClassName}
+            panelClassName={panelClassName}
+            contentClassName={contentClassName}
           >
             {/* Simple container - content gets cloned here when panel opens */}
             <div 
