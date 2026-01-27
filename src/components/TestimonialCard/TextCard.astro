@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import Heading from "@/components/Heading";
+import HighwayCard from "@/components/HighwayCard.astro";
+import Icon from "@/components/Icon";
+import DefaultAvatar from "@/assets/i75/students.jpg";
+
+const {
+  name,
+  title,
+  company = "",
+  avatar,
+  testimonial,
+  rating = 5,
+  class: className = "",
+} = Astro.props;
+
+const avatarSource =
+  avatar && typeof avatar === "object" && "src" in avatar ? avatar.src : avatar;
+const avatarAlt =
+  avatar && typeof avatar === "object" && "alt" in avatar ? avatar.alt : name;
+const resolvedAvatar = avatarSource ?? DefaultAvatar;
+---
+
+<HighwayCard class={`rounded-2xl p-6 shadow-xl bg-primary text-white ring-3 ring-white ${className}`}>
+  <div class="flex items-center gap-3 mb-4">
+    {resolvedAvatar && (
+      <Image
+        src={resolvedAvatar}
+        alt={avatarAlt || name}
+        class="w-12 h-12 rounded-full object-cover flex-shrink-0"
+        loading="lazy"
+      />
+    )}
+    <div class="min-w-0">
+      <Heading tagName="span" className="font-bold text-lg text-white truncate">
+        {name}
+      </Heading>
+      <p class="text-sm text-white/80 truncate">{title}</p>
+      {company && <p class="text-xs text-white/70 truncate">{company}</p>}
+    </div>
+  </div>
+
+  <div class="flex gap-1 mb-3">
+    {Array.from({ length: 5 }, (_, i) => (
+      <Icon
+        icon="lu:star"
+        size="sm"
+        className={i < rating ? "text-yellow-400" : "text-white/40"}
+        aria-label="Star"
+      />
+    ))}
+  </div>
+
+  <p class="text-base md:text-lg leading-relaxed text-white/95 font-medium">
+    “{testimonial}”
+  </p>
+</HighwayCard>

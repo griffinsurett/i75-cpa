@@ -1,0 +1,36 @@
+---
+import Icon from "@/components/Icon";
+import { socialMediaLinks } from "@/content/siteData";
+
+interface Props {
+  links?: typeof socialMediaLinks;
+  containerClass?: string;
+  linkClass?: string;
+  iconClass?: string;
+  iconSize?: string | number;
+}
+
+const {
+  links = socialMediaLinks,
+  containerClass = "flex items-start space-x-2",
+  linkClass = "hover:pulseGlow transition-all duration-600",
+  iconClass = "text-light-primary",
+  iconSize = "24",
+} = Astro.props;
+---
+
+<ul class={containerClass}>
+  {links.map(({ name, href, icon }) => (
+    <li class="contents">
+      <a
+        href={href}
+        class={linkClass}
+        aria-label={name}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon icon={icon} size={iconSize} className={iconClass} />
+      </a>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+import Heading from "@/components/Heading";
+import StraightArrowDown from "@/assets/i75/straight-arrow-down.png";
+import StraightArrow from "@/assets/i75/straight-arrow.png";
+
+const {
+  containerClass = "flex items-center justify-center gap-3 mb-6",
+  arrowClass = "w-12 h-12 -mb-10",
+  arrowAlt = "Arrow",
+  variant = "primary",
+  tagName = "h2",
+  className = "h4 font-bold text-light-primary uppercase tracking-wide",
+  before,
+  text,
+  after,
+  beforeClass = "",
+  textClass = "",
+  afterClass = "",
+  beforeId,
+  textId,
+  afterId,
+  beforeProps,
+  textProps,
+  afterProps,
+  ...props
+} = Astro.props;
+
+const headingProps = {
+  tagName,
+  className,
+  before,
+  text,
+  after,
+  beforeClass,
+  textClass,
+  afterClass,
+  beforeId,
+  textId,
+  afterId,
+  beforeProps,
+  textProps,
+  afterProps,
+  ...props,
+};
+
+const isPrimary = variant === "primary";
+const isSecondary = variant === "secondary";
+---
+
+{isPrimary && (
+  <div class={containerClass}>
+    <Image src={StraightArrowDown} alt={arrowAlt} class={arrowClass} />
+    <Heading {...headingProps}>
+      <slot />
+    </Heading>
+    <Image src={StraightArrowDown} alt={arrowAlt} class={arrowClass} />
+  </div>
+)}
+
+{isSecondary && (
+  <div class="flex flex-col items-center justify-center mb-6">
+    <Heading {...headingProps}>
+      <slot />
+    </Heading>
+    <Image
+      src={StraightArrow}
+      alt={arrowAlt}
+      class="w-10 h-10 mt-4 rotate-90"
+    />
+  </div>
+)}

@@ -2,24 +2,29 @@
 // Do not edit manually. Run "npm run generate:icons" (or node src/integrations/icons/utils/generate-icon-map.mjs) to regenerate.
 
 import type { IconType } from 'react-icons';
-import { LuArrowRight, LuBookOpen, LuChartBar, LuChevronRight, LuCode, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuMegaphone, LuMinus, LuMousePointer, LuPhone, LuPlus, LuSearch, LuSettings, LuThumbsUp, LuTwitter } from 'react-icons/lu';
-import { FaBullhorn, FaCode } from 'react-icons/fa';
+import { LuBookOpen, LuChevronRight, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuPhone, LuSettings, LuStar, LuTwitter } from 'react-icons/lu';
+import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEnvelope, FaEye, FaFacebook, FaFeather, FaFileLines, FaHeadset, FaInstagram, FaLayerGroup, FaLifeRing, FaLink, FaLinkedin, FaMapPin, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark, FaYoutube } from 'react-icons/fa6';
 import { SiFacebook } from 'react-icons/si';
-import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEye, FaFeather, FaFileLines, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 
 export const iconMap = {
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
   'fa6:bullseye': FaBullseye,
   'fa6:clock-rotate-left': FaClockRotateLeft,
   'fa6:compass': FaCompass,
+  'fa6:envelope': FaEnvelope,
   'fa6:eye': FaEye,
+  'fa6:facebook': FaFacebook,
   'fa6:feather': FaFeather,
   'fa6:file-lines': FaFileLines,
   'fa6:headset': FaHeadset,
+  'fa6:instagram': FaInstagram,
   'fa6:layer-group': FaLayerGroup,
   'fa6:life-ring': FaLifeRing,
   'fa6:link': FaLink,
+  'fa6:linkedin': FaLinkedin,
+  'fa6:map-pin': FaMapPin,
   'fa6:palette': FaPalette,
+  'fa6:phone': FaPhone,
   'fa6:robot': FaRobot,
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
@@ -27,27 +32,18 @@ export const iconMap = {
   'fa6:universal-access': FaUniversalAccess,
   'fa6:wand-magic-sparkles': FaWandMagicSparkles,
   'fa6:xmark': FaXmark,
-  'fa:bullhorn': FaBullhorn,
-  'fa:code': FaCode,
-  'lu:arrow-right': LuArrowRight,
+  'fa6:youtube': FaYoutube,
   'lu:book-open': LuBookOpen,
-  'lu:chart-bar': LuChartBar,
   'lu:chevron-right': LuChevronRight,
-  'lu:code': LuCode,
   'lu:contact': LuContact,
   'lu:github': LuGithub,
   'lu:globe': LuGlobe,
   'lu:image': LuImage,
   'lu:linkedin': LuLinkedin,
   'lu:mail': LuMail,
-  'lu:megaphone': LuMegaphone,
-  'lu:minus': LuMinus,
-  'lu:mouse-pointer': LuMousePointer,
   'lu:phone': LuPhone,
-  'lu:plus': LuPlus,
-  'lu:search': LuSearch,
   'lu:settings': LuSettings,
-  'lu:thumbs-up': LuThumbsUp,
+  'lu:star': LuStar,
   'lu:twitter': LuTwitter,
   'si:facebook': SiFacebook,
 } satisfies Record<string, IconType>;

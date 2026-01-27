@@ -8,6 +8,7 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import GridCard from "@/components/LoopComponents/GridCard.astro";
 import Button from "@/components/Button/Button";
+import ArrowIcon from "@/components/Button/ArrowIcon";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
 interface Props extends BaseVariantProps {
@@ -75,7 +76,7 @@ const columnClasses = {
       <div class="mt-12 text-center">
         <Button
           href={collectionUrl}
-          rightIcon="lu:arrow-right"
+          rightIcon={ArrowIcon({ position: "right" })}
           variant="primary"
           size="lg"
         >

@@ -9,7 +9,15 @@ import type { BaseVariantProps } from "../ContentRenderer.types";
 import Button from "@/components/Button/Button";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
-type Props = BaseVariantProps;
+type Props = BaseVariantProps & {
+  sectionClassName?: string;
+  listClassName?: string;
+  itemClassName?: string;
+  buttonClassName?: string;
+  buttonVariant?: "link" | "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite" | "borderPrimary" | "underline";
+  listAs?: "nav" | "ul" | "ol";
+  showCollectionCta?: boolean;
+};
 
 const {
   items = [],
@@ -19,12 +27,21 @@ const {
   collectionUrl,
   collectionTitle,
   id,
+  sectionClassName = "py-16",
+  listClassName = "flex flex-wrap gap-2 list-none",
+  itemClassName = "",
+  buttonClassName = "text-bg",
+  buttonVariant = "link",
+  listAs = "nav",
+  showCollectionCta = true,
 } = Astro.props as Props;
 
 const viewAllText = `See Complete ${collectionTitle || "List"}`;
+const ListTag = listAs;
+const useListItems = listAs === "ul" || listAs === "ol";
 ---
 
-<section id={id} class={`py-16 ${className}`}>
+<section id={id} class={`${sectionClassName} ${className}`.trim()}>
   {
     (title || description) && (
       <div class="mb-12">
@@ -38,18 +55,26 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
 
   {
     items.length > 0 && (
-      <nav class="flex flex-wrap gap-2 list-none">
-        {items.map((item) => (
-            <Button href={item.url} className="text-bg" variant="link">
+      <ListTag class={listClassName}>
+        {items.map((item) =>
+          useListItems ? (
+            <li class={itemClassName}>
+              <Button href={item.url} className={buttonClassName} variant={buttonVariant}>
+                {item.title}
+              </Button>
+            </li>
+          ) : (
+            <Button href={item.url} className={buttonClassName} variant={buttonVariant}>
               {item.title}
             </Button>
-        ))}
-      </nav>
+          )
+        )}
+      </ListTag>
     )
   }
 
   {
-    shouldShowCollectionCTA(collectionUrl, items.length) && (
+    showCollectionCta && shouldShowCollectionCTA(collectionUrl, items.length) && (
       <div class="mt-12">
         <Button href={collectionUrl} variant="tertiary">
           {viewAllText}

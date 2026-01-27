@@ -37,8 +37,10 @@ export const MenuItemFields = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   url: z.string().optional(),
+  order: z.number().optional(),
   ...BaseMenuFields,
   menu: refSchema("menus"),
+  aliases: z.array(z.string()).optional(),
 });
 
 // Menus.json
@@ -239,6 +241,21 @@ export const iconSchema = ({ image }: { image: Function }) =>
 export type IconType = z.infer<ReturnType<typeof iconSchema>>;
 
 // ============================================================================
+// HEADING SCHEMA
+// ============================================================================
+
+export const headingSchema = z.union([
+  z.string().optional(),
+  z.object({
+    before: z.string().optional(),
+    text: z.string().optional(),
+    after: z.string().optional(),
+  }),
+]);
+
+export type HeadingContent = z.infer<typeof headingSchema>;
+
+// ============================================================================
 // SEO SCHEMA
 // ============================================================================
 
@@ -276,6 +293,8 @@ export const baseSchema = ({ image }: { image: Function }) =>
     featuredImage: imageInputSchema({ image }).optional(),
     bannerImage: imageInputSchema({ image }).optional(),
     hasPage: z.boolean().optional(),
+    // Controls whether children of this item get pages (only applies to items with children)
+    childHasPage: z.boolean().optional(),
     rootPath: z.boolean().optional(),
     icon: iconSchema({ image }).optional(),
     seo: seoSchema({ image }),
@@ -291,10 +310,79 @@ export const baseSchema = ({ image }: { image: Function }) =>
         return new Date(val);
       }),
     order: z.number().default(0),
-    layout: z.string().optional(),
+    itemLayout: z.string().optional(),
+    // Parent reference for content hierarchy (slug of parent item in same collection)
+    parent: z.union([z.string(), z.array(z.string())]).optional(),
+    heading: headingSchema.optional(),
+    // Tags for filtering (e.g., "featured")
+    tags: z.array(z.string()).default([]),
+    // Per-item link behavior override (takes priority over collection's itemsLinkBehavior)
+    linkBehavior: LinkBehaviorConfig,
   });
 
 export type BaseData = z.infer<ReturnType<typeof baseSchema>>;
+
+// ============================================================================
+// LINK BEHAVIOR SCHEMA
+// ============================================================================
+
+/**
+ * Value formatters for display values
+ */
+export const ValueFormatter = z.enum(['phone', 'email', 'none']).default('none');
+
+/**
+ * Link behavior modes for collections
+ * - standard: Generate URL from /{collection}/{slug}
+ * - root: Generate URL from /{slug}
+ * - prefixed: Build URL from linkPrefix + valueField (e.g., tel: + phone)
+ * - field: Use the 'link' field directly as the URL
+ * - none: No URL generation
+ */
+export const LinkMode = z.enum([
+  'standard',   // /{collection}/{slug}
+  'root',       // /{slug}
+  'prefixed',   // linkPrefix + value (for tel:, mailto:, etc.)
+  'field',      // Use 'link' field directly as URL
+  'none',       // No URL
+]).default('standard');
+
+/**
+ * Link behavior configuration for collections
+ *
+ * @example Contact collection (prefixed mode):
+ * ```yaml
+ * linkBehavior:
+ *   mode: prefixed
+ *   linkPrefix: linkPrefix  # Field containing tel: or mailto:
+ *   valueFormatter: phone   # Format description as phone number
+ * ```
+ *
+ * @example Social media (field mode):
+ * ```yaml
+ * linkBehavior:
+ *   mode: field
+ *   link: link  # Use the 'link' field as URL
+ * ```
+ */
+export const LinkBehaviorConfig = z.object({
+  mode: LinkMode,
+
+  // Field mappings
+  link: z.string().default('url'),              // Field containing URL (for 'field' mode)
+  linkPrefix: z.string().default('linkPrefix'), // Field containing prefix (for 'prefixed' mode)
+  // Note: 'prefixed' mode uses item.description as the value by default
+
+  // Static prefix (overrides per-item linkPrefix field)
+  prefix: z.string().optional(),
+
+  // Display value formatting (formats description for display)
+  valueFormatter: ValueFormatter,
+}).optional();
+
+export type LinkBehaviorConfigType = z.infer<typeof LinkBehaviorConfig>;
+export type LinkModeType = z.infer<typeof LinkMode>;
+export type ValueFormatterType = z.infer<typeof ValueFormatter>;
 
 // ============================================================================
 // META SCHEMA
@@ -304,15 +392,20 @@ export const metaSchema = ({ image }: { image: Function }) =>
   z.object({
     title: z.string().optional(),
     description: z.string().optional(),
+    heading: headingSchema.optional(),
     hasPage: z.boolean().default(true),
     featuredImage: imageInputSchema({ image }).optional(),
     seo: seoSchema({ image }),
     addToMenu: z.array(AddToMenuFields).optional(),
     redirectFrom: redirectFromSchema,
     itemsHasPage: z.boolean().default(true),
+    // Default childHasPage for all parent items in this collection
+    itemsChildHasPage: z.boolean().optional(),
     itemsRootPath: z.boolean().default(false),
     itemsAddToMenu: z.array(ItemsAddToMenuFields).optional(),
-    layout: z.string().default('../layouts/collections/CollectionIndexLayout.astro'),
+    // Link behavior for all items in this collection (can be overridden per-item)
+    itemsLinkBehavior: LinkBehaviorConfig,
+    indexLayout: z.string().default('../layouts/collections/CollectionIndexLayout.astro'),
     itemsLayout: z.string().default('../layouts/collections/CollectionLayout.astro'),
   });
 

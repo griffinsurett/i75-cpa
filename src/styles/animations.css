@@ -1,0 +1,16 @@
+@layer utilities {
+  @keyframes pulseGlow {
+    0%, 100% {
+      transform: scale(1);
+      filter: brightness(100%);
+    }
+    50% {
+      transform: scale(1.05);
+      filter: brightness(115%);
+    }
+  }
+
+  .hover\:pulseGlow:hover {
+    animation: pulseGlow 0.8s ease-in-out infinite;
+  }
+}

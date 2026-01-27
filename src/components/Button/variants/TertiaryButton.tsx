@@ -2,31 +2,34 @@
 /**
  * Tertiary Button Variant
  *
- * Solid accent button - the default and most prominent button style.
- * Used for tertiary actions like form submissions, main CTAs.
+ * i75 tertiary button style.
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
 import { renderButtonIcon } from "../utils";
+import ArrowIcon from "../ArrowIcon";
 
-/**
- * Primary button with blue background and white text
- */
-export default function PrimaryButton({
+export default function TertiaryButton({
   leftIcon,
   rightIcon,
   className = "",
   ...props
 }: ButtonProps) {
-  // Primary button styling
   const variantClasses =
-    "bg-accent text-bg hover:bg-accent-700 focus:ring-accent";
+    "rounded-xl uppercase font-bold h4 bg-light-primary text-primary hover:text-light-primary hover:bg-primary hover:border-primary hover:pulseGlow";
+  const resolvedLeftIcon =
+    leftIcon ??
+    ArrowIcon({
+      hoverOnly: true,
+      position: "left",
+      imgClassName: "w-4 h-6 px-2 transition-all duration-600 ease-in-out",
+    });
 
   return (
     <ButtonBase
       {...props}
       className={`${variantClasses} ${className}`}
-      leftIcon={renderButtonIcon(leftIcon, props.size)}
+      leftIcon={renderButtonIcon(resolvedLeftIcon, props.size)}
       rightIcon={renderButtonIcon(rightIcon, props.size)}
     />
   );

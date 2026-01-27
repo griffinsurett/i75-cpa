@@ -29,6 +29,31 @@ const FONT_WEIGHT_MAP: Record<A11yPreferences["text"]["fontWeight"], string> = {
   bold: "700",
 };
 
+function isDefaultPrefs(prefs: A11yPreferences): boolean {
+  const d = DEFAULT_PREFS;
+  return (
+    prefs.text.fontSize === d.text.fontSize &&
+    prefs.text.lineHeight === d.text.lineHeight &&
+    prefs.text.letterSpacing === d.text.letterSpacing &&
+    prefs.text.wordSpacing === d.text.wordSpacing &&
+    prefs.text.fontFamily === d.text.fontFamily &&
+    prefs.text.fontWeight === d.text.fontWeight &&
+    prefs.text.textAlign === d.text.textAlign &&
+    prefs.visual.linkHighlight === d.visual.linkHighlight &&
+    prefs.visual.titleHighlight === d.visual.titleHighlight &&
+    prefs.visual.contrastBoost === d.visual.contrastBoost &&
+    prefs.visual.saturation === d.visual.saturation &&
+    prefs.reading.readingGuide === d.reading.readingGuide &&
+    prefs.reading.readingMask === d.reading.readingMask &&
+    prefs.reading.focusHighlight === d.reading.focusHighlight &&
+    prefs.reading.bigCursor === d.reading.bigCursor &&
+    prefs.reading.pauseAnimations === d.reading.pauseAnimations &&
+    prefs.content.hideImages === d.content.hideImages &&
+    prefs.content.muteSounds === d.content.muteSounds &&
+    prefs.content.reducedMotion === d.content.reducedMotion
+  );
+}
+
 // Cursor tracking handlers
 let guideHandler: ((e: MouseEvent) => void) | null = null;
 let maskHandler: ((e: MouseEvent) => void) | null = null;
@@ -208,6 +233,11 @@ function showImages() {
 }
 
 export function applyPreferences(prefs: A11yPreferences) {
+  if (isDefaultPrefs(prefs)) {
+    removePreferences();
+    return;
+  }
+
   const root = document.documentElement;
   const resolvedWeight =
     FONT_WEIGHT_MAP[prefs.text.fontWeight] ?? FONT_WEIGHT_MAP.normal;

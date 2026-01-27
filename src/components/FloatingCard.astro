@@ -1,0 +1,24 @@
+---
+/**
+ * FloatingCard — positional wrapper that composes HighwayCard.
+ */
+
+import HighwayCard from "@/components/HighwayCard.astro";
+
+const {
+  position = "-bottom-6 -left-6",
+  wrapperClass = "",
+  class: cardClass,
+  ariaLabel = undefined,
+} = Astro.props;
+
+const finalWrapperClass = ["absolute z-10", position, "backdrop-blur-sm", wrapperClass]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class={finalWrapperClass}>
+  <HighwayCard class={cardClass} ariaLabel={ariaLabel}>
+    <slot />
+  </HighwayCard>
+</div>

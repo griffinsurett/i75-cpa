@@ -1,0 +1,39 @@
+---
+import ArrowHeading from "@/components/ArrowHeading.astro";
+import CTABlock from "@/components/CTABlock.astro";
+import { course } from "@/content/siteData";
+
+const { id = "about", class: className = "" } = Astro.props;
+
+const videoSrc = "/Did-You-Fail-The-CPA-Exam_-Maybe-Its-not-your-Faultseptember.mp4";
+---
+
+<section
+  id={id}
+  class={`relative space-y-10 min-h-[60vh] lg:min-h-[100vh] flex flex-col items-center justify-between outer-section text-light-primary ${className}`}
+>
+  <div class="relative inset-0 inner-section lg:w-4/6 h-full text-center flex flex-col gap-5 text-light-primary">
+    <ArrowHeading
+      tagName="h2"
+      className="h3 font-bold text-white tracking-wider bg-primary px-4 py-2 rounded-lg"
+      containerClass="flex items-center justify-center gap-4 mb-6"
+      before="Inside The  "
+      beforeClass="beforeAndAfterHeadingClass"
+      text="i75"
+      after={` ${course} Review Course`}
+      afterClass="beforeAndAfterHeadingClass"
+    />
+    <video class="w-full h-full object-cover" src={videoSrc} autoPlay controls loop muted></video>
+  </div>
+
+  <div class="inner-section mx-auto max-w-3xl flex flex-col justify-center items-center gap-6">
+    <p class="text-2xl text-center leading-relaxed">
+      Welcome to i75 {course} Review, <span class="font-bold">your clear and direct road to passing the {course} exam.</span>
+      Led by Darius Clark, our course is designed to <span class="font-bold">simplify complex topics</span>
+      and offer focused, practical insights that help you efficiently prepare for success.
+      <span class="font-bold">Whether you've struggled with other courses or are just starting your {course} journey</span>,
+      i75 {course} Review is here to guide you every step of the way.
+    </p>
+    <CTABlock showQuote={false} showSecondaryButton={true} />
+  </div>
+</section>

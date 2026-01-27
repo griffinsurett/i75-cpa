@@ -18,7 +18,7 @@
  */
 import { file } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
-import { baseSchema, MenuSchema, MenuItemFields, refSchema } from "./schema";
+import { baseSchema, MenuSchema, MenuItemFields, refSchema, imageInputSchema } from "./schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
 export const collections = {
@@ -47,6 +47,14 @@ export const collections = {
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         link: z.string().optional(),
+      }),
+  }),
+
+  "facebook-groups": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        link: z.string().optional(),
+        openInNewTab: z.boolean().optional(),
       }),
   }),
 
@@ -96,12 +104,14 @@ export const collections = {
       }),
   }),
 
-  "services": defineCollection({
+  "features": defineCollection({
     schema: ({ image }) =>
-      baseSchema({ image }).extend({
-        price: z.string().optional(),
-        features: z.array(z.string()).default([]),
-      }),
+      baseSchema({ image }),
+  }),
+
+  "part": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }),
   }),
 
   "testimonials": defineCollection({
@@ -110,17 +120,20 @@ export const collections = {
         role: z.string(),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
+        videoUrl: z.string().url().optional(),
+        videoThumbnail: imageInputSchema({ image }).optional(),
+        orientation: z.enum(["portrait", "landscape", "square"]).optional(),
       }),
   }),
 
-  "projects": defineCollection({
+  "partners": defineCollection({
     schema: ({ image }) =>
-      baseSchema({ image }).extend({
-        client: z.string(),
-        projectUrl: z.string().url().optional(),
-        technologies: z.array(z.string()).default([]),
-        category: z.string(),
-      }),
+      baseSchema({ image }),
+  }),
+
+  "recent-passers": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }),
   }),
 
   "faq": defineCollection({

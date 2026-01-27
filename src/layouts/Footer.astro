@@ -1,57 +1,148 @@
 ---
 // src/layouts/Footer.astro
-/**
- * Footer Component
- *
- * Site-wide footer with:
- * - Copyright notice
- * - Social media links
- * - Legal links (Privacy Policy, Cookie Policy)
- * - Cookie preferences button (client-side)
- * - Reading preferences button (client-side)
- */
-import { siteData } from "@/content/siteData";
-import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { query, sortBy } from "@/utils/query";
+import Button from "@/components/Button/Button";
+import Heading from "@/components/Heading";
+import SocialLinks from "@/components/SocialLinks.astro";
 import PreferencesLayout from "./PreferencesLayout.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { siteData } from "@/content/siteData";
+import { query, relatedRoots, sortByOrder } from "@/utils/query";
+
+const { class: className = "" } = Astro.props;
+
+const currentYear = new Date().getFullYear();
+
 ---
 
-<footer class="bg-text text-bg mt-auto">
-  <div class="mx-auto">
-    <div class="flex flex-col justify-between items-center gap-6 py-4 w-full">
-      {/* Legal and privacy links */}
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-        <ContentRenderer
-        query={query("menu-items")
-          .where((entry) => {
-            const menus = entry.data.menu;
-            if (Array.isArray(menus)) {
-              return menus.some((m) => m.id === "footer-menu");
-            }
-            return menus?.id === "footer-menu";
-          })
-          .orderBy(sortBy("order", "asc"))}
-        variant="ListVariant"
-        className="text-bg flex"
-      />
-          
-        <PreferencesLayout />
+<footer class={`bg-primary text-light-primary border-x-3 border-b-3 border-light-primary ${className}`}>
+  <!-- Newsletter & Social Section -->
+  <div class="py-12 md:py-16">
+    <div class="inner-section mx-auto">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-16">
+        <!-- Newsletter Signup -->
+        <div class="flex-1 max-w-2xl">
+          <Heading tagName="h3" className="h3 font-bold text-light-primary mb-6">
+            Subscribe To Our Newsletter!
+          </Heading>
+          <form class="flex flex-col sm:flex-row gap-2">
+            <input
+              type="email"
+              placeholder="Your Email Address"
+              class="h5 flex-1 w-full px-6 py-4 rounded-xl bg-transparent border-2 border-light-primary text-light-primary placeholder-white/80 focus:outline-none focus:border-light-primary/90"
+              required
+            />
+            <Button type="submit" variant="borderWhite">SUBSCRIBE</Button>
+          </form>
+        </div>
+
+        <!-- Social Media -->
+        <div class="text-center">
+          <Heading tagName="h3" className="h3 font-bold text-left text-light-primary mb-4">
+            Follow Us!
+          </Heading>
+          <SocialLinks
+            containerClass="flex gap-6"
+            linkClass="w-auto h-15 hover:scale-110 rounded-lg flex items-center justify-center transition-all duration-200"
+            iconClass="text-light-primary"
+            iconSize="24"
+          />
+        </div>
       </div>
+    </div>
+  </div>
 
-      {/* Social media icons */}
-      <ContentRenderer
-        query={query("social-media")}
-        variant="SocialMediaVariant"
-        size="md"
-        alignment="left"
-        className="text-bg"
-      />
+  <!-- Main Footer Content -->
+  <div class="py-12 md:py-16 border-y-3 border-light-primary">
+    <div class="inner-section mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- Company Links -->
+        <div>
+          <ContentRenderer
+            query={relatedRoots("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
+            variant="MenuVariant"
+            mode="flat-only"
+            maxDepth={1}
+            listClassName="space-y-4 list-none m-0 p-0"
+            title="Company"
+            showTitle={true}
+          />
+        </div>
 
-      {/* Copyright notice */}
-      <p class="text-bg text-sm">
-        &copy; {new Date().getFullYear()}
-        {siteData.legalName}. All rights reserved.
-      </p>
+        <!-- Resources -->
+        <div>
+          <ContentRenderer
+            query={relatedRoots("menu-items", "menu", "footer-menu").orderBy(sortByOrder())}
+            variant="MenuVariant"
+            mode="flat-only"
+            listClassName="space-y-4 list-none m-0 p-0"
+            title="Resources"
+            showTitle={true}
+          />
+          <div class="mt-8">
+            <Heading tagName="h4" className="h5 font-bold text-light-primary mb-4 uppercase tracking-wide">
+              Preferences
+            </Heading>
+            <PreferencesLayout
+              layout="vertical"
+              linkClassName="text-light-primary/90 hover:text-light-primary text-base lg:text-lg inline-flex items-center gap-2 font-semibold no-underline hover:underline underline-offset-4 transition-colors duration-200"
+              buttonClassName="text-light-primary/90 hover:text-light-primary text-base lg:text-lg"
+              buttonVariant="hoverUnderline"
+              buttonSize="sm"
+            />
+          </div>
+        </div>
+
+        <!-- Facebook Groups -->
+        <div>
+          <ContentRenderer
+            query={query("facebook-groups").orderBy(sortByOrder())}
+            variant="MenuVariant"
+            mode="flat-only"
+            maxDepth={1}
+            listClassName="space-y-4 list-none m-0 p-0"
+            title="Facebook Groups"
+            showTitle={true}
+          />
+        </div>
+
+        <!-- Featured Special -->
+        <div>
+          <Heading tagName="h4" className="h5 font-bold text-light-primary mb-6 uppercase tracking-wide">
+            Featured Special
+          </Heading>
+          <div class="text-light-primary/90">
+            <Button variant="link">Summer Special</Button>
+          </div>
+        </div>
+
+        <!-- Pick Your Part -->
+        <div>
+          <Heading tagName="h4" className="h5 font-bold text-light-primary mb-6 uppercase tracking-wide">
+            Pick Your Part
+          </Heading>
+          <ContentRenderer
+            query={query("part").orderBy(sortByOrder())}
+            variant="FooterPartsVariant"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="inner-section mx-auto py-5">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-light-primary text-lg">
+      <div class="flex items-center gap-2">
+        © {currentYear} {siteData.legalName}. All Rights Reserved.
+      </div>
+      <div>
+        <span>
+          Powered By
+          <a href="https://griffinswebservices.com" class="hover:underline transition-all duration-300">
+            Griffin's Web Services
+          </a>
+        </span>
+      </div>
     </div>
   </div>
 </footer>

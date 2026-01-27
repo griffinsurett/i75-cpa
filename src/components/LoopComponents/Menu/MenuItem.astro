@@ -5,9 +5,11 @@
  *
  * Renders individual menu link with dropdown support.
  * Uses global CSS with direct child selectors for infinite nesting.
+ * If a parent has children but no URL, clicking toggles the dropdown.
  */
 
 import MenuDropdown from "@/components/LoopTemplates/Menu/MenuDropdown.astro";
+import Button from "@/components/Button/Button";
 import { isActivePath, hasActiveDescendant } from "@/utils/navigation";
 
 export interface Props {
@@ -19,6 +21,10 @@ export interface Props {
   level?: number;
   description?: string;
   icon?: any;
+  maxDepth?: number;
+  itemClassName?: string;
+  linkClassName?: string;
+  submenuLinkClassName?: string;
 }
 
 const {
@@ -30,72 +36,119 @@ const {
   level = 0,
   description,
   icon,
+  maxDepth,
+  itemClassName = "",
+  linkClassName,
+  submenuLinkClassName,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const isActive = isActivePath(url, currentPath);
-const hasChildren = children.length > 0;
+const canRenderChildren =
+  typeof maxDepth === "number" ? level + 1 < maxDepth : true;
+const hasChildren = children.length > 0 && canRenderChildren;
 const childIsActive = hasChildren
   ? hasActiveDescendant({ children }, currentPath)
   : false;
 const isTopLevel = level === 0;
 
-const linkClasses = isTopLevel
-  ? `
-    flex items-center gap-1 px-4 py-2 rounded-md transition-colors font-medium
-    ${
-      isActive || childIsActive
-        ? "text-primary bg-primary/10"
-        : "text-text hover:text-primary hover:bg-text/5"
-    }
-  `
-  : `
-    flex items-center gap-1 px-4 py-2 text-sm transition-colors whitespace-nowrap
-    ${
-      isActive
-        ? "text-primary bg-primary/10 font-medium"
-        : "text-text hover:text-primary hover:bg-text/5"
-    }
-  `;
+// If parent has children but no page URL, it should toggle dropdown not navigate
+const isToggleOnly = hasChildren && !url;
+
+const defaultTopLevelClasses = `
+  flex items-center gap-2 transition-colors font-normal text-base lg:text-lg
+  ${
+    isActive || childIsActive
+      ? "text-light-primary"
+      : "text-light-primary hover:text-light-primary/90"
+  }
+`;
+const defaultSubLevelClasses = `
+  flex items-center justify-between gap-2 px-3 py-2 text-sm lg:text-base transition-colors whitespace-nowrap font-normal
+  ${
+    isActive
+      ? "text-light-primary font-medium"
+      : "text-light-primary hover:text-light-primary"
+  }
+`;
+const topLevelClasses = linkClassName ?? defaultTopLevelClasses;
+const subLevelClasses = submenuLinkClassName ?? defaultSubLevelClasses;
 
 const dropdownId = `dropdown-${slug}-${level}`;
 ---
 
-<li class={`relative ${hasChildren ? "menu-item" : ""}`}>
-  <a
-    href={url || "#"}
-    target={openInNewTab ? "_blank" : undefined}
-    rel={openInNewTab ? "noopener noreferrer" : undefined}
-    class={linkClasses.trim()}
-    aria-current={isActive ? "page" : undefined}
-    aria-haspopup={hasChildren ? "menu" : undefined}
-    title={description}
-  >
-    {icon && <span class="icon">{icon}</span>}
-    <span>{title}</span>
-    {
-      hasChildren && (
-        <svg
-          class="w-4 h-4 transition-transform menu-arrow"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      )
-    }
-  </a>
+<li class={`relative ${hasChildren ? "menu-item" : ""} ${itemClassName}`.trim()}>
+  {isToggleOnly ? (
+    <Button
+      type="button"
+      variant="hoverUnderline"
+      className={`${(isTopLevel ? topLevelClasses : subLevelClasses).trim()} cursor-pointer`}
+      aria-expanded="false"
+      aria-haspopup="menu"
+      title={description}
+    >
+      {icon && <span class="icon">{icon}</span>}
+      <span>{title}</span>
+      <svg
+        class={`w-4 h-4 transition-transform menu-arrow ${isTopLevel ? "menu-arrow--down" : "rotate-[-90deg]"}`}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        />
+      </svg>
+    </Button>
+  ) : (
+    <Button
+      href={url || "#"}
+      variant="hoverUnderline"
+      className={(isTopLevel ? topLevelClasses : subLevelClasses).trim()}
+      target={openInNewTab ? "_blank" : undefined}
+      rel={openInNewTab ? "noopener noreferrer" : undefined}
+      aria-current={isActive ? "page" : undefined}
+      aria-haspopup={hasChildren ? "menu" : undefined}
+      title={description}
+    >
+      {icon && <span class="icon">{icon}</span>}
+      <span>{title}</span>
+      {
+        hasChildren && (
+          <svg
+            class={`w-4 h-4 transition-transform menu-arrow ${isTopLevel ? "menu-arrow--down" : "rotate-[-90deg]"}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        )
+      }
+    </Button>
+  )}
 
   {
     hasChildren && (
-      <MenuDropdown items={children} level={level + 1} parentSlug={slug} />
+      <MenuDropdown
+        items={children}
+        level={level + 1}
+        parentSlug={slug}
+        maxDepth={maxDepth}
+        itemClassName={itemClassName}
+        linkClassName={linkClassName}
+        submenuLinkClassName={submenuLinkClassName}
+      />
     )
   }
 </li>

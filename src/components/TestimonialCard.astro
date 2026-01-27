@@ -1,0 +1,26 @@
+---
+import TextCard from "@/components/TestimonialCard/TextCard.astro";
+import VideoCard from "@/components/TestimonialCard/VideoCard.astro";
+
+const {
+  type,
+  videoUrl,
+  videoThumbnail,
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const isVideo = type === "video" || Boolean(videoUrl || videoThumbnail);
+---
+{
+  isVideo ? (
+    <VideoCard
+      class={className}
+      videoUrl={videoUrl}
+      videoThumbnail={videoThumbnail}
+      {...rest}
+    />
+  ) : (
+    <TextCard class={className} {...rest} />
+  )
+}

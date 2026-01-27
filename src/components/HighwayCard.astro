@@ -1,0 +1,15 @@
+---
+/**
+ * HighwayCard — base “road sign” card.
+ */
+const {
+  class: className = "bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6",
+  ariaLabel = undefined,
+} = Astro.props;
+
+const cardClass = ["relative", className].filter(Boolean).join(" ");
+---
+
+<div class={cardClass} role="region" aria-label={ariaLabel}>
+  <slot />
+</div>

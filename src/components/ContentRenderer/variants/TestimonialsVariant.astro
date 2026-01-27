@@ -1,0 +1,53 @@
+---
+import Heading from "@/components/Heading";
+import TestimonialCard from "@/components/TestimonialCard.astro";
+
+const {
+  items = [],
+  className = "",
+  id,
+} = Astro.props;
+---
+
+<section id={id} class={`${className}`}>
+  <div class="w-85/100 max-w-7xl mx-auto">
+    <div class="text-center space-y-4 mb-10 flex flex-col gap-2">
+      <Heading
+        tagName="h2"
+        className="h2 font-bold text-light-primary"
+        before="i75"
+        text="ers"
+        after=" Have A Much Easier Time Passing The Exam Than Their Counterparts"
+        textClass="beforeAndAfterHeadingClass"
+        afterClass="beforeAndAfterHeadingClass"
+      />
+      <p class="h4 text-light-tertiary max-w-3xl mx-auto">Here’s what they said...</p>
+    </div>
+
+    <div class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 [column-fill:_balance]">
+      {items.map((t) => {
+        const isVideo = Boolean(t.videoUrl || t.videoThumbnail);
+        const videoThumbnail = isVideo
+          ? t.videoThumbnail ?? t.bannerImage ?? t.featuredImage
+          : undefined;
+
+        return (
+          <div class="mb-6 break-inside-avoid inline-block w-full">
+            <TestimonialCard
+              type={isVideo ? "video" : "text"}
+              name={t.title}
+              title={t.role}
+              company={t.company}
+              avatar={t.featuredImage}
+              testimonial={t.description}
+              rating={t.rating}
+              videoUrl={t.videoUrl}
+              videoThumbnail={videoThumbnail}
+              orientation={t.orientation}
+            />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

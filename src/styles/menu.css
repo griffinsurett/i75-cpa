@@ -6,7 +6,8 @@
 }
 
 /* Arrow rotation on hover */
-.menu-item:hover > a .menu-arrow {
+.menu-item:hover > a .menu-arrow--down,
+.menu-item:hover > button .menu-arrow--down {
   transform: rotate(180deg);
 }
 

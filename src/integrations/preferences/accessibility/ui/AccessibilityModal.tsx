@@ -245,7 +245,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
       ssr={false}
     >
       <div className="a11y-modal-shell">
-        <div className="primary-gradient px-6 py-4 text-bg flex-shrink-0">
+        <div className="bg-primary px-6 py-4 text-bg flex-shrink-0">
           <div className="flex flex-col gap-3">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-2">

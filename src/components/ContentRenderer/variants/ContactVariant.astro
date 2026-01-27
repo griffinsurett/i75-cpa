@@ -8,6 +8,7 @@ import ContentRenderer from "../ContentRenderer.astro";
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import ContactCard from "@/components/LoopComponents/ContactCard.astro";
 import Button from "@/components/Button/Button";
+import ArrowIcon from "@/components/Button/ArrowIcon";
 import { query } from "@/utils/query";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 import ContactForm from "@/components/Form/forms/ContactForm.astro";
@@ -56,7 +57,7 @@ const columnClasses = {
           <div class="mt-12 text-left">
             <Button
               href={collectionUrl}
-              rightIcon="lu:arrow-right"
+              rightIcon={ArrowIcon({ position: "right" })}
               variant="primary"
               size="lg"
             >

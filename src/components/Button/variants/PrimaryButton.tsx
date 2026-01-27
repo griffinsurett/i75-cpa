@@ -2,12 +2,13 @@
 /**
  * Primary Button Variant
  *
- * Solid blue button - the default and most prominent button style.
+ * i75 primary button style.
  * Used for primary actions like form submissions, main CTAs.
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
 import { renderButtonIcon } from "../utils";
+import ArrowIcon from "../ArrowIcon";
 
 /**
  * Primary button with blue background and white text
@@ -18,15 +19,21 @@ export default function PrimaryButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Primary button styling
   const variantClasses =
-    "text-bg hover:bg-primary-700 focus:ring-primary bg-gradient-to-r from-primary to-primary-700 hover:from-primary-700 hover:to-primary-800 transition-colors";
+    "rounded-xl uppercase font-bold h4 border-2 border-primary bg-primary text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
+  const resolvedLeftIcon =
+    leftIcon ??
+    ArrowIcon({
+      hoverOnly: true,
+      position: "left",
+      imgClassName: "w-4 h-6 transition-all duration-600 ease-in-out",
+    });
 
   return (
     <ButtonBase
       {...props}
       className={`${variantClasses} ${className}`}
-      leftIcon={renderButtonIcon(leftIcon, props.size)}
+      leftIcon={renderButtonIcon(resolvedLeftIcon, props.size)}
       rightIcon={renderButtonIcon(rightIcon, props.size)}
     />
   );

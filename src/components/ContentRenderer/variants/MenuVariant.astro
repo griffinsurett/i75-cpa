@@ -8,6 +8,7 @@
  */
 
 import type { BaseVariantProps } from "../ContentRenderer.types";
+import Heading from "@/components/Heading";
 import MenuList from '@/components/LoopTemplates/Menu/MenuList.astro';
 import MobileMenuDrawer from '@/components/Menu/HamburgerMenuDrawer';
 import { buildMenuTree } from '@/utils/menuQueries';
@@ -20,6 +21,12 @@ interface Props extends BaseVariantProps {
   mode?: MenuMode;
   closeButton?: boolean;
   hamburgerTransform?: boolean;
+  listClassName?: string;
+  submenuListClassName?: string;
+  itemClassName?: string;
+  linkClassName?: string;
+  submenuLinkClassName?: string;
+  showTitle?: boolean;
 }
 
 const {
@@ -30,6 +37,15 @@ const {
   mode = 'responsive',
   closeButton = false,
   hamburgerTransform = true,
+  listClassName,
+  submenuListClassName,
+  itemClassName,
+  linkClassName,
+  submenuLinkClassName,
+  title,
+  headingTag = "h4",
+  headingClassName,
+  showTitle = false,
 } = Astro.props as Props;
 
 // Build hierarchical tree from flat items
@@ -58,11 +74,37 @@ const mobileHydrationStrategy =
       ? 'load'
       : 'visible'
     : 'media';
+
+const resolvedHeadingClassName =
+  headingClassName ?? "h5 font-bold text-light-primary mb-2 uppercase tracking-wide";
+
+const isFlatOnly = mode === "flat-only";
+const flatListReset = "list-none m-0 p-0 !space-y-1";
+const resolvedListClassName = isFlatOnly
+  ? `${listClassName ?? ""} ${flatListReset}`.trim()
+  : listClassName;
+const resolvedSubmenuListClassName = isFlatOnly
+  ? `${submenuListClassName ?? ""} ${flatListReset}`.trim()
+  : submenuListClassName;
 ---
 <div id={id} class={`menu-variant ${className}`}>
+  {mode === "flat-only" && showTitle && title && (
+    <Heading tagName={headingTag} className={resolvedHeadingClassName}>
+      {title}
+    </Heading>
+  )}
   {showDesktop && (
     <nav class={`menu-desktop ${desktopClasses}`} aria-label="Main navigation">
-      <MenuList items={menuTree} level={0} />
+      <MenuList
+        items={menuTree}
+        level={0}
+        maxDepth={maxDepth}
+        listClassName={resolvedListClassName}
+        submenuListClassName={resolvedSubmenuListClassName}
+        itemClassName={itemClassName}
+        linkClassName={linkClassName}
+        submenuLinkClassName={submenuLinkClassName}
+      />
     </nav>
   )}
   

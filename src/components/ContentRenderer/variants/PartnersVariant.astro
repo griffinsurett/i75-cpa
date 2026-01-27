@@ -1,0 +1,77 @@
+---
+import ImageComponent from "@/components/PartnerLogo.astro";
+import Heading from "@/components/Heading";
+import ArrowHeading from "@/components/ArrowHeading.astro";
+import { course } from "@/content/siteData";
+
+import CPAExamClub from "@/assets/i75/partners/cpaexamclub.jpg";
+import CPAExamBuzz from "@/assets/i75/partners/cpaexambuzz.jpg";
+import iPassCPA from "@/assets/i75/partners/ipasscpa.jpg";
+import AndrewKatzTutoring from "@/assets/i75/partners/andrewkatzco.jpg";
+import BlakeCarroll from "@/assets/i75/partners/blakecarroll.jpg";
+import UltimateCPE from "@/assets/i75/partners/ultimatecpe.jpg";
+
+const {
+  items = [],
+  className = "",
+  id,
+} = Astro.props;
+
+const partnerImages = {
+  cpaexamclub: CPAExamClub,
+  cpaexambuzz: CPAExamBuzz,
+  ipasscpa: iPassCPA,
+  "andrew-katz": AndrewKatzTutoring,
+  "blake-carroll": BlakeCarroll,
+  ultimatecpe: UltimateCPE,
+};
+
+const resolveImage = (item) => partnerImages[item.slug] ?? CPAExamClub;
+
+const resolveLink = (item) => {
+  const value = (item.description || "").trim();
+  if (!value) return undefined;
+  if (value.startsWith("http")) return value;
+  return `https://${value}`;
+};
+---
+
+<section id={id} class={`py-8 min-h-[100vh] flex flex-col justify-evenly items-center ${className}`}>
+  <div class="inner-section flex flex-col items-center">
+    <div class="text-center space-y-4 mb-12 md:mb-16">
+      <div class="flex flex-col gap-4">
+        <Heading
+          tagName="h2"
+          className="h2 font-semibold text-light-primary italic"
+          before="Businesses and Services Recommended By "
+          text="i75 "
+          after={`${course} Review.`}
+          beforeClass="beforeAndAfterHeadingClass"
+          afterClass="beforeAndAfterHeadingClass"
+        />
+
+        <ArrowHeading
+          variant="secondary"
+          tagName="span"
+          className="h4 font-bold text-light-primary"
+          beforeClass="beforeAndAfterHeadingClass"
+          afterClass="beforeAndAfterHeadingClass"
+          text="We Partner with Many Other CPA Review programs that can benefit candidates as well as CPE programs that can help benefit those who have already passed."
+        />
+      </div>
+
+      <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {items.map((partner) => (
+          <ImageComponent
+            img={resolveImage(partner)}
+            alt={partner.title}
+            href={resolveLink(partner)}
+            title={partner.title}
+            containerClass="flex items-center justify-center w-full h-full"
+            imageClass="w-full h-full object-contain group-hover:grayscale-0 transition-all duration-300"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

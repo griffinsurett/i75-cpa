@@ -2,12 +2,12 @@
 /**
  * Secondary Button Variant
  *
- * Outlined button with transparent background.
- * Used for secondary actions that need less emphasis than primary buttons.
+ * i75 secondary button style (matches primary base).
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
 import { renderButtonIcon } from "../utils";
+import ArrowIcon from "../ArrowIcon";
 
 export default function SecondaryButton({
   leftIcon,
@@ -15,15 +15,21 @@ export default function SecondaryButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Outlined style with blue border
   const variantClasses =
-    "bg-bg text-text hover:text-bg border-2 border-primary hover:bg-primary focus:ring-primary";
+    "rounded-xl uppercase font-bold h4 border-2 border-primary bg-primary text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
+  const resolvedLeftIcon =
+    leftIcon ??
+    ArrowIcon({
+      hoverOnly: false,
+      position: "left",
+      imgClassName: "w-4 h-6 px-2 transition-all duration-600 ease-in-out",
+    });
 
   return (
     <ButtonBase
       {...props}
       className={`${variantClasses} ${className}`}
-      leftIcon={renderButtonIcon(leftIcon, props.size)}
+      leftIcon={renderButtonIcon(resolvedLeftIcon, props.size)}
       rightIcon={renderButtonIcon(rightIcon, props.size)}
     />
   );

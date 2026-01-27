@@ -1,0 +1,93 @@
+---
+import ArrowHeading from "@/components/ArrowHeading.astro";
+import Heading from "@/components/Heading";
+import { Image } from "astro:assets";
+import Passer from "@/assets/i75/passer.png";
+import FloatingCard from "@/components/FloatingCard.astro";
+import Counter from "@/components/Counter";
+import { Image } from "astro:assets";
+import StraightArrow from "@/assets/i75/straight-arrow.png";
+import CTABlock from "@/components/CTABlock.astro";
+
+const {
+  id = "why-choose-us",
+  class: className = "",
+  subtitle = "Unlike the major review companies, i75 caters its content directly to the needs of the students",
+} = Astro.props;
+---
+
+<section id={id} class={`outer-section text-light-primary ${className}`}>
+  <div class="inner-section-sm space-y-8">
+    <div class="text-center flex flex-col gap-5">
+      <ArrowHeading
+        variant="secondary"
+        tagName="h2"
+        className="h2 font-bold text-light-primary"
+        beforeClass="beforeAndAfterHeadingClass"
+        afterClass="beforeAndAfterHeadingClass"
+        before="Why Should You Choose "
+        text="i75"
+        after=" to be your CPA Review Course?"
+      />
+      <Heading tagName="h3" className="h4 font-semibold text-light-primary italic">
+        {subtitle}
+      </Heading>
+    </div>
+
+    <div class="text-lg lg:text-xl flex flex-col lg:flex-row gap-10 lg:gap-20 text-left text-light-primary leading-relaxed space-y-4 py-6">
+      <div class="relative lg:w-2/5 h-auto">
+        <div class="image-section block h-auto sticky-section">
+          <Image src={Passer} alt="i75 Road" class="w-full h-full" loading="lazy" />
+
+          <FloatingCard position="-bottom-6 -left-6" exit ariaLabel="Rated videos sign">
+            <div class="flex flex-col lg:flex-row items-center gap-2 mb-2">
+              <Image
+                src={StraightArrow}
+                alt="Right pointed arrow"
+                class="w-7 h-6"
+                loading="lazy"
+              />
+              <p class="text-lg font-bold text-light-primary">
+                #<Counter start={0} end={1} duration={300} client:visible /> Rated Videos
+              </p>
+            </div>
+            <p class="text-xs text-light-primary/90">All Narrated By Darius Clark!</p>
+          </FloatingCard>
+
+          <FloatingCard position="-top-6 -right-6">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-light-primary flex items-center justify-center gap-1">
+                <Image
+                  src={StraightArrow}
+                  alt="Right pointed arrow"
+                  class="w-6 h-5"
+                  loading="lazy"
+                />
+                <Counter start={0} end={10} duration={2000} client:visible />k+
+              </div>
+              <div class="text-xs text-light-primary">Students helped</div>
+            </div>
+          </FloatingCard>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-start items-center lg:w-3/5 lg:sticky lg:top-0">
+        <p>
+          Here at i75 we ensure that all of our students get the help they need to pass the CPA Exam. No matter how busy your schedule is, our course is uniquely designed to cater to all. No matter how many sections you need to pass, or how much review material you currently have. i75 is the best option!
+        </p>
+        <br />
+        <p>
+          The reason i75 is the #1 CPA Review Course is because Darius Clark simplifies the CPA Exam material. Here at i75 you are not expected to read anything or know anything prior to watching each video. When you finish watching each video you will be confident and ready to anticipate the next question! No one else spoon-feeds the material to you the way Darius does. That’s why i75 has the highest passing rate in the industry!
+        </p>
+      </div>
+    </div>
+
+    <CTABlock
+      showQuote={true}
+      quoteClass="text-center text-xl lg:text-2xl text-light-primary italic max-w-3xl order-first"
+      showSignature={false}
+      showSecondaryButton={true}
+      primaryButtonVariant="primary"
+    />
+  </div>
+</section>

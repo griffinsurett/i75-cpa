@@ -1,0 +1,15 @@
+---
+import FooterPartPill from "@/components/FooterPartPill.astro";
+
+const { items = [], className = "" } = Astro.props;
+---
+
+<div class={`grid grid-cols-2 gap-3 ${className}`}>
+  {items.map((part) => (
+    <FooterPartPill
+      label={part.title ?? part.label}
+      href={part.url ?? part.href}
+      color={part.color}
+    />
+  ))}
+</div>

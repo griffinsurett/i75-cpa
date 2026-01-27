@@ -1,0 +1,64 @@
+---
+import { Image } from "astro:assets";
+import Heading from "@/components/Heading";
+import HighwayCard from "@/components/HighwayCard.astro";
+import DefaultBg from "@/assets/i75/i75road.jpg";
+
+const {
+  title = "Part",
+  href,
+  img,
+  class: className = "",
+  overlayClass = "bg-emerald-900/70",
+  titleClass = "text-light-primary font-extrabold tracking-wide uppercase text-3xl md:text-4xl",
+  ariaLabel = `Open ${title}`,
+  color,
+} = Astro.props;
+
+const resolvedImg = img ?? DefaultBg;
+const Wrapper = href ? "a" : "div";
+const wrapperProps = href
+  ? {
+      href,
+      "aria-label": ariaLabel,
+      rel: href?.startsWith("http") ? "noopener noreferrer" : undefined,
+      target: href?.startsWith("http") ? "_blank" : undefined,
+    }
+  : {};
+---
+
+<HighwayCard
+  class={`group overflow-hidden aspect-[9/9] md:aspect-[16/9] cursor-pointer transition-transform duration-300 focus-visible:ring-primary rounded-2xl shadow-xl hover:scale-105 ${className}`}
+  ariaLabel={ariaLabel}
+>
+  <Wrapper class="relative h-full w-full block" {...wrapperProps}>
+    <Image
+      src={resolvedImg}
+      alt=""
+      widths={[640, 768, 1024, 1280]}
+      sizes="(min-width: 1280px) 33vw, (min-width: 768px) 45vw, 100vw"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+    />
+
+    <div
+      class={`absolute inset-0 ${overlayClass} transition-all duration-600 group-hover:opacity-0`}
+    />
+
+    {color && (
+      <div
+        class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-600"
+        style={{ backgroundColor: color }}
+      />
+    )}
+
+    <div class="relative h-full w-full flex flex-col justify-center items-center p-6">
+      <Heading
+        tagName="span"
+        className={`text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center drop-shadow ${titleClass}`}
+      >
+        {title}
+      </Heading>
+    </div>
+  </Wrapper>
+</HighwayCard>

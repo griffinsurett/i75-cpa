@@ -20,8 +20,29 @@ import ConsentScript from "@/integrations/preferences/consent/core/scripts/Conse
 import AccessibilityButton from "@/integrations/preferences/accessibility/ui/AccessibilityButton";
 
 // Language Switcher
-import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
+// import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
 import BrowserTranslateScript from "@/integrations/preferences/language/core/scripts/BrowserTranslateScript.astro";
+
+interface Props {
+  layout?: "horizontal" | "vertical";
+  linkClassName?: string;
+  buttonClassName?: string;
+  buttonVariant?: "link" | "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite" | "borderPrimary" | "underline" | "hoverUnderline";
+  buttonSize?: "sm" | "md" | "lg";
+}
+
+const {
+  layout = "horizontal",
+  linkClassName = "text-bg hover:text-bg",
+  buttonClassName = "",
+  buttonVariant = "link",
+  buttonSize = "sm",
+} = Astro.props as Props;
+
+const layoutClasses = {
+  horizontal: "flex flex-wrap justify-center items-center gap-3",
+  vertical: "flex flex-col items-start gap-3",
+};
 ---
 
 {/* Consent Script - Inline initialization, runs immediately */}
@@ -30,20 +51,20 @@ import BrowserTranslateScript from "@/integrations/preferences/language/core/scr
 {/* Browser Translation Script - Both native and Google enabled */}
 <BrowserTranslateScript enableNative={true} enableGoogle={true} />
 
-<div class="flex flex-wrap justify-center items-center gap-3">
+<div class={layoutClasses[layout]}>
 
 {/* Language Switcher - Client-side only */}
-<LanguageSwitcher client:visible />
+{/* <LanguageSwitcher client:visible /> */}
 
 {/* CCPA Opt-Out Link */}
-<a href="/privacy-policy#ccpa-rights" class="text-bg hover:text-bg"
+<a href="/privacy-policy#ccpa-rights" class={linkClassName}
   >Do Not Sell My Personal Information</a
 >
 
 {/* Cookie Preferences Button - Client-side only */}
-<CookiePreferencesButton client:visible />
+<CookiePreferencesButton client:visible className={buttonClassName} variant={buttonVariant} size={buttonSize} />
 <CookieConsentBanner client:idle />
 
 {/* Accessibility Button - Client-side only */}
-<AccessibilityButton client:idle />
+<AccessibilityButton client:idle className={buttonClassName} variant={buttonVariant} size={buttonSize} />
 </div>

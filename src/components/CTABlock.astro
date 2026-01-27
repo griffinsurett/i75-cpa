@@ -1,0 +1,59 @@
+---
+import Button from "@/components/Button/Button";
+import { Image } from "astro:assets";
+import Signature from "@/assets/i75/signature.png";
+import { siteData } from "@/content/siteData";
+
+const {
+  showPrimaryButton = true,
+  primaryButtonText = siteData.mainCTAText ?? "Get Started",
+  primaryButtonHref = siteData.mainCTAurl ?? "/",
+  primaryButtonVariant = "borderWhite",
+  primaryButtonClass = "h5 w-full sm:w-auto",
+
+  showSecondaryButton = false,
+  secondaryButtonText = "Hear From Those Who Passed with i75...",
+  secondaryButtonHref = "/#testimonials",
+  secondaryButtonVariant = "underline",
+  secondaryButtonClass = "w-full font-bold sm:w-auto uppercase",
+
+  quote = '"The Right Teacher Makes All The Difference."',
+  quoteClass = "text-center text-xl lg:text-2xl text-light-primary italic max-w-3xl",
+  showQuote = true,
+  showSignature = true,
+  signatureClass = "w-40 h-auto mx-auto",
+
+  containerClass = "",
+} = Astro.props;
+
+---
+
+<div class={`${containerClass} flex flex-col justify-center items-center gap-3`}>
+  {showPrimaryButton && (
+    <Button
+      variant={primaryButtonVariant}
+      href={primaryButtonHref}
+      className={primaryButtonClass}
+    >
+      {primaryButtonText}
+    </Button>
+  )}
+
+  {showSecondaryButton && (
+    <Button
+      variant={secondaryButtonVariant}
+      href={secondaryButtonHref}
+      className={secondaryButtonClass}
+    >
+      {secondaryButtonText}
+    </Button>
+  )}
+
+  {showQuote && quote && <p class={quoteClass}>{quote}</p>}
+
+  {showSignature && Signature && (
+    <Image src={Signature} alt={siteData.title} class={signatureClass} />
+  )}
+
+  <slot />
+</div>

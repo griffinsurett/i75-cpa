@@ -2,8 +2,7 @@
 /**
  * Ghost Button Variant
  *
- * Transparent button that shows background on hover.
- * Used for tertiary actions or when subtle interaction is needed.
+ * i75 ghost-style button (transparent).
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
@@ -15,9 +14,8 @@ export default function GhostButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Outlined style with blue border
   const variantClasses =
-    "bg-bg/25 text-bg border-0 hover:bg-primary focus:ring-primary";
+    "rounded-xl uppercase font-bold border-2 border-light-primary bg-transparent text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
 
   return (
     <ButtonBase

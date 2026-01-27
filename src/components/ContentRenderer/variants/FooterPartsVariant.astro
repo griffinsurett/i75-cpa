@@ -1,0 +1,33 @@
+---
+import FooterPartLoop from "@/components/FooterPartLoop.astro";
+
+const {
+  items = [],
+  className = "",
+  id,
+} = Astro.props;
+
+const colorMap = {
+  far: "var(--color-far)",
+  audit: "var(--color-audit)",
+  aud: "var(--color-audit)",
+  reg: "var(--color-reg)",
+  isc: "var(--color-isc)",
+  tcp: "var(--color-tcp)",
+  bar: "var(--color-bar)",
+};
+
+const resolveColor = (item) => {
+  const key = (item.slug || item.title || "").toString().toLowerCase();
+  return colorMap[key] || "var(--color-primary)";
+};
+
+const mappedItems = items.map((item) => ({
+  ...item,
+  color: resolveColor(item),
+}));
+---
+
+<div id={id} class={className}>
+  <FooterPartLoop items={mappedItems} />
+</div>

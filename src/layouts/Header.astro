@@ -1,40 +1,49 @@
 ---
 // src/layouts/Header.astro
 /**
- * Site Header with Navigation
+ * Site Header (Highway Sign style)
  */
+import { Image } from "astro:assets";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { query, sortBy } from "@/utils/query";
+import { related, sortByOrder } from "@/utils/query";
 import { siteData } from "@/content/siteData";
+import CircleArrow from "@/assets/i75/circle-arrow.png";
+import StraightArrow from "@/assets/i75/straight-arrow.png";
 ---
 
-<header class="sticky top-0 z-[40] bg-bg shadow-sm">
-  <div class="">
-    <div class="flex items-center justify-between h-16 w-full">
-      <!-- Logo -->
-      <a
-        href="/"
-        class="text-2xl font-bold text-heading hover:text-primary transition-colors"
-      >
-        {siteData.title}
+<header class="bg-primary w-screen sticky top-0 shadow-2xl z-[99999]">
+  <div class="header-top p-3 flex justify-center items-center rounded-xl border-3 border-light-primary">
+    <Image src={StraightArrow} alt="Highway arrow" class="w-6 h-6" width={60} height={60} />
+  </div>
+  <div class="header-middle h-19 lg:h-21 flex items-center justify-center rounded-xl border-3 border-light-primary">
+    <div class="w-95/100 mx-auto flex justify-between items-center">
+      <div class="nav-left flex items-center gap-5">
+      <a class="logo flex items-center gap-3" href="/">
+        <Image
+          src={siteData.logo}
+          alt={`${siteData.title} Logo`}
+          class="w-12 lg:w-15 h-auto"
+          width={70}
+          height={70}
+        />
+        <span class="flex flex-col p-0 leading-tight text-light-primary">
+          <span class="text-lg md:text-xl lg:text-2xl font-semibold">CPA Review</span>
+          <span class="text-sm lg:text-base font-normal opacity-90 -mt-0.5">The Right Road</span>
+        </span>
       </a>
-
-      <!-- Navigation Menu using query -->
+       <Image src={CircleArrow} alt="Highway arrow" class="w-6 lg:w-9 h-auto" width={60} height={60} />
+     </div>
+            <!-- Navigation Menu using query (kept for later) -->
+      
+           <!-- <div class="nav-right flex-grow"> -->
       <ContentRenderer
-        query={query("menu-items")
-          .where((entry) => {
-            const menus = entry.data.menu;
-            if (Array.isArray(menus)) {
-              return menus.some((m) => m.id === "main-menu");
-            }
-            return menus?.id === "main-menu";
-          })
-          .orderBy(sortBy("order", "asc"))}
+        query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
         variant="MenuVariant"
         mode="responsive"
         className="header-navigation"
         hamburgerTransform={true}
       />
+      <!-- </div> -->
     </div>
   </div>
 </header>

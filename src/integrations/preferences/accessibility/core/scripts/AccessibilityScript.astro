@@ -20,6 +20,56 @@
       if (!raw) return;
       var prefs = JSON.parse(raw);
       if (!prefs || !prefs.text || !prefs.visual || !prefs.reading || !prefs.content) return;
+      var defaults = {
+        text: {
+          fontSize: 100,
+          lineHeight: 1.5,
+          letterSpacing: 0,
+          wordSpacing: 0,
+          fontFamily: 'default',
+          fontWeight: 'normal',
+          textAlign: 'left',
+        },
+        visual: {
+          linkHighlight: false,
+          titleHighlight: false,
+          contrastBoost: false,
+          saturation: 'normal',
+        },
+        reading: {
+          readingGuide: false,
+          readingMask: false,
+          focusHighlight: false,
+          bigCursor: false,
+          pauseAnimations: false,
+        },
+        content: {
+          hideImages: false,
+          muteSounds: false,
+          reducedMotion: false,
+        },
+      };
+      var isDefault =
+        prefs.text.fontSize === defaults.text.fontSize &&
+        prefs.text.lineHeight === defaults.text.lineHeight &&
+        prefs.text.letterSpacing === defaults.text.letterSpacing &&
+        prefs.text.wordSpacing === defaults.text.wordSpacing &&
+        prefs.text.fontFamily === defaults.text.fontFamily &&
+        prefs.text.fontWeight === defaults.text.fontWeight &&
+        prefs.text.textAlign === defaults.text.textAlign &&
+        prefs.visual.linkHighlight === defaults.visual.linkHighlight &&
+        prefs.visual.titleHighlight === defaults.visual.titleHighlight &&
+        prefs.visual.contrastBoost === defaults.visual.contrastBoost &&
+        prefs.visual.saturation === defaults.visual.saturation &&
+        prefs.reading.readingGuide === defaults.reading.readingGuide &&
+        prefs.reading.readingMask === defaults.reading.readingMask &&
+        prefs.reading.focusHighlight === defaults.reading.focusHighlight &&
+        prefs.reading.bigCursor === defaults.reading.bigCursor &&
+        prefs.reading.pauseAnimations === defaults.reading.pauseAnimations &&
+        prefs.content.hideImages === defaults.content.hideImages &&
+        prefs.content.muteSounds === defaults.content.muteSounds &&
+        prefs.content.reducedMotion === defaults.content.reducedMotion;
+      if (isDefault) return;
       var root = document.documentElement;
 
       // TEXT & TYPOGRAPHY
