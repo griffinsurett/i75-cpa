@@ -17,74 +17,12 @@
     "menu": "main-menu"
   },
   {
-    "id": "about-us",
-    "title": "About Us",
-    "url": "/about-us",
-    "order": 1,
-    "openInNewTab": false,
-    "menu": "main-menu",
-    "parent": "company"
-  },
-  {
-    "id": "contact-us",
-    "title": "Contact Us",
-    "url": "/contact-us",
-    "order": 2,
-    "openInNewTab": false,
-    "menu": "main-menu",
-    "parent": "company"
-  },
-  {
-    "id": "faqs",
-    "title": "FAQs",
-    "url": "/faq",
-    "order": 3,
-    "openInNewTab": false,
-    "menu": "main-menu",
-    "parent": "company"
-  },
-  {
-    "id": "testimonials",
-    "title": "Testimonials",
-    "order": 4,
-    "openInNewTab": false,
-    "menu": "main-menu",
-    "parent": "company"
-  },
-  {
     "id": "resources",
     "title": "Resources",
     "description": "Helpful content and communities",
     "order": 1010,
     "openInNewTab": false,
     "menu": "main-menu"
-  },
-  {
-    "id": "blog",
-    "title": "Blog",
-    "url": "/blog",
-    "order": 1,
-    "openInNewTab": false,
-    "menu": "main-menu",
-    "parent": "resources"
-  },
-  {
-    "id": "facebook-group-i75-amazing-woman",
-    "title": "i75 Amazing Woman",
-    "url": "https://facebook.com/groups/i75amazingwoman",
-    "order": 2,
-    "openInNewTab": true,
-    "menu": "main-menu",
-    "parent": "resources"
-  },
-  {
-    "id": "facebook-group-exam-support",
-    "title": "Exam Support",
-    "url": "https://facebook.com/groups/i75examsupport",
-    "order": 3,
-    "openInNewTab": true,
-    "menu": "main-menu",
-    "parent": "resources"
   },
   {
     "id": "my-account",
