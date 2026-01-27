@@ -6,7 +6,7 @@
  * These will make it easier to reuse complex queries
  */
 
-import { query, whereEquals, whereArrayContains, whereNoParent, sortByDate, sortByOrder, getLeaves, normalizeId, and, or } from '@/utils/query';
+import { query, whereEquals, whereArrayContains, whereNoParent, sortByDate, sortByOrder, getLeaves, normalizeId, and, or, not } from '@/utils/query';
 import { getItemKey } from '@/utils/collections';
 import type { CollectionKey } from 'astro:content';
 
@@ -88,6 +88,14 @@ export const byItemKeys = (collection: CollectionKey, keys: string | string[]) =
 export const roots = (collection: CollectionKey) =>
   query(collection)
     .where(whereNoParent())
+    .orderBy(sortByOrder());
+
+/**
+ * Items that have a parent (non-root)
+ */
+export const hasParent = (collection: CollectionKey) =>
+  query(collection)
+    .where(not(whereNoParent()))
     .orderBy(sortByOrder());
 
 /**
@@ -333,5 +341,5 @@ export const withReferencesTo = (
 // ============================================================================
 
 export const snippets = {
-
+  hasParent,
 };

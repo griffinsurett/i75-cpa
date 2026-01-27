@@ -49,7 +49,7 @@ export default function MobileMenuItem({
     return (
       <li>
         <div
-          className="flex items-center justify-between hover:bg-text/5 rounded-md transition-colors"
+          className="flex items-center justify-between hover:bg-light-primary/10 rounded-md transition-colors"
           style={{ paddingLeft: `${indent + 16}px` }}
         >
           {hasUrl ? (
@@ -58,7 +58,7 @@ export default function MobileMenuItem({
               onClick={onNavigate}
               target={openInNewTab ? "_blank" : undefined}
               rel={openInNewTab ? "noopener noreferrer" : undefined}
-              className="flex-1 py-3 font-medium text-heading hover:text-primary transition-colors"
+              className="flex-1 py-3 font-medium text-light-primary hover:text-light-primary/90 transition-colors"
             >
               {title}
             </a>
@@ -66,14 +66,14 @@ export default function MobileMenuItem({
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex-1 py-3 text-left font-medium text-heading hover:text-primary transition-colors"
+              className="flex-1 py-3 text-left font-medium text-light-primary hover:text-light-primary/90 transition-colors"
             >
               {title}
             </button>
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-3 text-text hover:text-primary transition-colors"
+            className="p-3 text-light-primary hover:text-light-primary/90 transition-colors"
             aria-expanded={isExpanded}
             aria-controls={`mobile-submenu-${slug}`}
             aria-label={isExpanded ? `Collapse ${title}` : `Expand ${title}`}
@@ -126,7 +126,7 @@ export default function MobileMenuItem({
         onClick={onNavigate}
         target={openInNewTab ? "_blank" : undefined}
         rel={openInNewTab ? "noopener noreferrer" : undefined}
-        className="block py-3 px-4 text-text hover:text-primary hover:bg-text/5 rounded-md transition-colors"
+        className="block py-3 px-4 text-light-primary hover:text-light-primary/90 hover:bg-light-primary/10 rounded-md transition-colors"
         style={{ paddingLeft: `${indent + 16}px` }}
       >
         {title}

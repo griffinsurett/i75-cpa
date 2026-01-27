@@ -11,6 +11,7 @@ export const siteData = {
   tagline:
     "Get On i75 with Darius Clark, because The Right Teacher Makes All The Difference!",
   description: `Welcome to i75 ${course} Review, your clear and direct road to passing the ${course} exam. Led by Darius Clark, our course is designed to simplify complex topics and offer focused, practical insights that help you efficiently prepare for success.`,
+  topBarText: "Welcome To i75! The Right Road to Passing the CPA Exam!",
   mainCTAText: `Get On The Right Road To ${course}!`,
   mainCTAurl: "/",
   domain: siteDomain,

@@ -12,8 +12,11 @@ import StraightArrow from "@/assets/i75/straight-arrow.png";
 ---
 
 <header class="bg-primary w-screen sticky top-0 shadow-2xl z-[99999]">
-  <div class="header-top p-3 flex justify-center items-center rounded-xl border-3 border-light-primary">
-    <Image src={StraightArrow} alt="Highway arrow" class="w-6 h-6" width={60} height={60} />
+  <div class="header-top p-2 flex justify-center items-center rounded-xl border-3 border-light-primary">
+    <div class="flex items-center gap-3 text-light-primary text-sm lg:text-base font-medium">
+      <Image src={StraightArrow} alt="Highway arrow" class="w-6 h-6" width={60} height={60} />
+      <span class="text-lg lg:text-xl">{siteData.topBarText}</span>
+    </div>
   </div>
   <div class="header-middle h-19 lg:h-21 flex items-center justify-center rounded-xl border-3 border-light-primary">
     <div class="w-95/100 mx-auto flex justify-between items-center">

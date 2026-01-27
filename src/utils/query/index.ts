@@ -123,6 +123,7 @@ export {
   byTag,
   byItemKeys,
   roots,
+  hasParent,
   leaves,
   children,
   parent,

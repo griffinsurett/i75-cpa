@@ -6,7 +6,7 @@ import SocialLinks from "@/components/SocialLinks.astro";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { siteData } from "@/content/siteData";
-import { query, relatedRoots, sortByOrder } from "@/utils/query";
+import { hasParent, query, relatedRoots, sortByOrder } from "@/utils/query";
 
 const { class: className = "" } = Astro.props;
 
@@ -121,7 +121,7 @@ const currentYear = new Date().getFullYear();
             Pick Your Part
           </Heading>
           <ContentRenderer
-            query={query("part").orderBy(sortByOrder())}
+            query={hasParent("part")}
             variant="FooterPartsVariant"
           />
         </div>
