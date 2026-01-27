@@ -76,10 +76,10 @@ const mobileHydrationStrategy =
     : 'media';
 
 const resolvedHeadingClassName =
-  headingClassName ?? "h5 font-bold text-light-primary mb-2 uppercase tracking-wide";
+  headingClassName ?? "h5 font-bold text-light-primary mb-4 uppercase tracking-wide";
 
 const isFlatOnly = mode === "flat-only";
-const flatListReset = "list-none m-0 p-0 !space-y-1";
+const flatListReset = "list-none m-0 p-0 !space-y-2";
 const resolvedListClassName = isFlatOnly
   ? `${listClassName ?? ""} ${flatListReset}`.trim()
   : listClassName;

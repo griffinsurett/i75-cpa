@@ -1,26 +1,26 @@
 [
   {
-    "id": "1",
-    "title": "Twitter",
-    "link": "https://twitter.com/griffin",
-    "icon": "lucide:twitter"
-  },
-  {
-    "id": "2",
-    "title": "LinkedIn",
-    "link": "https://linkedin.com/griffin",
-    "icon": "lucide:linkedin"
-  },
-  {
-    "id": "3",
-    "title": "GitHub",
-    "link": "https://github.com/griffin",
-    "icon": "lucide:github"
-  },
-  {
-    "id": "4",
+    "id": "facebook",
     "title": "Facebook",
-    "link": "https://facebook.com/griffin",
-    "icon": "simple-icons:facebook"
+    "link": "https://www.facebook.com/darius.clark.54",
+    "icon": "fa6-brands:facebook"
+  },
+  {
+    "id": "linkedin",
+    "title": "LinkedIn",
+    "link": "https://www.linkedin.com/in/i75/",
+    "icon": "fa6-brands:linkedin"
+  },
+  {
+    "id": "youtube",
+    "title": "YouTube",
+    "link": "https://www.youtube.com/c/DariusClarkcpaexamtutoring",
+    "icon": "fa6-brands:youtube"
+  },
+  {
+    "id": "instagram",
+    "title": "Instagram",
+    "link": "https://www.instagram.com/i75cpareview/",
+    "icon": "fa6-brands:instagram"
   }
 ]

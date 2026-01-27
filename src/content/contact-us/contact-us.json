@@ -1,16 +1,16 @@
 [
   {
-    "id": "phone",
-    "title": "7329391309",
-    "icon": "lu:phone",
-    "tags": ["phone"],
-    "linkPrefix": "tel:"
-  },
-  {
     "id": "email",
-    "title": "griffinswebservices@gmail.com",
-    "icon": "lu:mail",
+    "title": "darius@i75courses.com",
+    "icon": "fa6:envelope",
     "tags": ["email"],
     "linkPrefix": "mailto:"
+  },
+  {
+    "id": "phone",
+    "title": "(904) 800-7751",
+    "icon": "fa6:phone",
+    "tags": ["phone"],
+    "linkPrefix": "tel:"
   }
 ]

@@ -27,35 +27,28 @@ const { title, link, icon, size = 'md' } = Astro.props;
 // Default to globe icon if none specified
 const displayIcon = icon || 'lu:globe';
 
-// Padding scales with size
-const wrapperPadding = {
-  sm: 'p-3',
-  md: 'p-5',
-  lg: 'p-6',
-};
-
-// Double the default icon size
-const iconSize = size === "md" ? "2xl" : size === "sm" ? "lg" : "3xl";
+// Icon size mapping
+const iconSize = size === "md" ? "2xl" : size === "sm" ? "xl" : "3xl";
 ---
 
 {/* Render as link if URL provided */}
 {link ? (
-  <a 
+  <a
     href={link}
     target="_blank"
     rel="noopener noreferrer"
-    class={`${wrapperPadding[size]} bg-surface hover:bg-primary/10 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:scale-110`}
+    class="inline-flex items-center justify-center transition-all duration-200 hover:scale-110"
     aria-label={`Visit our ${title} page`}
     title={title}
   >
-    <Icon icon={displayIcon} size={iconSize} className="text-text" />
+    <Icon icon={displayIcon} size={iconSize} className="text-light-primary" />
   </a>
 ) : (
   /* Otherwise just display icon */
-  <div 
-    class={`${wrapperPadding[size]} bg-surface rounded-full inline-flex items-center justify-center`}
+  <div
+    class="inline-flex items-center justify-center"
     title={title}
   >
-    <Icon icon={displayIcon} size={iconSize} className="text-text" />
+    <Icon icon={displayIcon} size={iconSize} className="text-light-primary" />
   </div>
 )}

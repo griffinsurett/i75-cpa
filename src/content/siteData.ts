@@ -20,51 +20,7 @@ export const siteData = {
   address: "Monmouth County, NJ",
 };
 
-export const contactItems = [
-  {
-    type: "email",
-    label: "darius@i75courses.com",
-    href: "mailto:darius@i75courses.com",
-    icon: "fa6:envelope",
-  },
-  {
-    type: "phone",
-    label: "(904) 800-7751",
-    href: "tel:904-800-7751",
-    icon: "fa6:phone",
-  },
-  {
-    type: "location",
-    label: "Monmouth County, NJ",
-    href: null,
-    icon: "fa6:map-pin",
-  },
-];
-
-export const socialMediaLinks = [
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/darius.clark.54",
-    icon: "fa6:facebook",
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/i75/",
-    icon: "fa6:linkedin",
-  },
-  {
-    name: "YouTube",
-    href: "https://www.youtube.com/c/DariusClarkcpaexamtutoring",
-    icon: "fa6:youtube",
-  },
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/i75cpareview/",
-    icon: "fa6:instagram",
-  },
-];
-
 export const ctaData = {
   text: "Get On The Right Road",
-  link: "/",
+  link: "/contact-us",
 };

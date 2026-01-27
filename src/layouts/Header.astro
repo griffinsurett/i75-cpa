@@ -67,7 +67,9 @@ import StraightArrow from "@/assets/i75/straight-arrow.png";
     window.addEventListener("scroll", setHeaderBottom, { passive: true });
   }
 
-  const topLevelItems = document.querySelectorAll(".menu-desktop .menu-item");
+  const topLevelItems = document.querySelectorAll(
+    ".menu-desktop > ul > li.menu-item"
+  );
   const updateDropdownLeft = (el) => {
     if (!el) return;
     const rect = el.getBoundingClientRect();

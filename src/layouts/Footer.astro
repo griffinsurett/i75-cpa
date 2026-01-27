@@ -2,7 +2,6 @@
 // src/layouts/Footer.astro
 import Button from "@/components/Button/Button";
 import Heading from "@/components/Heading";
-import SocialLinks from "@/components/SocialLinks.astro";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { siteData } from "@/content/siteData";
@@ -40,11 +39,12 @@ const currentYear = new Date().getFullYear();
           <Heading tagName="h3" className="h3 font-bold text-left text-light-primary mb-4">
             Follow Us!
           </Heading>
-          <SocialLinks
-            containerClass="flex gap-6"
-            linkClass="w-auto h-15 hover:scale-110 rounded-lg flex items-center justify-center transition-all duration-200"
-            iconClass="text-light-primary"
-            iconSize="xl"
+          <ContentRenderer
+            query={query("social-media")}
+            variant="SocialMediaVariant"
+            size="lg"
+            layout="horizontal"
+            alignment="left"
           />
         </div>
       </div>

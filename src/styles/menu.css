@@ -28,6 +28,7 @@
   height: 100%;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .header-navigation .menu-item > a,
@@ -35,6 +36,18 @@
   height: 100%;
   display: inline-flex;
   align-items: center;
+}
+
+/* Extend hover area below menu items to bridge gap to dropdown */
+.header-navigation .menu-desktop > ul > li.menu-item::after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 30px;
+  /* Uncomment below to debug the hover bridge area */
+  /* background: rgba(0, 255, 0, 0.2); */
 }
 
 /* Dropdown animation */
@@ -48,13 +61,16 @@
   left: var(--menu-dropdown-left, 0px);
 }
 
+/* Invisible bridge to connect menu item to dropdown - prevents hover loss */
 .menu-dropdown--top::before {
   content: "";
   position: absolute;
-  top: -16px;
-  left: 0;
-  right: 0;
-  height: 16px;
+  top: -30px;
+  left: -20px;
+  right: -20px;
+  height: 30px;
+  /* Uncomment below to debug the hover bridge area */
+  /* background: rgba(255, 0, 0, 0.2); */
 }
 
 .menu-dropdown--nested {

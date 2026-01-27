@@ -1,12 +1,25 @@
 ---
+import type { BaseVariantProps } from "../ContentRenderer.types";
 import Heading from "@/components/Heading";
 import TestimonialCard from "@/components/TestimonialCard.astro";
+import Button from "@/components/Button/Button";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+import { siteData } from "@/content/siteData";
 
 const {
   items = [],
   className = "",
   id,
-} = Astro.props;
+  collectionUrl,
+  showButtonSection = true,
+  primaryButtonText = siteData.mainCTAText ?? "Get On The Right Road",
+  primaryButtonHref = siteData.mainCTAurl ?? "/",
+  secondaryButtonText = "See All Success Stories",
+} = Astro.props as BaseVariantProps & {
+  primaryButtonText?: string;
+  primaryButtonHref?: string;
+  secondaryButtonText?: string;
+};
 ---
 
 <section id={id} class={`${className}`}>
@@ -49,5 +62,31 @@ const {
         );
       })}
     </div>
+
+    {
+      showButtonSection && (
+        <div class="mt-12 flex flex-col items-center gap-3">
+          <Button
+            variant="borderWhite"
+            href={primaryButtonHref}
+            className="h5 w-full sm:w-auto"
+          >
+            {primaryButtonText}
+          </Button>
+
+          {
+            shouldShowCollectionCTA(collectionUrl, items.length) && (
+              <Button
+                variant="underline"
+                href={collectionUrl}
+                className="w-full font-bold sm:w-auto uppercase text-light-primary hover:text-light-primary/90"
+              >
+                {secondaryButtonText}
+              </Button>
+            )
+          }
+        </div>
+      )
+    }
   </div>
 </section>
