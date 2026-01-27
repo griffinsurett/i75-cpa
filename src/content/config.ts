@@ -109,6 +109,11 @@ export const collections = {
       baseSchema({ image }),
   }),
 
+  "memes": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }),
+  }),
+
   "part": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }),

@@ -1,0 +1,13 @@
+---
+title: "Memes"
+description: "Quick visual comparisons that show the i75 advantage."
+hasPage: false
+itemsHasPage: false
+---
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
+
+<ContentRenderer
+  query={query("memes").orderBy(sortByOrder())}
+  variant="MemesVariant"
+/>

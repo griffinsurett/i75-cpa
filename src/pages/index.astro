@@ -5,7 +5,6 @@ import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
 import { hasParent, query, sortByOrder } from "@/utils/query";
 import FrontPageHero from "@/layouts/hero/FrontPageHero.astro";
 import AboutSection from "@/layouts/i75/AboutSection.astro";
-import ComparisonSection from "@/layouts/i75/ComparisonSection.astro";
 import WhyChooseUs from "@/layouts/i75/WhyChooseUs.astro";
 import { Image } from "astro:assets";
 import Poll from "@/assets/i75/poll.jpg";
@@ -37,7 +36,11 @@ import { course, siteData } from "@/content/siteData";
 
     <div class="border-3 border-light-primary pt-10 lg:pt-18">
       <AboutSection />
-      <ComparisonSection />
+      <ContentRenderer
+        query={query("memes").orderBy(sortByOrder())}
+        variant="MemesVariant"
+        id="comparison"
+      />
     </div>
 
     <div
