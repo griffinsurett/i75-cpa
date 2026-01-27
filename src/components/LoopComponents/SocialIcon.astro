@@ -29,10 +29,13 @@ const displayIcon = icon || 'lu:globe';
 
 // Padding scales with size
 const wrapperPadding = {
-  sm: 'p-2',
-  md: 'p-2.5',
-  lg: 'p-3',
+  sm: 'p-3',
+  md: 'p-5',
+  lg: 'p-6',
 };
+
+// Double the default icon size
+const iconSize = size === "md" ? "2xl" : size === "sm" ? "lg" : "3xl";
 ---
 
 {/* Render as link if URL provided */}
@@ -45,7 +48,7 @@ const wrapperPadding = {
     aria-label={`Visit our ${title} page`}
     title={title}
   >
-    <Icon icon={displayIcon} size={size} className="text-text" />
+    <Icon icon={displayIcon} size={iconSize} className="text-text" />
   </a>
 ) : (
   /* Otherwise just display icon */
@@ -53,6 +56,6 @@ const wrapperPadding = {
     class={`${wrapperPadding[size]} bg-surface rounded-full inline-flex items-center justify-center`}
     title={title}
   >
-    <Icon icon={displayIcon} size={size} className="text-text" />
+    <Icon icon={displayIcon} size={iconSize} className="text-text" />
   </div>
 )}
