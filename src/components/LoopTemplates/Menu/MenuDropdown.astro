@@ -33,11 +33,13 @@ const {
 } = Astro.props as Props;
 const dropdownId = `dropdown-${parentSlug}-${level}`;
 const isNestedDropdown = level > 1;
+const isTopDropdown = level === 1;
+const resolvedSubmenuListClassName = submenuListClassName;
 ---
 
 <div 
   id={dropdownId}
-  class={`menu-dropdown hidden absolute top-full left-0 mt-0 ${isNestedDropdown ? "menu-dropdown--nested" : ""}`.trim()}
+  class={`menu-dropdown hidden absolute top-full left-0 mt-0 ${isTopDropdown ? "menu-dropdown--top" : ""} ${isNestedDropdown ? "menu-dropdown--nested" : ""}`.trim()}
   data-level={level}
 >
   <MenuList
@@ -45,7 +47,7 @@ const isNestedDropdown = level > 1;
     level={level}
     maxDepth={maxDepth}
     listClassName={listClassName}
-    submenuListClassName={submenuListClassName}
+    submenuListClassName={resolvedSubmenuListClassName}
     itemClassName={itemClassName}
     linkClassName={linkClassName}
     submenuLinkClassName={submenuLinkClassName}

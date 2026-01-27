@@ -1,7 +1,10 @@
 /* src/styles/menu.css */
 
 /* Menu hover behavior - works for infinite nesting */
-.menu-item:hover > .menu-dropdown {
+.menu-item:hover > .menu-dropdown,
+.menu-item:focus-within > .menu-dropdown,
+.menu-dropdown:hover,
+.menu-dropdown:focus-within {
   display: block;
 }
 
@@ -11,9 +14,47 @@
   transform: rotate(180deg);
 }
 
+/* Keep hover area active across the full header height */
+.header-navigation .menu-desktop {
+  height: 100%;
+}
+
+.header-navigation .menu-desktop > ul {
+  height: 100%;
+  align-items: stretch;
+}
+
+.header-navigation .menu-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header-navigation .menu-item > a,
+.header-navigation .menu-item > button {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+
 /* Dropdown animation */
 .menu-dropdown {
   animation: menu-slide-down 0.2s ease-out;
+}
+
+.menu-dropdown--top {
+  position: fixed;
+  top: var(--header-bottom, 0px);
+  left: var(--menu-dropdown-left, 0px);
+}
+
+.menu-dropdown--top::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
 .menu-dropdown--nested {

@@ -50,3 +50,32 @@ import StraightArrow from "@/assets/i75/straight-arrow.png";
     </div>
   </div>
 </header>
+
+<script is:inline>
+  const header = document.querySelector("header");
+  if (header) {
+    const setHeaderBottom = () => {
+      const rect = header.getBoundingClientRect();
+      document.documentElement.style.setProperty("--header-bottom", `${rect.bottom}px`);
+    };
+
+    setHeaderBottom();
+    const observer = new ResizeObserver(setHeaderBottom);
+    observer.observe(header);
+
+    window.addEventListener("resize", setHeaderBottom);
+    window.addEventListener("scroll", setHeaderBottom, { passive: true });
+  }
+
+  const topLevelItems = document.querySelectorAll(".menu-desktop .menu-item");
+  const updateDropdownLeft = (el) => {
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    document.documentElement.style.setProperty("--menu-dropdown-left", `${rect.left}px`);
+  };
+
+  topLevelItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => updateDropdownLeft(item));
+    item.addEventListener("focusin", () => updateDropdownLeft(item));
+  });
+</script>
