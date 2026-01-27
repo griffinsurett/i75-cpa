@@ -38,18 +38,10 @@ export default function MobileMenuItem({
     // If parent has no URL (hasPage: false), only show expand button
     const hasUrl = Boolean(url);
 
-    const handleParentClick = () => {
-      if (hasUrl) {
-        onNavigate();
-      } else {
-        setIsExpanded(!isExpanded);
-      }
-    };
-
     return (
       <li>
         <div
-          className="flex items-center justify-between hover:bg-light-primary/10 rounded-md transition-colors"
+          className="flex items-center hover:bg-light-primary/10 rounded-md transition-colors"
           style={{ paddingLeft: `${indent + 16}px` }}
         >
           {hasUrl ? (
@@ -58,44 +50,66 @@ export default function MobileMenuItem({
               onClick={onNavigate}
               target={openInNewTab ? "_blank" : undefined}
               rel={openInNewTab ? "noopener noreferrer" : undefined}
-              className="flex-1 py-3 font-medium text-light-primary hover:text-light-primary/90 transition-colors"
+              className="flex items-center gap-2 py-3 font-medium text-light-primary hover:text-light-primary/90 transition-colors"
             >
-              {title}
+              <span>{title}</span>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsExpanded(!isExpanded);
+                }}
+                className="text-light-primary hover:text-light-primary/90 transition-colors"
+                aria-expanded={isExpanded}
+                aria-controls={`mobile-submenu-${slug}`}
+                aria-label={isExpanded ? `Collapse ${title}` : `Expand ${title}`}
+                type="button"
+              >
+                <svg
+                  className={`w-4 h-4 transition-transform ${
+                    isExpanded ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
             </a>
           ) : (
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex-1 py-3 text-left font-medium text-light-primary hover:text-light-primary/90 transition-colors"
+              className="flex items-center gap-2 py-3 text-left font-medium text-light-primary hover:text-light-primary/90 transition-colors"
+              aria-expanded={isExpanded}
+              aria-controls={`mobile-submenu-${slug}`}
             >
-              {title}
+              <span>{title}</span>
+              <svg
+                className={`w-4 h-4 transition-transform ${
+                  isExpanded ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </button>
           )}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="p-3 text-light-primary hover:text-light-primary/90 transition-colors"
-            aria-expanded={isExpanded}
-            aria-controls={`mobile-submenu-${slug}`}
-            aria-label={isExpanded ? `Collapse ${title}` : `Expand ${title}`}
-            type="button"
-          >
-            <svg
-              className={`w-5 h-5 transition-transform ${
-                isExpanded ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
         </div>
 
         {isExpanded && (
