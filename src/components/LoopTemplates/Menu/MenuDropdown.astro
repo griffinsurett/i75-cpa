@@ -32,11 +32,13 @@ const {
   submenuLinkClassName,
 } = Astro.props as Props;
 const dropdownId = `dropdown-${parentSlug}-${level}`;
+const isNestedDropdown = level > 1;
 ---
 
 <div 
   id={dropdownId}
-  class="menu-dropdown hidden absolute top-full left-0 mt-0"
+  class={`menu-dropdown hidden absolute top-full left-0 mt-0 ${isNestedDropdown ? "menu-dropdown--nested" : ""}`.trim()}
+  data-level={level}
 >
   <MenuList
     items={items}
