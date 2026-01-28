@@ -94,39 +94,39 @@ export default function CookieConsentBanner() {
         isOpen={showBanner}
         onClose={() => setShowBanner(false)}
         closeButton={false}
-        position="bottom-left"
-        className="max-w-xl w-full bg-transparent border-0 p-0 shadow-none outline-none focus:outline-none focus-visible:outline-none"
+        position="bottom"
+        className="w-full max-w-none bg-transparent border-0 p-0 shadow-none outline-none focus:outline-none focus-visible:outline-none"
         overlayClass="bg-transparent pointer-events-none"
         allowScroll={true}
         ssr={false}
         ariaLabel="Cookie consent banner"
       >
         <div className="group text-left transition-all duration-300">
-          <div className="rounded-2xl p-6 shadow-xl bg-primary text-light-primary ring-3 ring-white">
-            <div className="flex flex-col gap-6">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl" role="img" aria-label="Cookie">
+          <div className="w-full box-border rounded-2xl px-6 py-5 shadow-xl bg-primary text-light-primary ring-3 ring-inset ring-white">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3 text-center md:text-left">
+                <span className="text-3xl" role="img" aria-label="Cookie">
                   🍪
                 </span>
-                <p className="text-sm text-light-primary/90 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg text-light-primary/90 leading-relaxed">
                   We use cookies to improve your browsing experience and for
                   marketing purposes.{" "}
                   <Button
                     variant="hoverUnderline"
                     onClick={handleOpenSettings}
                     type="button"
-                    className="text-sm text-light-primary"
+                    className="text-sm sm:text-base md:text-lg text-light-primary"
                   >
                     Manage preferences
                   </Button>
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 items-center">
+              <div className="flex flex-col md:flex-row w-full md:w-auto gap-3 items-stretch md:items-center md:justify-end md:ml-6">
                 <Button
                   variant="borderWhite"
                   onClick={handleAcceptAll}
-                  className="w-full sm:w-auto"
+                  className="w-full md:w-auto"
                   animated={false}
                   type="button"
                   size="md"
@@ -136,9 +136,9 @@ export default function CookieConsentBanner() {
                   Accept All
                 </Button>
                 <Button
-                  variant="link"
+                  variant="underline"
                   onClick={handleRejectAll}
-                  className="mx-auto text-light-primary"
+                  className="w-full md:w-auto text-light-primary text-center"
                   type="button"
                   size="md"
                   disabled={isPending}

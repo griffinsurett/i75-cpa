@@ -454,6 +454,10 @@ import { useCookieStorage } from '@/hooks/useCookieStorage';
 
 const { getCookie, setCookie } = useCookieStorage();
 
+// clear cookies
+document.cookie = "cookie-consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+
 // Check consent
 const consent = getCookie('cookie-consent');
 const parsed = consent ? JSON.parse(consent) : null;

@@ -9,7 +9,7 @@ export default function UnderlineButton({
   ...props
 }: ButtonProps) {
   const variantClasses =
-    "underline text-base lg:text-xl text-center bg-transparent uppercase font-bold";
+    "p-0 underline text-base lg:text-xl text-center bg-transparent uppercase font-bold";
 
   return (
     <ButtonBase

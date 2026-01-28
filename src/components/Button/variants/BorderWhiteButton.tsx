@@ -10,7 +10,7 @@ export default function BorderWhiteButton({
   ...props
 }: ButtonProps) {
   const variantClasses =
-    "rounded-xl uppercase font-bold h4 border-2 border-light-primary bg-transparent text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
+    "rounded-xl uppercase font-bold h5 border-2 border-light-primary bg-transparent text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
   const resolvedLeftIcon =
     leftIcon ??
     ArrowIcon({

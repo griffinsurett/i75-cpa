@@ -23,6 +23,7 @@ export interface ModalProps {
   ariaDescribedBy?: string;
   position?:
     | "center"
+    | "bottom"
     | "bottom-left"
     | "bottom-right"
     | "top-left"
@@ -47,6 +48,7 @@ function getPortalRoot(): HTMLElement {
 // Position classes - computed once
 const POSITION_CLASSES = {
   center: "flex items-center justify-center",
+  bottom: "flex items-end justify-center p-0",
   "bottom-left": "flex items-end justify-start p-4",
   "bottom-right": "flex items-end justify-end p-4",
   "top-left": "flex items-start justify-start p-4",
