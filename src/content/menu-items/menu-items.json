@@ -6,7 +6,25 @@
     "url": "/",
     "order": 0,
     "openInNewTab": false,
-    "menu": ["main-menu", "links-menu"]
+    "menu": ["main-menu", "links-menu", "footer-menu"]
+  },
+  {
+    "id": "footer-contact-us",
+    "title": "Contact Us",
+    "description": "Get in touch with our team",
+    "url": "/contact-us",
+    "order": 10,
+    "openInNewTab": false,
+    "menu": "footer-menu"
+  },
+  {
+    "id": "footer-about-us",
+    "title": "About Us",
+    "description": "Learn more about i75",
+    "url": "/about-us",
+    "order": 20,
+    "openInNewTab": false,
+    "menu": "footer-menu"
   },
   {
     "id": "company",
@@ -48,6 +66,6 @@
     "url": "https://course.i75cpa.com/account/login",
     "order": 9999,
     "openInNewTab": true,
-    "menu": "main-menu"
+    "menu": ["main-menu", "footer-menu"]
   }
 ]

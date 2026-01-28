@@ -136,29 +136,6 @@ function CookiePreferencesModal({
     }));
   };
 
-  const handleRejectAll = () => {
-    const consent: CookieConsent = {
-      necessary: true,
-      functional: false,
-      performance: false,
-      targeting: false,
-      timestamp: Date.now(),
-    };
-
-    // Save consent
-    setCookie("cookie-consent", JSON.stringify(consent), { expires: 365 });
-
-    // Enable scripts based on new consent
-    enableConsentedScripts();
-
-    // Dispatch custom event
-    window.dispatchEvent(new Event("consent-changed"));
-
-    startTransition(() => {
-      onClose();
-    });
-  };
-
   const handleConfirm = () => {
     const consent: CookieConsent = {
       ...preferences,
@@ -300,24 +277,14 @@ function CookiePreferencesModal({
 
         <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 shrink-0 items-center">
           <Button
-            variant="borderWhite"
+            variant="secondary"
             onClick={handleConfirm}
             className="w-full sm:w-auto"
-            animated={false}
             type="button"
             disabled={isPending}
             leftIcon={ArrowIcon({ hoverOnly: false, position: "left" })}
           >
             Accept Cookies
-          </Button>
-          <Button
-            variant="link"
-            onClick={handleRejectAll}
-            className="mx-auto text-light-primary"
-            type="button"
-            disabled={isPending}
-          >
-            Decline Cookies
           </Button>
         </div>
       </div>

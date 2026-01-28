@@ -2,7 +2,7 @@
 /**
  * Secondary Button Variant
  *
- * i75 secondary button style (matches primary base).
+ * White bordered button style for use on dark backgrounds.
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
@@ -16,7 +16,7 @@ export default function SecondaryButton({
   ...props
 }: ButtonProps) {
   const variantClasses =
-    "rounded-xl uppercase font-bold h4 border-2 border-primary bg-primary text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
+    "rounded-xl uppercase font-bold h5 border-2 border-light-primary bg-transparent text-light-primary hover:border-light-primary hover:bg-transparent hover:pulseGlow";
   const resolvedLeftIcon =
     leftIcon ??
     ArrowIcon({

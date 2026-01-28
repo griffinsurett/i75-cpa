@@ -3,7 +3,7 @@
 /**
  * Subscribe Form - Newsletter signup
  */
-import Button from "@/components/Button/Button";
+import Button, { type ButtonVariant } from "@/components/Button/Button";
 import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import { submitToFormspree } from "@/utils/formspree";
@@ -11,7 +11,7 @@ import { submitToFormspree } from "@/utils/formspree";
 interface Props {
   className?: string;
   inputClassName?: string;
-  buttonVariant?: "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite";
+  buttonVariant?: ButtonVariant;
   buttonText?: string;
   placeholder?: string;
   layout?: "horizontal" | "vertical";
@@ -20,7 +20,7 @@ interface Props {
 const {
   className = "",
   inputClassName = "h5 flex-1 w-full px-6 py-5 rounded-xl bg-transparent border-2 border-light-primary text-light-primary placeholder-white/80 focus:outline-none focus:border-light-primary/90",
-  buttonVariant = "borderWhite",
+  buttonVariant = "secondary",
   buttonText = "SUBSCRIBE",
   placeholder = "Your Email Address",
   layout = "horizontal",

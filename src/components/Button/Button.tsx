@@ -12,7 +12,6 @@ import PrimaryButton from "./variants/PrimaryButton";
 import SecondaryButton from "./variants/SecondaryButton";
 import LinkButton from "./variants/LinkButton";
 import TertiaryButton from "./variants/TertiaryButton";
-import BorderWhiteButton from "./variants/BorderWhiteButton";
 import UnderlineButton from "./variants/UnderlineButton";
 import HoverUnderlineButton from "./variants/HoverUnderlineButton";
 
@@ -71,7 +70,6 @@ const VARIANT_MAP = {
   secondary: SecondaryButton,
   link: LinkButton,
   tertiary: TertiaryButton,
-  borderWhite: BorderWhiteButton,
   underline: UnderlineButton,
   hoverUnderline: HoverUnderlineButton,
 };

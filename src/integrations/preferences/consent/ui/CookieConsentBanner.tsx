@@ -124,10 +124,9 @@ export default function CookieConsentBanner() {
 
               <div className="flex flex-col md:flex-row w-full md:w-auto gap-3 items-stretch md:items-center md:justify-end md:ml-6">
                 <Button
-                  variant="borderWhite"
+                  variant="secondary"
                   onClick={handleAcceptAll}
                   className="w-full md:w-auto"
-                  animated={false}
                   type="button"
                   size="md"
                   disabled={isPending}

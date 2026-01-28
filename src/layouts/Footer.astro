@@ -48,15 +48,15 @@ const currentYear = new Date().getFullYear();
   <div class="py-12 md:py-16 border-y-3 border-light-primary">
     <div class="inner-section mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-        <!-- Company Links -->
+        <!-- Footer Menu -->
         <div>
           <ContentRenderer
-            query={relatedRoots("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
+            query={relatedRoots("menu-items", "menu", "footer-menu").orderBy(sortByOrder())}
             variant="MenuVariant"
             mode="flat-only"
             maxDepth={1}
             listClassName="space-y-4 list-none m-0 p-0"
-            title="Company"
+            title="Footer Menu"
             showTitle={true}
           />
         </div>
@@ -64,7 +64,7 @@ const currentYear = new Date().getFullYear();
         <!-- Resources -->
         <div>
           <ContentRenderer
-            query={relatedRoots("menu-items", "menu", "footer-menu").orderBy(sortByOrder())}
+            query={query("legal").orderBy(sortByOrder())}
             variant="MenuVariant"
             mode="flat-only"
             listClassName="space-y-4 list-none m-0 p-0"
