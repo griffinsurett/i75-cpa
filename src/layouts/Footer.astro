@@ -4,6 +4,7 @@ import Button from "@/components/Button/Button";
 import Heading from "@/components/Heading";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import SubscribeForm from "@/components/Form/forms/SubscribeForm.astro";
 import { siteData } from "@/content/siteData";
 import { hasParent, query, relatedRoots, sortByOrder } from "@/utils/query";
 
@@ -23,15 +24,7 @@ const currentYear = new Date().getFullYear();
           <Heading tagName="h3" className="h3 font-bold text-light-primary mb-6">
             Subscribe To Our Newsletter!
           </Heading>
-          <form class="flex flex-col sm:flex-row gap-2">
-            <input
-              type="email"
-              placeholder="Your Email Address"
-              class="h5 flex-1 w-full px-6 py-4 rounded-xl bg-transparent border-2 border-light-primary text-light-primary placeholder-white/80 focus:outline-none focus:border-light-primary/90"
-              required
-            />
-            <Button type="submit" variant="borderWhite">SUBSCRIBE</Button>
-          </form>
+          <SubscribeForm />
         </div>
 
         <!-- Social Media -->

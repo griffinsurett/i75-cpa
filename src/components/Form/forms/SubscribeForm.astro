@@ -1,0 +1,70 @@
+---
+// src/components/Form/forms/SubscribeForm.astro
+/**
+ * Subscribe Form - Newsletter signup
+ */
+import Button from "@/components/Button/Button";
+import FormWrapper from "@/components/Form/FormWrapper";
+import Input from "@/components/Form/inputs/Input";
+import { submitToFormspree } from "@/utils/formspree";
+
+interface Props {
+  className?: string;
+  inputClassName?: string;
+  buttonVariant?: "primary" | "secondary" | "tertiary" | "ghost" | "borderWhite";
+  buttonText?: string;
+  placeholder?: string;
+  layout?: "horizontal" | "vertical";
+}
+
+const {
+  className = "",
+  inputClassName = "h5 flex-1 w-full px-6 py-4 rounded-xl bg-transparent border-2 border-light-primary text-light-primary placeholder-white/80 focus:outline-none focus:border-light-primary/90",
+  buttonVariant = "borderWhite",
+  buttonText = "SUBSCRIBE",
+  placeholder = "Your Email Address",
+  layout = "horizontal",
+} = Astro.props;
+
+const FORMSPREE_BASE_ACTION = "https://formspree.io/f/";
+const subscribeFormId = import.meta.env.PUBLIC_FORMSPREE_SUBSCRIBE_ID;
+const subscribeFormAction = subscribeFormId
+  ? `${FORMSPREE_BASE_ACTION}${subscribeFormId}`
+  : undefined;
+
+const handleSubmit = async (values: Record<string, unknown>) => {
+  if (!subscribeFormAction) {
+    throw new Error("Subscribe form is temporarily unavailable. Please try again later.");
+  }
+
+  await submitToFormspree({
+    endpoint: subscribeFormAction,
+    values,
+    formName: "Newsletter Subscription",
+  });
+};
+
+const layoutClasses = layout === "horizontal"
+  ? "flex flex-col sm:flex-row gap-2"
+  : "flex flex-col gap-2";
+---
+
+<FormWrapper
+  client:idle
+  onSubmit={handleSubmit}
+  successMessage="Thanks for subscribing! Check your email to confirm."
+  errorMessage="There was an error. Please try again."
+  resetOnSuccess={true}
+  className={`${layoutClasses} ${className}`}
+>
+  <Input
+    name="email"
+    type="email"
+    required={true}
+    placeholder={placeholder}
+    containerClassName="flex-1 mb-0"
+    inputClassName={inputClassName}
+    showLabel={false}
+  />
+  <Button type="submit" variant={buttonVariant}>{buttonText}</Button>
+</FormWrapper>
