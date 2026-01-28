@@ -17,14 +17,6 @@
     "menu": "main-menu"
   },
   {
-    "id": "resources",
-    "title": "Resources",
-    "description": "Helpful content and communities",
-    "order": 1010,
-    "openInNewTab": false,
-    "menu": "main-menu"
-  },
-  {
     "id": "other-i75-courses",
     "title": "Other i75 Courses",
     "description": "Explore other i75 exam review courses",

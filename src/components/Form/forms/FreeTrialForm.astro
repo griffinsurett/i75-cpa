@@ -1,0 +1,173 @@
+---
+// src/components/Form/forms/FreeTrialForm.astro
+/**
+ * Free Trial Form - For CPA exam free trial signups
+ */
+import Button from "@/components/Button/Button";
+import FormWrapper from "@/components/Form/FormWrapper";
+import Input from "@/components/Form/inputs/Input";
+import Select from "@/components/Form/inputs/Select";
+import Checkbox from "@/components/Form/inputs/Checkbox";
+import { submitToFormspree } from "@/utils/formspree";
+
+interface Props {
+  title?: string;
+  description?: string;
+  className?: string;
+}
+
+const { title, description, className = "" } = Astro.props;
+
+const FORMSPREE_BASE_ACTION = "https://formspree.io/f/";
+const freeTrialFormId = import.meta.env.PUBLIC_FORMSPREE_FREE_TRIAL_ID;
+const freeTrialFormAction = freeTrialFormId
+  ? `${FORMSPREE_BASE_ACTION}${freeTrialFormId}`
+  : undefined;
+
+const handleSubmit = async (values: Record<string, unknown>) => {
+  if (!freeTrialFormAction) {
+    throw new Error("Free trial form is temporarily unavailable. Please try again later.");
+  }
+
+  await submitToFormspree({
+    endpoint: freeTrialFormAction,
+    values,
+    formName: "Free Trial Request",
+    excludeKeys: ["privacy"],
+  });
+};
+
+const examSections = [
+  { value: "far", label: "FAR - Financial Accounting and Reporting" },
+  { value: "aud", label: "AUD - Auditing and Attestation" },
+  { value: "reg", label: "REG - Regulation" },
+  { value: "bar", label: "BAR - Business Analysis and Reporting" },
+  { value: "isc", label: "ISC - Information Systems and Controls" },
+  { value: "tcp", label: "TCP - Tax Compliance and Planning" },
+  { value: "undecided", label: "Not sure yet" },
+];
+
+const examTimeline = [
+  { value: "within-1-month", label: "Within 1 month" },
+  { value: "1-3-months", label: "1-3 months" },
+  { value: "3-6-months", label: "3-6 months" },
+  { value: "6-12-months", label: "6-12 months" },
+  { value: "just-exploring", label: "Just exploring options" },
+];
+
+const hearAboutUs = [
+  { value: "google", label: "Google Search" },
+  { value: "youtube", label: "YouTube" },
+  { value: "facebook", label: "Facebook" },
+  { value: "reddit", label: "Reddit" },
+  { value: "friend", label: "Friend/Colleague Referral" },
+  { value: "school", label: "School/University" },
+  { value: "other", label: "Other" },
+];
+---
+
+<div class={className}>
+  {title && <h2 class="text-3xl font-bold mb-3">{title}</h2>}
+  {description && <p class="text-text mb-8">{description}</p>}
+
+  <FormWrapper
+    client:idle
+    onSubmit={handleSubmit}
+    successMessage="Welcome to i75 CPA Review! Check your email for instructions to access your free trial."
+    errorMessage="There was an error submitting your request. Please try again."
+    resetOnSuccess={true}
+    className="w-full"
+  >
+    <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
+      <Input
+        name="firstName"
+        label="First Name"
+        type="text"
+        required={true}
+        minLength={2}
+        placeholder="First Name"
+        containerClassName="mb-0 flex-1"
+        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+      />
+
+      <Input
+        name="lastName"
+        label="Last Name"
+        type="text"
+        required={true}
+        minLength={2}
+        placeholder="Last Name"
+        containerClassName="mb-0 flex-1"
+        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+      />
+    </div>
+
+    <Input
+      name="email"
+      label="Email"
+      type="email"
+      required={true}
+      placeholder="your.email@example.com"
+      containerClassName="mb-4"
+      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    />
+
+    <Select
+      name="examSection"
+      label="Which CPA Exam Section are you most interested in?"
+      options={examSections}
+      required={true}
+      placeholder="Select exam section"
+      containerClassName="mb-4"
+      selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    />
+
+    <Select
+      name="examTimeline"
+      label="When are you planning to take the CPA exam?"
+      options={examTimeline}
+      required={true}
+      placeholder="Select your timeline"
+      containerClassName="mb-4"
+      selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    />
+
+    <Select
+      name="hearAboutUs"
+      label="How did you hear about us?"
+      options={hearAboutUs}
+      placeholder="Select an option"
+      containerClassName="mb-4"
+      selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    />
+
+    <Checkbox
+      name="newsletter"
+      containerClassName="mb-4"
+      checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
+    >
+      Send me CPA exam tips and study resources via email
+    </Checkbox>
+
+    <Checkbox
+      name="privacy"
+      required
+      containerClassName="mb-6"
+      checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
+    >
+      I have read and agree to the{" "}
+      <Button
+        variant="link"
+        href="/privacy-policy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Privacy Policy
+      </Button>
+    </Checkbox>
+
+    <Button variant="primary" type="submit" className="w-full mx-auto">
+      Start My Free Trial
+    </Button>
+  </FormWrapper>
+</div>

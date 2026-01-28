@@ -147,4 +147,9 @@ export const collections = {
         category: z.string().optional(),
       }),
   }),
+
+  "resources": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }),
+  }),
 };

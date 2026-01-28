@@ -9,6 +9,7 @@ import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import Checkbox from "@/components/Form/inputs/Checkbox";
 import Textarea from "@/components/Form/inputs/Textarea";
+import { submitToFormspree } from "@/utils/formspree";
 
 interface Props {
   title?: string;
@@ -18,8 +19,23 @@ interface Props {
 
 const { title, description, className = "" } = Astro.props;
 
-const handleSubmit = async (values: any) => {
-  console.log("Contact form submitted:", values);
+const FORMSPREE_BASE_ACTION = "https://formspree.io/f/";
+const contactFormId = import.meta.env.PUBLIC_FORMSPREE_CONTACT_ID;
+const contactFormAction = contactFormId
+  ? `${FORMSPREE_BASE_ACTION}${contactFormId}`
+  : undefined;
+
+const handleSubmit = async (values: Record<string, unknown>) => {
+  if (!contactFormAction) {
+    throw new Error("Contact form is temporarily unavailable. Please try again later.");
+  }
+
+  await submitToFormspree({
+    endpoint: contactFormAction,
+    values,
+    formName: "Contact Form",
+    excludeKeys: ["privacy"],
+  });
 };
 ---
 
