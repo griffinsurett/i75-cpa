@@ -5,10 +5,12 @@
  */
 import { Image } from "astro:assets";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import Button from "@/components/Button/Button";
 import { related, sortByOrder } from "@/utils/query";
 import { siteData } from "@/content/siteData";
 import CircleArrow from "@/assets/i75/circle-arrow.png";
 import StraightArrow from "@/assets/i75/straight-arrow.png";
+import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/HeaderLanguageSwitcher";
 ---
 
 <header class="bg-primary w-screen sticky top-0 shadow-2xl z-[99]">
@@ -19,7 +21,7 @@ import StraightArrow from "@/assets/i75/straight-arrow.png";
     </div>
   </div>
   <div class="header-middle h-19 lg:h-21 flex items-center justify-center rounded-xl border-3 border-light-primary">
-    <div class="w-95/100 mx-auto flex justify-between items-center">
+    <div class="w-95/100 h-full mx-auto flex justify-between items-center">
       <div class="nav-left flex items-center gap-5">
       <a class="logo flex items-center gap-3" href="/">
         <Image
@@ -36,17 +38,47 @@ import StraightArrow from "@/assets/i75/straight-arrow.png";
       </a>
        <Image src={CircleArrow} alt="Highway arrow" class="w-6 lg:w-9 h-auto" width={60} height={60} />
      </div>
-            <!-- Navigation Menu using query (kept for later) -->
-      
-           <!-- <div class="nav-right flex-grow"> -->
-      <ContentRenderer
-        query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
-        variant="MenuVariant"
-        mode="responsive"
-        className="header-navigation"
-        hamburgerTransform={true}
-      />
-      <!-- </div> -->
+
+      <div class="nav-right h-full flex flex-row-reverse lg:flex-row items-center gap-4">
+        <!-- Navigation Menu -->
+        <ContentRenderer
+          query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
+          variant="MenuVariant"
+          mode="responsive"
+          className="header-navigation"
+          hamburgerTransform={true}
+        />
+
+        <!-- Language Switcher -->
+        <HeaderLanguageSwitcher client:load />
+
+        <!-- My Account Button -->
+        <Button
+          href="https://course.i75cpa.com/account/login"
+          variant="hoverUnderline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 transition-colors font-normal text-base lg:text-lg text-light-primary hover:text-light-primary/90"
+        >
+          <!-- Account icon - mobile only -->
+          <svg
+            class="w-5 h-5 lg:hidden"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
+          </svg>
+          <!-- Text - desktop only -->
+          <span class="hidden lg:inline">My Account</span>
+        </Button>
+      </div>
     </div>
   </div>
 </header>

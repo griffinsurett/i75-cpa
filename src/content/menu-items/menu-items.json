@@ -59,13 +59,5 @@
     "openInNewTab": true,
     "parent": "other-i75-courses",
     "menu": "main-menu"
-  },
-  {
-    "id": "my-account",
-    "title": "My Account",
-    "url": "https://course.i75cpa.com/account/login",
-    "order": 9999,
-    "openInNewTab": true,
-    "menu": ["main-menu", "footer-menu"]
-  }
+    }
 ]
