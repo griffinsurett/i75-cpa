@@ -108,7 +108,7 @@ export function getLayoutPath(
   return getItemProperty(
     item?.data,
     meta,
-    'layout',          // item-level property
+    'itemLayout',          // item-level property
     'itemsLayout',         // collection-level property
     undefined              // default (will use CollectionLayout)
   );

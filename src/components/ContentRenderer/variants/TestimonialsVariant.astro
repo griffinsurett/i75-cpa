@@ -1,10 +1,24 @@
 ---
+/**
+ * TestimonialsVariant - Testimonials in masonry grid
+ *
+ * Displays text and video testimonials with quotes, ratings, and company info.
+ * Uses CSS Grid masonry for proper layout with video testimonials.
+ * Videos with portrait aspect span 2 rows, landscape spans 2 columns.
+ */
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import Heading from "@/components/Heading";
-import TestimonialCard from "@/components/TestimonialCard.astro";
+import TestimonialMasonry from "@/components/LoopTemplates/TestimonialMasonry";
 import Button from "@/components/Button/Button";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 import { siteData } from "@/content/siteData";
+import { getImageUrl } from "@/utils/images";
+
+interface Props extends BaseVariantProps {
+  primaryButtonText?: string;
+  primaryButtonHref?: string;
+  secondaryButtonText?: string;
+}
 
 const {
   items = [],
@@ -15,15 +29,120 @@ const {
   primaryButtonText = siteData.mainCTAText ?? "Get On The Right Road",
   primaryButtonHref = siteData.mainCTAurl ?? "/",
   secondaryButtonText = "See All Success Stories",
-} = Astro.props as BaseVariantProps & {
-  primaryButtonText?: string;
-  primaryButtonHref?: string;
-  secondaryButtonText?: string;
+} = Astro.props as Props;
+
+// Helper to check if item has a specific tag
+const hasTag = (item: any, tag: string) => {
+  return item.tags?.includes(tag) ?? false;
 };
+
+// Auto-detect video orientation from filename
+const detectOrientation = (videoPath: string): 'portrait' | 'landscape' | 'square' => {
+  const lower = videoPath.toLowerCase();
+  if (lower.includes('landscape')) return 'landscape';
+  if (lower.includes('square')) return 'square';
+  return 'portrait';
+};
+
+// Transform items and determine spanning
+const transformedItems = items.map((item) => {
+  const isVideo = Boolean(item.video || item.videoThumbnail);
+  const isFeatured = hasTag(item, 'featured');
+  const videoAspect = item.video ? detectOrientation(item.video) : 'portrait';
+
+  let spanColumns = false;
+  let spanRows = false;
+
+  if (isVideo) {
+    // Video spanning based on aspect ratio (featured does NOT affect videos)
+    if (videoAspect === 'portrait') {
+      spanRows = true;
+    } else if (videoAspect === 'landscape') {
+      spanColumns = true;
+    }
+  } else {
+    // Text cards: only featured ones span 2 columns
+    if (isFeatured) {
+      spanColumns = true;
+    }
+  }
+
+  const baseProps = {
+    id: item.slug,
+    name: item.title || "Anonymous",
+    role: item.role || "Customer",
+    company: item.company,
+    spanColumns,
+    spanRows,
+    isVideo,
+    videoAspect,
+  };
+
+  if (isVideo && item.video) {
+    const posterImage = item.videoThumbnail || item.bannerImage || item.featuredImage;
+    const posterUrl = posterImage ? getImageUrl(posterImage, "") : undefined;
+
+    return {
+      ...baseProps,
+      type: 'video' as const,
+      video: item.video,
+      poster: posterUrl,
+      centered: false,
+    };
+  }
+
+  const avatarUrl = item.featuredImage ? getImageUrl(item.featuredImage, "") : undefined;
+
+  return {
+    ...baseProps,
+    type: 'text' as const,
+    quote: item.content || item.description || "",
+    rating: item.rating || 5,
+    avatar: avatarUrl,
+  };
+});
+
+// Smart auto-ordering for optimal masonry layout (dense packing handles the rest)
+// Order: landscape videos, then interleave portrait videos with text
+const landscapeVideos = transformedItems.filter(i => i.isVideo && i.videoAspect === 'landscape');
+const portraitVideos = transformedItems.filter(i => i.isVideo && i.videoAspect === 'portrait');
+const squareVideos = transformedItems.filter(i => i.isVideo && i.videoAspect === 'square');
+const featuredText = transformedItems.filter(i => !i.isVideo && i.spanColumns);
+const regularText = transformedItems.filter(i => !i.isVideo && !i.spanColumns);
+
+const masonryItems: typeof transformedItems = [];
+
+// Landscape videos first (span 2 cols, good at top)
+masonryItems.push(...landscapeVideos);
+
+// Interleave portrait videos with text for balance
+const allText = [...featuredText, ...regularText];
+const portraitCount = portraitVideos.length;
+const textCount = allText.length;
+
+if (portraitCount > 0 && textCount > 0) {
+  const textPerVideo = Math.floor(textCount / (portraitCount + 1));
+  let textIdx = 0;
+
+  for (let i = 0; i < portraitCount; i++) {
+    for (let j = 0; j < textPerVideo && textIdx < textCount; j++) {
+      masonryItems.push(allText[textIdx++]);
+    }
+    masonryItems.push(portraitVideos[i]);
+  }
+  while (textIdx < textCount) {
+    masonryItems.push(allText[textIdx++]);
+  }
+} else {
+  masonryItems.push(...portraitVideos);
+  masonryItems.push(...allText);
+}
+
+masonryItems.push(...squareVideos);
 ---
 
 <section id={id} class={`${className}`}>
-  <div class="w-85/100 max-w-7xl mx-auto">
+  <div class="w-85/100 max-w-[1400px] mx-auto">
     <div class="text-center space-y-4 mb-10 flex flex-col gap-2">
       <Heading
         tagName="h2"
@@ -34,34 +153,15 @@ const {
         textClass="beforeAndAfterHeadingClass"
         afterClass="beforeAndAfterHeadingClass"
       />
-      <p class="h4 text-light-tertiary max-w-3xl mx-auto">Here’s what they said...</p>
+      <p class="h4 text-light-tertiary max-w-3xl mx-auto">Here's what they said...</p>
     </div>
 
-    <div class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 [column-fill:_balance]">
-      {items.map((t) => {
-        const isVideo = Boolean(t.videoUrl || t.videoThumbnail);
-        const videoThumbnail = isVideo
-          ? t.videoThumbnail ?? t.bannerImage ?? t.featuredImage
-          : undefined;
-
-        return (
-          <div class="mb-6 break-inside-avoid inline-block w-full">
-            <TestimonialCard
-              type={isVideo ? "video" : "text"}
-              name={t.title}
-              title={t.role}
-              company={t.company}
-              avatar={t.featuredImage}
-              testimonial={t.description}
-              rating={t.rating}
-              videoUrl={t.videoUrl}
-              videoThumbnail={videoThumbnail}
-              orientation={t.orientation}
-            />
-          </div>
-        );
-      })}
-    </div>
+    {masonryItems.length > 0 && (
+      <TestimonialMasonry
+        items={masonryItems}
+        client:visible
+      />
+    )}
 
     {
       showButtonSection && (
