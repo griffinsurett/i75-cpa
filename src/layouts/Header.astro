@@ -44,12 +44,14 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
           query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
           variant="MenuVariant"
           mode="hamburger-only"
-          className="header-navigation lg:hidden"
+          className="header-navigation lg:hidden order-3 lg:order-none"
           hamburgerTransform={true}
         />
 
         <!-- Language Switcher -->
-        <HeaderLanguageSwitcher client:load />
+        <div class="order-2 lg:order-none">
+          <HeaderLanguageSwitcher client:load />
+        </div>
 
         <!-- My Account Button -->
         <Button
@@ -57,7 +59,7 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
           variant="hoverUnderline"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 transition-colors font-normal text-base lg:text-lg text-light-primary hover:text-light-primary/90"
+          className="order-1 lg:order-none flex items-center gap-2 transition-colors font-normal text-base lg:text-lg text-light-primary hover:text-light-primary/90"
         >
           <!-- Account icon -->
           <svg

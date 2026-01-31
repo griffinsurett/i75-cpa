@@ -6,12 +6,13 @@
  * Shows globe icon + language code, expands to full dropdown on click.
  */
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguageSwitcher } from "../core/hooks/useLanguageSwitcher";
 import Button from "@/components/Button/Button";
 
 export default function HeaderLanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -44,6 +45,29 @@ export default function HeaderLanguageSwitcher() {
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
+  // Position dropdown under the header (aligned to the trigger)
+  useEffect(() => {
+    if (!isOpen) return;
+    const updatePosition = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const right = Math.max(8, window.innerWidth - rect.right);
+      setDropdownStyle({
+        top: "var(--header-bottom)",
+        right: `${right}px`,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, { passive: true });
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition);
+    };
   }, [isOpen]);
 
   const handleLanguageChange = (code: string) => {
@@ -122,7 +146,10 @@ export default function HeaderLanguageSwitcher() {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-max max-w-[90vw] bg-primary text-light-primary z-50 border-2 border-light-primary shadow-none overflow-hidden">
+        <div
+          className="fixed w-max max-w-[90vw] bg-primary text-light-primary z-50 border-2 border-light-primary shadow-none overflow-hidden"
+          style={dropdownStyle}
+        >
           {requiresConsent && (
             <button
               type="button"

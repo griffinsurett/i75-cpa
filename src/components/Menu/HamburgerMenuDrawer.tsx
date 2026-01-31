@@ -5,7 +5,7 @@
  * Manages open/close state for mobile menu with checkbox-based hamburger button.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
 import HamburgerButton from "./HamburgerButton";
 
@@ -25,6 +25,8 @@ export default function MobileMenuDrawer({
   const [isOpen, setIsOpen] = useState(false);
   const [menuTop, setMenuTop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rawHamburgerId = useId();
+  const hamburgerId = `mobile-menu-toggle-${rawHamburgerId.replace(/[:]/g, "")}`;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -85,7 +87,7 @@ export default function MobileMenuDrawer({
         onChange={setIsOpen}
         hamburgerTransform={hamburgerTransform}
         ariaLabel={isOpen ? "Close menu" : "Open menu"}
-        id="mobile-menu-toggle"
+        id={hamburgerId}
       />
 
       <div
