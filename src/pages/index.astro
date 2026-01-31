@@ -46,20 +46,25 @@ import { course, siteData } from "@/content/siteData";
       class="relative bg-cover bg-center bg-fixed outer-section"
       style={`background-image: url("${BgImage.src}");`}
     >
+      <ContentRenderer
+        query={query("testimonials")
+          .where((entry) => !!entry.data.socialMediaPost)
+          .orderBy(sortByOrder())}
+        variant="SocialProofVariant"
+        title="Social Proof"
+        description="Real wins from i75 students."
+      />
       <WhyChooseUs />
       <ContentRenderer
         query={query("features").orderBy(sortByOrder())}
         variant="FeaturesVariant"
       />
+
       <ContentRenderer
-        query={query("testimonials").orderBy(sortByOrder())}
+        query={query("testimonials")
+          .where((entry) => !entry.data.socialMediaPost)
+          .orderBy(sortByOrder())}
         variant="TestimonialsVariant"
-      />
-      <Image
-        src={Poll}
-        alt="i75 road background"
-        class="inner-section-sm h-full object-cover mt-10"
-        loading="lazy"
       />
     </div>
 

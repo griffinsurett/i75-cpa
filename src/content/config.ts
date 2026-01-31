@@ -125,6 +125,8 @@ export const collections = {
         role: z.string(),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
+        // Social media post screenshot (for social proof carousel)
+        socialMediaPost: imageInputSchema({ image }).optional(),
         video: z.string().optional(),
         videoThumbnail: imageInputSchema({ image }).optional(),
       }),

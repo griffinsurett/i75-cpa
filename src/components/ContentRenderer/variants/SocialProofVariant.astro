@@ -1,0 +1,51 @@
+---
+/**
+ * SocialProofVariant - Social media screenshot carousel with highway sign styling
+ *
+ * Displays social post screenshots in a multi-column carousel.
+ */
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import Heading from "@/components/Heading";
+import SocialProofCarousel from "@/components/LoopTemplates/SocialProofCarousel";
+import { getImageUrl } from "@/utils/images";
+
+interface Props extends BaseVariantProps {
+  title?: string;
+  description?: string;
+}
+
+const {
+  items = [],
+  className = "",
+  id,
+  title = "Social Proof",
+  description = "Real wins from i75 students.",
+} = Astro.props as Props;
+
+const carouselItems = items
+  .map((item) => ({
+    id: item.slug,
+    data: {
+      title: item.title || "",
+      socialMediaPost: getImageUrl(item.socialMediaPost || item.featuredImage, ""),
+    },
+  }))
+  .filter((item) => Boolean(item.data.socialMediaPost));
+---
+
+<section id={id} class={`${className}`}>
+  <div class="w-85/100 max-w-[1400px] mx-auto">
+    <div class="text-center space-y-4 mb-10 flex flex-col gap-2">
+      <Heading tagName="h2" className="h2 font-bold text-light-primary">
+        {title}
+      </Heading>
+      {description && (
+        <p class="h4 text-light-tertiary max-w-3xl mx-auto">{description}</p>
+      )}
+    </div>
+
+    {carouselItems.length > 0 && (
+      <SocialProofCarousel items={carouselItems} client:load />
+    )}
+  </div>
+</section>
