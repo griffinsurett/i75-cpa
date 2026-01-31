@@ -9,7 +9,6 @@ import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import Checkbox from "@/components/Form/inputs/Checkbox";
 import Textarea from "@/components/Form/inputs/Textarea";
-import Select from "@/components/Form/inputs/Select";
 import FileInput from "@/components/Form/inputs/FileInput";
 import { submitToFormspree } from "@/utils/formspree";
 
@@ -40,32 +39,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   });
 };
 
-const militaryStatusOptions = [
-  { value: "active-duty", label: "Active Duty" },
-  { value: "veteran", label: "Veteran" },
-  { value: "reserve", label: "Reserve" },
-  { value: "national-guard", label: "National Guard" },
-  { value: "retired", label: "Retired" },
-];
-
-const branchOptions = [
-  { value: "army", label: "Army" },
-  { value: "navy", label: "Navy" },
-  { value: "air-force", label: "Air Force" },
-  { value: "marine-corps", label: "Marine Corps" },
-  { value: "coast-guard", label: "Coast Guard" },
-  { value: "space-force", label: "Space Force" },
-];
-
-const examSections = [
-  { value: "far", label: "FAR - Financial Accounting and Reporting" },
-  { value: "aud", label: "AUD - Auditing and Attestation" },
-  { value: "reg", label: "REG - Regulation" },
-  { value: "bar", label: "BAR - Business Analysis and Reporting" },
-  { value: "isc", label: "ISC - Information Systems and Controls" },
-  { value: "tcp", label: "TCP - Tax Compliance and Planning" },
-  { value: "all", label: "All Sections (Full Course)" },
-];
+ 
 ---
 
 <div class={className}>
@@ -114,63 +88,29 @@ const examSections = [
       inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
     />
 
-    <Input
-      name="phone"
-      label="Phone Number"
-      type="tel"
+    <FileInput
+      name="militaryId"
+      label="Upload DD-256"
       required={true}
-      pattern="[0-9]{10,}"
-      title="Please enter at least 10 digits"
-      placeholder="012-345-6789"
+      accept=".pdf,.jpg,.jpeg,.png"
+      containerClassName="mb-4"
+    />
+
+    <Input
+      name="subject"
+      label="Subject"
+      type="text"
+      required={true}
+      placeholder="Subject"
       containerClassName="mb-4"
       inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
     />
 
-    <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
-      <Select
-        name="militaryStatus"
-        label="Military Status"
-        required={true}
-        options={militaryStatusOptions}
-        placeholder="Select your status"
-        containerClassName="mb-0 flex-1"
-        selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-      />
-
-      <Select
-        name="branch"
-        label="Branch of Service"
-        required={true}
-        options={branchOptions}
-        placeholder="Select your branch"
-        containerClassName="mb-0 flex-1"
-        selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-      />
-    </div>
-
-    <Select
-      name="examSection"
-      label="Which CPA Exam Section(s) are you interested in?"
-      options={examSections}
-      required={true}
-      placeholder="Select exam section"
-      containerClassName="mb-4"
-      selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
-
-    <FileInput
-      name="militaryId"
-      label="Upload Military ID or DD-214"
-      required={true}
-      accept=".pdf,.jpg,.jpeg,.png"
-      helperText="Accepted formats: PDF, JPG, PNG (Max 10MB)"
-      containerClassName="mb-4"
-    />
-
     <Textarea
       name="message"
-      label="Additional Information (Optional)"
-      placeholder="Tell us about your CPA journey, target exam dates, or any questions you have..."
+      label="Your Message"
+      required={true}
+      placeholder="Your Message"
       rows={4}
       containerClassName="mb-4"
       textareaClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
@@ -182,19 +122,11 @@ const examSections = [
       containerClassName="mb-6"
       checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
     >
-      I have read and agree to the{" "}
-      <Button
-        variant="link"
-        href="/privacy-policy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Privacy Policy
-      </Button>
+      I consent to have this website store my submitted information so they can respond to my inquiry
     </Checkbox>
 
-    <Button variant="primary" type="submit" className="w-full mx-auto">
-      Request Military Discount
+    <Button variant="secondary" type="submit" className="w-full mx-auto">
+      Submit Form
     </Button>
   </FormWrapper>
 </div>

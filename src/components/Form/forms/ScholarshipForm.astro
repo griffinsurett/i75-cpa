@@ -10,6 +10,7 @@ import Input from "@/components/Form/inputs/Input";
 import Select from "@/components/Form/inputs/Select";
 import Textarea from "@/components/Form/inputs/Textarea";
 import Checkbox from "@/components/Form/inputs/Checkbox";
+import CheckboxParts from "@/components/Form/CheckboxParts.astro";
 import { submitToFormspree } from "@/utils/formspree";
 
 interface Props {
@@ -38,16 +39,6 @@ const handleSubmit = async (values: Record<string, unknown>) => {
     excludeKeys: ["privacy", "commitment"],
   });
 };
-
-const examSections = [
-  { value: "far", label: "FAR - Financial Accounting and Reporting" },
-  { value: "aud", label: "AUD - Auditing and Attestation" },
-  { value: "reg", label: "REG - Regulation" },
-  { value: "bar", label: "BAR - Business Analysis and Reporting" },
-  { value: "isc", label: "ISC - Information Systems and Controls" },
-  { value: "tcp", label: "TCP - Tax Compliance and Planning" },
-  { value: "all", label: "All Sections (Full Course)" },
-];
 
 const educationLevels = [
   { value: "current-student", label: "Currently Enrolled in College/University" },
@@ -134,14 +125,10 @@ const educationLevels = [
       inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
     />
 
-    <Select
-      name="examSection"
-      label="Which CPA Exam Section(s) do you need help with?"
-      options={examSections}
-      required={true}
-      placeholder="Select exam section"
-      containerClassName="mb-4"
-      selectClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+    <CheckboxParts
+      name="passedParts"
+      label="What Parts Have You Already Passed?"
+      includeNone={true}
     />
 
     <Input
@@ -200,7 +187,7 @@ const educationLevels = [
       </Button>
     </Checkbox>
 
-    <Button variant="primary" type="submit" className="w-full mx-auto">
+    <Button variant="secondary" type="submit" className="w-full mx-auto">
       Submit Scholarship Application
     </Button>
   </FormWrapper>

@@ -1,0 +1,63 @@
+---
+// src/components/Form/inputs/CheckboxParts.astro
+/**
+ * CheckboxParts - renders part options from the "part" collection
+ */
+import { hasParent } from "@/utils/query";
+
+interface Props {
+  name: string;
+  label?: string;
+  includeNone?: boolean;
+  required?: boolean;
+  containerClassName?: string;
+  legendClassName?: string;
+  optionClassName?: string;
+  checkboxClassName?: string;
+}
+
+const {
+  name,
+  label = "What Parts Have You Already Passed?",
+  includeNone = false,
+  required = false,
+  containerClassName = "mb-4",
+  legendClassName = "block text-sm font-medium text-text mb-2",
+  optionClassName = "flex items-center gap-2 text-text",
+  checkboxClassName = "w-4 h-4 text-MainDark border-surface",
+} = Astro.props as Props;
+
+const partEntries = (await hasParent("part").get()).entries;
+const partOptions = partEntries.map((entry) => ({
+  value: entry.slug,
+  label: entry.data.title || entry.slug,
+}));
+
+const allOptions = includeNone
+  ? [{ value: "none", label: "None" }, ...partOptions]
+  : partOptions;
+---
+
+<fieldset class={containerClassName}>
+  {label && (
+    <legend class={legendClassName}>
+      {label}
+      {required && <span class="text-red-500 ml-1">*</span>}
+    </legend>
+  )}
+  <div class="space-y-2">
+    {allOptions.map((part, index) => (
+      <label class={optionClassName} for={`${name}-${part.value}`}>
+        <input
+          id={`${name}-${part.value}`}
+          type="checkbox"
+          name={name}
+          value={part.label}
+          class={checkboxClassName}
+          required={required && index === 0}
+        />
+        <span>{part.label}</span>
+      </label>
+    ))}
+  </div>
+</fieldset>

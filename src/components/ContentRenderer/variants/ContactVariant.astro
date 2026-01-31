@@ -12,6 +12,7 @@ import ArrowIcon from "@/components/Button/ArrowIcon";
 import { query } from "@/utils/query";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 import ContactForm from "@/components/Form/forms/ContactForm.astro";
+import HighwayCard from "@/components/HighwayCard.astro";
 
 interface Props extends BaseVariantProps {
   columns?: 1 | 2 | 3;
@@ -68,7 +69,9 @@ const columnClasses = {
       }
     </div>
     <div class="flex flex-col justify-between w-full">
-      <ContactForm />
+      <HighwayCard>
+        <ContactForm />
+      </HighwayCard>
       <ContentRenderer
         query={query("social-media")}
         variant="SocialMediaVariant"
