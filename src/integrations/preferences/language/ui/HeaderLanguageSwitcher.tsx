@@ -63,10 +63,10 @@ export default function HeaderLanguageSwitcher() {
   return (
     <div ref={containerRef} className="relative h-full flex items-center">
       <Button
-        variant="link"
+        variant="hoverUnderline"
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="btn-base group flex items-center gap-1.5 text-light-primary hover:text-light-primary/90 transition-colors duration-200 font-normal text-base lg:text-lg !outline-none focus:!outline-none focus:ring-0 focus-visible:outline-none"
+        className="flex items-center gap-1.5 text-light-primary"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label="Choose language"
@@ -102,7 +102,7 @@ export default function HeaderLanguageSwitcher() {
             d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9Z"
           />
         </svg>
-        <span className="hidden lg:inline uppercase notranslate text-sm font-medium">
+        <span className="hidden lg:inline uppercase notranslate">
           {currentLanguage.code.split("-")[0]}
         </span>
         <svg
@@ -122,7 +122,7 @@ export default function HeaderLanguageSwitcher() {
       </Button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full min-w-[200px] bg-primary text-light-primary py-1 z-50 border-2 border-light-primary shadow-none overflow-hidden">
+        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-[90vw] max-w-[280px] sm:w-auto sm:max-w-none sm:min-w-[200px] bg-primary text-light-primary py-1 z-50 border-2 border-light-primary shadow-none overflow-hidden">
           {requiresConsent && (
             <button
               type="button"

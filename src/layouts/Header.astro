@@ -21,8 +21,8 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
     </div>
   </div>
   <div class="header-middle h-19 lg:h-21 flex items-center justify-center rounded-xl border-3 border-light-primary">
-    <div class="w-95/100 h-full mx-auto flex justify-between items-center">
-      <div class="nav-left flex items-center gap-5">
+    <div class="w-95/100 h-full mx-auto flex items-center justify-between gap-4">
+      <div class="nav-left shrink-0 flex items-center gap-5">
       <a class="logo flex items-center gap-3" href="/">
         <Image
           src={siteData.logo}
@@ -39,13 +39,23 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
        <Image src={CircleArrow} alt="Highway arrow" class="w-6 lg:w-9 h-auto" width={60} height={60} />
      </div>
 
-      <div class="nav-right h-full flex flex-row-reverse lg:flex-row items-center gap-4">
-        <!-- Navigation Menu -->
+      <div class="nav-center hidden lg:flex flex-1 items-center justify-center">
+        <!-- Desktop Navigation Menu -->
         <ContentRenderer
           query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
           variant="MenuVariant"
           mode="responsive"
           className="header-navigation"
+        />
+      </div>
+
+      <div class="nav-right shrink-0 h-full flex items-center gap-4 ml-auto">
+        <!-- Mobile Hamburger Menu -->
+        <ContentRenderer
+          query={related("menu-items", "menu", "main-menu").orderBy(sortByOrder())}
+          variant="MenuVariant"
+          mode="hamburger-only"
+          className="header-navigation lg:hidden"
           hamburgerTransform={true}
         />
 
@@ -60,9 +70,9 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
           rel="noopener noreferrer"
           className="flex items-center gap-2 transition-colors font-normal text-base lg:text-lg text-light-primary hover:text-light-primary/90"
         >
-          <!-- Account icon - mobile only -->
+          <!-- Account icon -->
           <svg
-            class="w-5 h-5 lg:hidden"
+            class="w-5 h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -76,7 +86,7 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
             />
           </svg>
           <!-- Text - desktop only -->
-          <span class="hidden lg:inline">My Account</span>
+          <span class="hidden lg:inline">Login</span>
         </Button>
       </div>
     </div>
