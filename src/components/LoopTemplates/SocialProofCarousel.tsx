@@ -129,23 +129,23 @@ const SocialProofCarousel = ({ items, className = '' }: SocialProofCarouselProps
           <button
             aria-label="Previous slide"
             onClick={goPrev}
-            className="hidden md:flex absolute -left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary border-2 border-light-primary/70 text-light-primary text-xl items-center justify-center hover:bg-primary/90 transition-colors z-10"
+            className="flex absolute -left-4 sm:-left-8 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-primary border-2 border-light-primary/70 text-light-primary text-xl items-center justify-center hover:bg-primary/90 transition-colors z-10"
           >
             <img
               src={typeof StraightArrowSide === "string" ? StraightArrowSide : StraightArrowSide.src}
               alt=""
-              className="h-5 w-auto rotate-180"
+              className="h-3 sm:h-5 w-auto rotate-180"
             />
           </button>
           <button
             aria-label="Next slide"
             onClick={goNext}
-            className="hidden md:flex absolute -right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary border-2 border-light-primary/70 text-light-primary text-xl items-center justify-center hover:bg-primary/90 transition-colors z-10"
+            className="flex absolute -right-4 sm:-right-8 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-primary border-2 border-light-primary/70 text-light-primary text-xl items-center justify-center hover:bg-primary/90 transition-colors z-10"
           >
             <img
               src={typeof StraightArrowSide === "string" ? StraightArrowSide : StraightArrowSide.src}
               alt=""
-              className="h-5 w-auto"
+              className="h-3 sm:h-5 w-auto"
             />
           </button>
         </>
