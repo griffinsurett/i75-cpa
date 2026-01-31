@@ -7,6 +7,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
+import Button from "@/components/Button/Button";
 import HamburgerButton from "./HamburgerButton";
 
 interface MobileMenuDrawerProps {
@@ -139,6 +140,18 @@ export default function MobileMenuDrawer({
                 />
               ))}
             </ul>
+
+            <div className="mt-4 pt-4 border-t border-light-primary/20">
+              <Button
+                href="https://course.i75cpa.com/account/login"
+                variant="secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full justify-center"
+              >
+                Login
+              </Button>
+            </div>
           </nav>
         </div>
       </div>
