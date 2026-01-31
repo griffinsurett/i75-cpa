@@ -1,0 +1,30 @@
+---
+// src/components/Logo.astro
+import { Image } from "astro:assets";
+import { siteData } from "@/content/siteData";
+
+const {
+  href = "/",
+  class: className = "",
+  imageClass = "w-12 lg:w-15 h-auto",
+  width = 70,
+  height = 70,
+  textClass = "flex flex-col p-0 leading-tight text-light-primary",
+  titleClass = "text-lg md:text-xl lg:text-2xl font-semibold",
+  subtitleClass = "text-sm lg:text-base font-normal opacity-90 -mt-0.5",
+} = Astro.props;
+---
+
+<a class={`logo flex items-center gap-3 ${className}`.trim()} href={href}>
+  <Image
+    src={siteData.logo}
+    alt={`${siteData.title} Logo`}
+    class={imageClass}
+    width={width}
+    height={height}
+  />
+  <span class={textClass}>
+    <span class={titleClass}>CPA Review</span>
+    <span class={subtitleClass}>The Right Road</span>
+  </span>
+</a>

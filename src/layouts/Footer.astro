@@ -5,12 +5,14 @@ import Heading from "@/components/Heading";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import SubscribeForm from "@/components/Form/forms/SubscribeForm.astro";
+import Logo from "@/components/Logo.astro";
 import { siteData } from "@/content/siteData";
 import { hasParent, query, relatedRoots, sortByOrder } from "@/utils/query";
 
 const { class: className = "" } = Astro.props;
 
 const currentYear = new Date().getFullYear();
+const contactEntries = (await query("contact-us").orderBy(sortByOrder()).get()).entries;
 
 ---
 
@@ -48,6 +50,39 @@ const currentYear = new Date().getFullYear();
   <div class="py-12 md:py-16 border-y-3 border-light-primary">
     <div class="inner-section mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- Logo + Contact + Social -->
+        <div class="flex flex-col gap-6 min-w-0">
+          <Logo
+            imageClass="w-14 lg:w-16 h-auto"
+            width={80}
+            height={80}
+          />
+                    {contactEntries.length > 0 && (
+            <ul class="flex flex-col gap-2 list-none m-0 p-0 max-w-[260px]">
+              {contactEntries.map((entry) => {
+                const data = entry.data;
+                const href = data.linkPrefix ? `${data.linkPrefix}${data.title}` : undefined;
+                return (
+                  <li>
+                    <Button
+                      variant="hoverUnderline"
+                      href={href}
+                      className="text-light-primary/90 hover:text-light-primary text-sm lg:text-base break-all"
+                      leftIcon={data.icon}
+                      size="sm"
+                    >
+                      {data.title}
+                    </Button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <p class="text-light-primary/90 text-sm lg:text-base leading-relaxed">
+            {siteData.description}
+          </p>
+
+        </div>
         <!-- Footer Menu -->
         <div>
           <ContentRenderer
@@ -59,6 +94,18 @@ const currentYear = new Date().getFullYear();
             title="Footer Menu"
             showTitle={true}
           />
+
+          <div class="mt-8">
+            <ContentRenderer
+              query={query("study-groups").orderBy(sortByOrder())}
+              variant="MenuVariant"
+              mode="flat-only"
+              maxDepth={1}
+              listClassName="space-y-4 list-none m-0 p-0"
+              title="Study Groups"
+              showTitle={true}
+            />
+          </div>
         </div>
 
         <!-- Resources -->
@@ -83,19 +130,6 @@ const currentYear = new Date().getFullYear();
               buttonSize="sm"
             />
           </div>
-        </div>
-
-        <!-- Study Groups -->
-        <div>
-          <ContentRenderer
-            query={query("study-groups").orderBy(sortByOrder())}
-            variant="MenuVariant"
-            mode="flat-only"
-            maxDepth={1}
-            listClassName="space-y-4 list-none m-0 p-0"
-            title="Study Groups"
-            showTitle={true}
-          />
         </div>
 
         <!-- Featured Special -->

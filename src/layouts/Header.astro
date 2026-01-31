@@ -6,6 +6,7 @@
 import { Image } from "astro:assets";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import Button from "@/components/Button/Button";
+import Logo from "@/components/Logo.astro";
 import { related, sortByOrder } from "@/utils/query";
 import { siteData } from "@/content/siteData";
 import CircleArrow from "@/assets/i75/circle-arrow.png";
@@ -23,19 +24,7 @@ import HeaderLanguageSwitcher from "@/integrations/preferences/language/ui/Heade
   <div class="header-middle h-19 lg:h-21 flex items-center justify-center rounded-xl border-3 border-light-primary">
     <div class="w-95/100 h-full mx-auto flex items-center justify-between gap-4">
       <div class="nav-left shrink-0 flex items-center gap-5">
-      <a class="logo flex items-center gap-3" href="/">
-        <Image
-          src={siteData.logo}
-          alt={`${siteData.title} Logo`}
-          class="w-12 lg:w-15 h-auto"
-          width={70}
-          height={70}
-        />
-        <span class="flex flex-col p-0 leading-tight text-light-primary">
-          <span class="text-lg md:text-xl lg:text-2xl font-semibold">CPA Review</span>
-          <span class="text-sm lg:text-base font-normal opacity-90 -mt-0.5">The Right Road</span>
-        </span>
-      </a>
+      <Logo />
        <Image src={CircleArrow} alt="Highway arrow" class="w-6 lg:w-9 h-auto" width={60} height={60} />
      </div>
 
