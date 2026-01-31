@@ -122,7 +122,7 @@ export default function HeaderLanguageSwitcher() {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-[90vw] max-w-[280px] sm:w-auto sm:max-w-none sm:min-w-[200px] bg-primary text-light-primary py-1 z-50 border-2 border-light-primary shadow-none overflow-hidden">
+        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-[90vw] max-w-[280px] sm:w-auto sm:max-w-none sm:min-w-[200px] bg-primary text-light-primary z-50 border-2 border-light-primary shadow-none overflow-hidden">
           {requiresConsent && (
             <button
               type="button"
@@ -138,7 +138,7 @@ export default function HeaderLanguageSwitcher() {
             </button>
           )}
 
-          <div className="max-h-64 overflow-y-auto py-1">
+          <div className="max-h-64 overflow-y-auto">
             {supportedLanguages.map((language) => {
               const isActive = language.code === currentLanguage.code;
               const isDisabled = requiresConsent && language.code !== "en";
