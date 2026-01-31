@@ -33,6 +33,10 @@ const partOptions = partEntries.map((entry) => ({
   label: entry.data.title || entry.slug,
 }));
 
+const noTranslateParts = new Set(["FAR", "AUD", "AUDIT", "REG", "ISC", "TCP", "BAR"]);
+const isNoTranslatePart = (value: string) =>
+  noTranslateParts.has(value.trim().toUpperCase());
+
 const allOptions = includeNone
   ? [{ value: "none", label: "None" }, ...partOptions]
   : partOptions;
@@ -46,7 +50,9 @@ const allOptions = includeNone
     </legend>
   )}
   <div class="space-y-2">
-    {allOptions.map((part, index) => (
+    {allOptions.map((part, index) => {
+      const noTranslate = isNoTranslatePart(String(part.label));
+      return (
       <label class={optionClassName} for={`${name}-${part.value}`}>
         <input
           id={`${name}-${part.value}`}
@@ -56,8 +62,11 @@ const allOptions = includeNone
           class={checkboxClassName}
           required={required && index === 0}
         />
-        <span>{part.label}</span>
+        <span class={noTranslate ? "notranslate" : ""} translate={noTranslate ? "no" : undefined}>
+          {part.label}
+        </span>
       </label>
-    ))}
+    );
+    })}
   </div>
 </fieldset>

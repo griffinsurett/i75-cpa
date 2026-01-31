@@ -5,6 +5,9 @@ const {
   color = "var(--color-primary)",
   class: className = "",
 } = Astro.props;
+
+const noTranslateParts = new Set(["FAR", "AUD", "AUDIT", "REG", "ISC", "TCP", "BAR"]);
+const isNoTranslate = noTranslateParts.has(String(label).trim().toUpperCase());
 ---
 
 <a
@@ -12,5 +15,7 @@ const {
   class={`py-2 rounded-xl border-2 border-light-primary/30 text-center text-light-primary font-bold text-base hover:border-light-primary/60 transition-all duration-200 hover:scale-105 ${className}`}
   style={`background-color: ${color}20;`}
 >
-  {label}
+  <span class={isNoTranslate ? "notranslate" : ""} translate={isNoTranslate ? "no" : undefined}>
+    {label}
+  </span>
 </a>

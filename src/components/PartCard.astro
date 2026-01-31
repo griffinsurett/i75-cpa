@@ -25,6 +25,9 @@ const wrapperProps = href
       target: href?.startsWith("http") ? "_blank" : undefined,
     }
   : {};
+
+const noTranslateParts = new Set(["FAR", "AUD", "AUDIT", "REG", "ISC", "TCP", "BAR"]);
+const isNoTranslate = noTranslateParts.has(String(title).trim().toUpperCase());
 ---
 
 <HighwayCard
@@ -57,7 +60,9 @@ const wrapperProps = href
         tagName="span"
         className={`text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center drop-shadow ${titleClass}`}
       >
-        {title}
+        <span class={isNoTranslate ? "notranslate" : ""} translate={isNoTranslate ? "no" : undefined}>
+          {title}
+        </span>
       </Heading>
     </div>
   </Wrapper>

@@ -5,7 +5,7 @@
  * Auto-advances and supports manual navigation.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SocialProofCard from '../LoopComponents/SocialProofCard';
 import StraightArrowSide from '@/assets/i75/straight-arrow-side.webp';
 
@@ -36,12 +36,25 @@ interface SocialProofCarouselProps {
   className?: string;
 }
 
-const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] => {
+const getLayoutForWidth = (width: number) => {
+  if (width < 640) {
+    return { columns: 2, itemsPerSlide: 4 };
+  }
+  if (width < 1024) {
+    return { columns: 2, itemsPerSlide: 6 };
+  }
+  return { columns: 3, itemsPerSlide: 7 };
+};
+
+const createSlides = (
+  items: SocialProofCarouselProps['items'],
+  columnsCount: number,
+  itemsPerSlide: number
+): ReviewSlide[] => {
   const socialItems = items.filter(item => item.data.socialMediaPost);
 
   if (socialItems.length === 0) return [];
 
-  const itemsPerSlide = 7;
   const slideCount = Math.ceil(socialItems.length / itemsPerSlide);
 
   const slides: ReviewSlide[] = [];
@@ -50,14 +63,10 @@ const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] =
   for (let s = 0; s < slideCount; s++) {
     const slideItems = socialItems.slice(s * itemsPerSlide, (s + 1) * itemsPerSlide);
 
-    const columns: ReviewColumn[] = [
-      { cards: [] },
-      { cards: [] },
-      { cards: [] },
-    ];
+    const columns: ReviewColumn[] = Array.from({ length: columnsCount }, () => ({ cards: [] }));
 
     slideItems.forEach((item, i) => {
-      const colIndex = i % 3;
+      const colIndex = i % columnsCount;
       columns[colIndex].cards.push({
         image: item.data.socialMediaPost!,
         alt: `${item.data.title} social proof`,
@@ -74,8 +83,26 @@ const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] =
 };
 
 const SocialProofCarousel = ({ items, className = '' }: SocialProofCarouselProps) => {
+  const [layout, setLayout] = useState(() => ({ columns: 3, itemsPerSlide: 7 }));
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = createSlides(items);
+  const slides = useMemo(
+    () => createSlides(items, layout.columns, layout.itemsPerSlide),
+    [items, layout]
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setLayout(getLayoutForWidth(window.innerWidth));
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [layout.columns, layout.itemsPerSlide]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide((index + slides.length) % slides.length);
@@ -132,7 +159,7 @@ const SocialProofCarousel = ({ items, className = '' }: SocialProofCarouselProps
           >
             {slides.map((slide, slideIndex) => (
               <div key={slideIndex} className="min-w-full px-4 py-6 sm:px-6 sm:py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                   {slide.columns.map((column, columnIndex) => (
                     <div key={`col-${columnIndex}`} className="flex flex-col gap-4 sm:gap-6">
                       {column.cards.map((card, cardIndex) => (

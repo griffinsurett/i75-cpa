@@ -13,9 +13,9 @@ interface SocialProofCardProps {
 }
 
 const sizeClasses = {
-  short: 'h-[170px]',
-  medium: 'h-[250px]',
-  tall: 'h-[430px]',
+  short: 'h-[120px] sm:h-[170px]',
+  medium: 'h-[170px] sm:h-[250px]',
+  tall: 'h-[240px] sm:h-[430px]',
 };
 
 const SocialProofCard = ({
@@ -26,7 +26,7 @@ const SocialProofCard = ({
 }: SocialProofCardProps) => {
   return (
     <div
-      className={`rounded-2xl bg-primary text-light-primary shadow-xl ring-3 ring-white p-3 ${sizeClasses[size]} ${className}`}
+      className={`rounded-2xl bg-primary text-light-primary shadow-xl ring-3 ring-white p-2 sm:p-3 ${sizeClasses[size]} ${className}`}
     >
       <div className="h-full w-full rounded-xl overflow-hidden bg-primary/80 flex items-center justify-center">
         <img

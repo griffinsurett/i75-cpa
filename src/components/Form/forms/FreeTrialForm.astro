@@ -44,6 +44,10 @@ const partOptions = partEntries.map((entry) => ({
   value: entry.slug,
   label: entry.data.title || entry.slug,
 }));
+
+const noTranslateParts = new Set(["FAR", "AUD", "AUDIT", "REG", "ISC", "TCP", "BAR"]);
+const isNoTranslatePart = (value: string) =>
+  noTranslateParts.has(value.trim().toUpperCase());
 ---
 
 <div class={className}>
@@ -107,7 +111,9 @@ const partOptions = partEntries.map((entry) => ({
         <span class="text-red-500 ml-1">*</span>
       </legend>
       <div class="space-y-2">
-        {partOptions.map((part) => (
+        {partOptions.map((part) => {
+          const noTranslate = isNoTranslatePart(String(part.label));
+          return (
           <label class="flex items-center gap-2 text-text" for={`desiredPart-${part.value}`}>
             <input
               id={`desiredPart-${part.value}`}
@@ -117,9 +123,12 @@ const partOptions = partEntries.map((entry) => ({
               required
               class="w-4 h-4 text-MainDark border-surface"
             />
-            <span>{part.label}</span>
+            <span class={noTranslate ? "notranslate" : ""} translate={noTranslate ? "no" : undefined}>
+              {part.label}
+            </span>
           </label>
-        ))}
+        );
+        })}
       </div>
     </fieldset>
 
