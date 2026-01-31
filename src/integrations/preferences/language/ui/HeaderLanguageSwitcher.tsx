@@ -122,7 +122,7 @@ export default function HeaderLanguageSwitcher() {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-[90vw] max-w-[280px] sm:w-auto sm:max-w-none sm:min-w-[200px] bg-primary text-light-primary z-50 border-2 border-light-primary shadow-none overflow-hidden">
+        <div className="absolute right-0 left-auto sm:left-0 sm:right-auto top-full w-max max-w-[90vw] bg-primary text-light-primary z-50 border-2 border-light-primary shadow-none overflow-hidden">
           {requiresConsent && (
             <button
               type="button"
