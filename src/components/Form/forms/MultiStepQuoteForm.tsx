@@ -26,7 +26,7 @@ export default function MultiStepQuoteForm() {
       className="w-full max-w-3xl mx-auto"
     >
       <FormStep title="Personal Information">
-        <div className="flex flex-col lg:flex-row gap-4 mb-4">
+        <div className="form-two-col">
           <Input
             name="firstName"
             label="First Name"
@@ -50,26 +50,28 @@ export default function MultiStepQuoteForm() {
           />
         </div>
 
-        <Input
-          name="email"
-          label="Email"
-          type="email"
-          required
-          placeholder="me@website.com"
-          containerClassName="mb-4"
-          inputClassName="w-full px-4 py-3 bg-text/5 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-        />
+        <div className="form-two-col">
+          <Input
+            name="email"
+            label="Email"
+            type="email"
+            required
+            placeholder="me@website.com"
+            containerClassName="mb-0 flex-1"
+            inputClassName="w-full px-4 py-3 bg-text/5 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          />
 
-        <Input
-          name="phone"
-          label="Phone Number"
-          type="tel"
-          required
-          pattern="[0-9]{10,}"
-          placeholder="012-345-6789"
-          containerClassName="mb-4"
-          inputClassName="w-full px-4 py-3 bg-text/5 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-        />
+          <Input
+            name="phone"
+            label="Phone Number"
+            type="tel"
+            required
+            pattern="[0-9]{10,}"
+            placeholder="012-345-6789"
+            containerClassName="mb-0 flex-1"
+            inputClassName="w-full px-4 py-3 bg-text/5 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+          />
+        </div>
       </FormStep>
 
       <FormStep title="Company Information">

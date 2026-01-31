@@ -62,7 +62,7 @@ const isNoTranslatePart = (value: string) =>
     resetOnSuccess={true}
     className="w-full"
   >
-    <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
+    <div class="form-two-col">
       <Input
         name="firstName"
         label="First Name"
@@ -71,7 +71,7 @@ const isNoTranslatePart = (value: string) =>
         minLength={2}
         placeholder="First Name"
         containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        inputClassName="w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark"
       />
 
       <Input
@@ -82,7 +82,7 @@ const isNoTranslatePart = (value: string) =>
         minLength={2}
         placeholder="Last Name"
         containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        inputClassName="w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark"
       />
     </div>
 
@@ -93,7 +93,7 @@ const isNoTranslatePart = (value: string) =>
       required={true}
       placeholder="your.email@example.com"
       containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+      inputClassName="w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark"
     />
 
     <Input
@@ -102,7 +102,7 @@ const isNoTranslatePart = (value: string) =>
       type="text"
       placeholder="Country"
       containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+      inputClassName="w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark"
     />
 
     <fieldset class="mb-4">
@@ -146,7 +146,7 @@ const isNoTranslatePart = (value: string) =>
       placeholder="Share your CPA exam journey..."
       rows={5}
       containerClassName="mb-4"
-      textareaClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
+      textareaClassName="w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark resize-vertical"
     />
 
     <Checkbox

@@ -30,7 +30,7 @@ export default function FileInput({
   helperText,
   containerClassName = "mb-4",
   labelClassName = "block text-sm font-medium text-text mb-1",
-  inputClassName = "w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 file:cursor-pointer",
+  inputClassName = "w-full px-4 py-3 bg-transparent border-0 rounded-md ring-3 ring-white focus:outline-none focus:ring-3 focus:ring-MainDark file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 file:cursor-pointer",
   helperClassName = "text-sm text-text/60 mt-1",
   showLabel = true,
   ...inputProps
