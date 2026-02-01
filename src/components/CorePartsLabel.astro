@@ -1,0 +1,19 @@
+---
+// src/components/CorePartsLabel.astro
+/**
+ * Renders a comma-separated list of core CPA parts from the "part" collection.
+ */
+import { query, whereEquals, sortByOrder } from "@/utils/query";
+
+const coreParts = (await query("part")
+  .where(whereEquals("parent", "core"))
+  .orderBy(sortByOrder())
+  .get()).entries;
+
+const corePartLabel = coreParts
+  .map((part) => part.data?.title ?? part.slug ?? "")
+  .filter(Boolean)
+  .join(", ");
+---
+
+<span>{corePartLabel}</span>

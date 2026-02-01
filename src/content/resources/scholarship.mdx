@@ -9,20 +9,99 @@ seo:
   metaTitle: "i75 CPA Review Scholarship Application"
   metaDescription: "Apply for a scholarship to receive free or discounted access to i75 CPA Review courses. We believe in supporting aspiring CPAs on their journey."
 ---
+import { Image } from "astro:assets";
+import Heading from "@/components/Heading";
+import SplitMediaFormSection from "@/components/SplitMediaFormSection.astro";
+import HighwayCard from "@/components/HighwayCard.astro";
 import ScholarshipForm from "@/components/Form/forms/ScholarshipForm.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import CorePartsLabel from "@/components/CorePartsLabel.astro";
+import { query } from "@/utils/query";
+import StudentsImage from "@/assets/i75/students.jpg";
+import PasserImage from "@/assets/i75/passer.png";
 
-## i75 CPA Review Scholarship
+<SplitMediaFormSection>
+  <Heading
+    slot="form"
+    tagName="h2"
+    className="h3 font-bold text-light-primary uppercase tracking-widest"
+    text="If Selected, You Will Recieve:"
+  />
 
-We believe that everyone deserves the opportunity to pursue their CPA certification, regardless of financial circumstances. The i75 Scholarship Program is designed to help dedicated candidates who need financial assistance to access our comprehensive CPA review materials.
+  <ul slot="form" class="text-lg md:text-xl text-light-primary/90 leading-relaxed list-disc pl-6 space-y-2">
+    <li>All 3 Core Parts! (<CorePartsLabel />)</li>
+    <li>Deadline to Apply: December 31, 2025</li>
+    <li>No Need to Apply More Than Once</li>
+  </ul>
 
-### Eligibility
 
-- Currently enrolled in or recently graduated from an accredited accounting program
-- Demonstrated financial need
-- Commitment to pursuing CPA certification
+  <p slot="form" class="text-lg md:text-xl text-light-primary/90 leading-relaxed">
+    Financial Limitations Should Not be what stops you from becoming a CPA. Here
+    at i-75 We want to offer those in need the opportunity to win a ride on the
+    right road to CPA!
+  </p>
 
-### How to Apply
+  <p slot="form" class="text-lg md:text-xl text-light-primary/90 leading-relaxed">
+    Do You Already Have CPA Review Material from another course? Tell us about
+    your experience with Becker, UWorld, Surgent, etc, and why you feel you
+    should be chosen to win Darius Clark’s i-75 CPA Review Scholarship!
+  </p>
 
-Complete the scholarship application form below. Our team will review your application and respond within 2-3 weeks.
+  <p slot="form" class="text-lg md:text-xl text-light-primary/90 leading-relaxed">
+    If you applied for an i-75 scholarship, make sure that we are first
+    connections on Linkedin, friends on Facebook, subscribe to our youtube, and
+    follow our instagram. Links are all below! Then, look for posts each month
+    announcing the winner!
+  </p>
 
-<ScholarshipForm className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6" />
+  <div slot="form" class="pt-2">
+    <ContentRenderer
+      query={query("social-media")}
+      variant="SocialMediaVariant"
+      title="Follow Us"
+      size="sm"
+      alignment="left"
+    />
+  </div>
+
+  <p slot="form" class="text-base md:text-lg text-light-primary/80 leading-relaxed">
+    If you experience any errors or difficulties, trying to submit the
+    scholarship form. First, refresh the page. If that doesn’t work, try again
+    with a different browser or device.
+  </p>
+
+  <ScholarshipForm
+    slot="form"
+    className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6"
+  />
+
+    <HighwayCard
+    slot="images"
+    class="bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6"
+  >
+    <Heading
+      tagName="h3"
+      className="h4 font-bold text-light-primary mb-4"
+      text="Recent Scholarship Winners:"
+    />
+    <ul class="text-lg md:text-xl text-light-primary/90 leading-relaxed list-disc pl-6 space-y-2">
+      <li>December 2025, Daisy Flores</li>
+      <li>October 2025 Hannah Stone</li>
+      <li>August 2025 Jacob Wickern</li>
+      <li>June 2025 Sophia Badillo</li>
+    </ul>
+  </HighwayCard>
+
+  <Image
+    slot="images"
+    src={StudentsImage}
+    alt="Students studying with i75 CPA Review"
+    loading="lazy"
+  />
+  <Image
+    slot="images"
+    src={PasserImage}
+    alt="Recent i75 CPA Review passer"
+    loading="lazy"
+  />
+</SplitMediaFormSection>

@@ -11,44 +11,47 @@ seo:
 ---
 import { Image } from "astro:assets";
 import Heading from "@/components/Heading";
-import PrimaryMediaBackground from "@/components/PrimaryMediaBackground.astro";
+import SplitMediaFormSection from "@/components/SplitMediaFormSection.astro";
 import MilitaryDiscountForm from "@/components/Form/forms/MilitaryDiscountForm.astro";
 import VetImageOne from "@/assets/vet/us-vets-1.jpg";
 import VetImageTwo from "@/assets/vet/flag.jpg";
 
-<section class="relative py-10 md:py-16 w-full text-light-primary">
-  <PrimaryMediaBackground />
-  <div class="relative z-10 inner-section flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
-    <div class="space-y-6 flex-2">
-      <Heading
-        tagName="h2"
-        className="h4 font-semibold text-light-primary uppercase tracking-widest"
-        text={`"Without heroes, we are all plain people, and don't know how far we can go."`}
-      />
+<SplitMediaFormSection>
+  <Heading
+    slot="form"
+    tagName="h2"
+    className="h4 font-semibold text-light-primary uppercase tracking-widest"
+    text={`"Without heroes, we are all plain people, and don't know how far we can go."`}
+  />
 
-      <p class="text-xl md:text-2xl text-light-primary/90 leading-relaxed">
-        Thank you for your service! At i-75 CPA Review, we are proud to support
-        our veterans. To access exclusive offers, please be prepared to show
-        proof of your honorable discharge. We look forward to helping you
-        advance your career with our comprehensive CPA review courses and at a
-        discount only available to you. So make sure to inquire below, we will
-        get back to you ASAP.
-      </p>
+  <p slot="form" class="text-xl md:text-2xl font-semibold text-light-primary">
+    We at i-75 CPA Review thank you for your Service!
+  </p>
 
-      <MilitaryDiscountForm className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6" />
-    </div>
+  <p slot="form" class="text-xl md:text-2xl text-light-primary/90 leading-relaxed">
+    Thank you for your service! At i-75 CPA Review, we are proud to support
+    our veterans. To access exclusive offers, please be prepared to show
+    proof of your honorable discharge. We look forward to helping you
+    advance your career with our comprehensive CPA review courses and at a
+    discount only available to you. So make sure to inquire below, we will
+    get back to you ASAP.
+  </p>
 
-    <div class="flex flex-col flex-1 gap-6">
-      <Image
-        src={VetImageOne}
-        alt="U.S. military veteran uniform and insignia"
-        loading="lazy"
-      />
-      <Image
-        src={VetImageTwo}
-        alt="American flag honoring military veterans"
-        loading="lazy"
-      />
-    </div>
-  </div>
-</section>
+  <MilitaryDiscountForm
+    slot="form"
+    className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6"
+  />
+
+  <Image
+    slot="images"
+    src={VetImageOne}
+    alt="U.S. military veteran uniform and insignia"
+    loading="lazy"
+  />
+  <Image
+    slot="images"
+    src={VetImageTwo}
+    alt="American flag honoring military veterans"
+    loading="lazy"
+  />
+</SplitMediaFormSection>
