@@ -42,11 +42,7 @@ const heroImage = collectionMeta.featuredImage;
 
 <BaseLayout {...seoProps}>
   <main class="flex-1">
-    {/* Header - Always displayed */}
-    Blog Index Layout
-
     {/* Content - Either custom MDX or default grid */}
-    <div class="container mx-auto px-4 pb-16">
       {
         hasContent && Content ? (
           /* Custom MDX content from _meta.mdx body */
@@ -56,6 +52,5 @@ const heroImage = collectionMeta.featuredImage;
           <ContentRenderer query={query(collectionName)} variant="GridVariant" />
         )
       }
-    </div>
   </main>
 </BaseLayout>

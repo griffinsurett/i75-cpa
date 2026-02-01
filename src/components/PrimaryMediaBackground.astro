@@ -1,0 +1,31 @@
+---
+// src/components/PrimaryMediaBackground.astro
+/**
+ * PrimaryMediaBackground
+ * Shared full-bleed background with optional fixed attachment and overlay.
+ */
+
+import BgImage from "@/assets/i75/i75road.jpg";
+
+const {
+  image = BgImage,
+  overlayClass = "bg-dark-primary/35",
+  className = "",
+  fixed = true,
+  fullBleed = true,
+} = Astro.props;
+
+const imageUrl = typeof image === "string" ? image : image?.src ?? "";
+const containerClass = fullBleed
+  ? "absolute inset-y-0 left-1/2 w-screen -ml-[50vw]"
+  : "absolute inset-0";
+const imageClass = [
+  "absolute inset-0 bg-cover bg-center",
+  fixed ? "bg-fixed" : "",
+].filter(Boolean).join(" ");
+---
+
+<div class={`${containerClass} pointer-events-none ${className}`} aria-hidden="true">
+  <div class={imageClass} style={`background-image: url("${imageUrl}");`}></div>
+  {overlayClass && <div class={`absolute inset-0 ${overlayClass}`}></div>}
+</div>

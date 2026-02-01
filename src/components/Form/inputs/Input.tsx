@@ -29,6 +29,9 @@ export default function Input({
   showLabel = true,
   ...inputProps
 }: InputProps) {
+  const placeholderClassName = "placeholder-white/80 placeholder:tracking-tight";
+  const combinedInputClassName = `${inputClassName} ${placeholderClassName}`.trim();
+
   return (
     <div className={containerClassName}>
       {showLabel && label && (
@@ -45,7 +48,7 @@ export default function Input({
       <input
         id={name}
         name={name}
-        className={inputClassName}
+        className={combinedInputClassName}
         required={required}
         {...inputProps}
       />

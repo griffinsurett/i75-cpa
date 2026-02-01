@@ -9,28 +9,46 @@ seo:
   metaTitle: "Military Discount - i75 CPA Review"
   metaDescription: "i75 CPA Review honors our military heroes with exclusive discounts for active duty service members, veterans, reservists, and National Guard."
 ---
+import { Image } from "astro:assets";
+import Heading from "@/components/Heading";
+import PrimaryMediaBackground from "@/components/PrimaryMediaBackground.astro";
 import MilitaryDiscountForm from "@/components/Form/forms/MilitaryDiscountForm.astro";
+import VetImageOne from "@/assets/vet/us-vets-1.jpg";
+import VetImageTwo from "@/assets/vet/flag.jpg";
 
-## Military Discount Program
+<section class="relative py-10 md:py-16 w-full text-light-primary">
+  <PrimaryMediaBackground />
+  <div class="relative z-10 inner-section flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
+    <div class="space-y-6 flex-2">
+      <Heading
+        tagName="h2"
+        className="h4 font-semibold text-light-primary uppercase tracking-widest"
+        text={`"Without heroes, we are all plain people, and don't know how far we can go."`}
+      />
 
-At i75 CPA Review, we're proud to support those who have served and continue to serve our country. We offer exclusive discounts to help military members and veterans achieve their CPA certification goals.
+      <p class="text-xl md:text-2xl text-light-primary/90 leading-relaxed">
+        Thank you for your service! At i-75 CPA Review, we are proud to support
+        our veterans. To access exclusive offers, please be prepared to show
+        proof of your honorable discharge. We look forward to helping you
+        advance your career with our comprehensive CPA review courses and at a
+        discount only available to you. So make sure to inquire below, we will
+        get back to you ASAP.
+      </p>
 
-### Who Qualifies?
+      <MilitaryDiscountForm className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6" />
+    </div>
 
-- **Active Duty** - Currently serving in any branch
-- **Veterans** - Honorably discharged service members
-- **Reserve & National Guard** - Part-time service members
-- **Retired Military** - Those who completed their service
-
-### How It Works
-
-1. Fill out the form below with your information
-2. Upload a copy of your Military ID or DD-214
-3. We'll verify your status within 24-48 hours
-4. Receive your exclusive discount code via email
-
-### Thank You for Your Service
-
-Your dedication and sacrifice make our freedom possible. This discount is our small way of saying thank you and supporting your career transition or advancement.
-
-<MilitaryDiscountForm className="mt-8 bg-primary text-light-primary rounded-2xl shadow-xl ring-3 ring-white p-6" />
+    <div class="flex flex-col flex-1 gap-6">
+      <Image
+        src={VetImageOne}
+        alt="U.S. military veteran uniform and insignia"
+        loading="lazy"
+      />
+      <Image
+        src={VetImageTwo}
+        alt="American flag honoring military veterans"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>

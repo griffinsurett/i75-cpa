@@ -30,6 +30,9 @@ export default function Textarea({
   rows = 4,
   ...textareaProps
 }: TextareaProps) {
+  const placeholderClassName = "placeholder-white/80 placeholder:tracking-tight";
+  const combinedTextareaClassName = `${textareaClassName} ${placeholderClassName}`.trim();
+
   return (
     <div className={containerClassName}>
       {showLabel && label && (
@@ -47,7 +50,7 @@ export default function Textarea({
         id={name}
         name={name}
         rows={rows}
-        className={textareaClassName}
+        className={combinedTextareaClassName}
         required={required}
         {...textareaProps}
       />

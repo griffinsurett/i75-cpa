@@ -18,9 +18,9 @@ import {
   getAuthorName,
   type BreadcrumbItem,
 } from "@/layouts/collections/helpers/layoutHelpers";
+import Heading from "@/components/Heading";
+import ArrowHeading from "@/components/ArrowHeading.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
-import BackgroundMedia from "@/components/BackgroundMedia.astro";
-import BgImage from "@/assets/i75/i75road.jpg";
 
 export interface Props {
   title: string;
@@ -43,20 +43,10 @@ const {
   author,
   readingTime,
   className = "",
-  minHeight = "60vh",
+  minHeight = "20vh",
   breadcrumbs,
   path,
 } = Astro.props;
-
-// Prepare optimized background media
-const backgroundMedia = {
-  image: {
-    src: image || BgImage,
-    imageClass: "bg-cover bg-center",
-    aboveTheFold: true, // Automatic LCP optimization
-  },
-  overlayClass: "bg-gradient-to-b from-black/40 via-black/50 to-black/70",
-};
 
 const resolvedBreadcrumbs = await buildHeroBreadcrumbs({
   breadcrumbs,
@@ -66,44 +56,48 @@ const resolvedBreadcrumbs = await buildHeroBreadcrumbs({
 
 <section class={`relative ${className}`}>
   <div
-    class="relative flex items-center justify-center overflow-hidden"
+    class="relative flex items-center justify-center overflow-hidden bg-primary border-3 border-white rounded-xl shadow-2xl"
     style={`min-height: ${minHeight}`}
   >
-    {/* Optimized background with overlay */}
-    <BackgroundMedia backgroundMedia={backgroundMedia} />
+    {/* Background image removed for highway sign styling */}
 
     {/* Hero content */}
-    <div class="relative container mx-auto px-4 py-16 md:py-24 z-10">
-      <div class="max-w-4xl mx-auto text-bg">
-        {
+    <div class="relative container mx-auto p-4 z-10">
+      <div class="text-light-primary">
+        <!-- {
           resolvedBreadcrumbs.length > 0 && (
-            <div class="mb-6 md:mb-8 text-center">
+            <div class="my-3 text-left">
               <Breadcrumbs
                 items={resolvedBreadcrumbs}
-                className="text-text/80 justify-center"
+                className="text-light-primary/80 justify-start"
               />
             </div>
           )
-        }
+        } -->
         <div class="text-center">
-          <h1
-            class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-lg"
-          >
-            {title}
-          </h1>
+          <Heading
+            tagName="h1"
+            className="h1 font-semibold text-light-primary italic uppercase"
+            text={title}
+          />
 
           {
             description && (
-              <p class="text-xl md:text-2xl mb-8 opacity-95 drop-shadow-md leading-relaxed">
-                {description}
-              </p>
+              <div class="my-5">
+                <ArrowHeading
+                  variant="secondary"
+                  tagName="p"
+                  className="text-xl md:text-2xl font-semibold text-light-primary"
+                  text={description}
+                />
+              </div>
             )
           }
 
           {/* Metadata row with icons */}
           {
             (publishDate || author || readingTime) && (
-              <div class="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base text-bg/90">
+              <div class="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base text-light-primary/90">
                 {publishDate && (
                   <time
                     datetime={new Date(publishDate).toISOString()}
@@ -174,11 +168,3 @@ const resolvedBreadcrumbs = await buildHeroBreadcrumbs({
   {/* Optional slot for additional content below hero */}
   <slot />
 </section>
-
-<style>
-  /* Ensure text is readable on all backgrounds */
-  h1,
-  p {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-</style>
