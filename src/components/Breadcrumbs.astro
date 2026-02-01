@@ -1,0 +1,42 @@
+---
+import { capitalize } from "@/utils/string";
+
+export interface BreadcrumbItem {
+  label: string;
+  url?: string;
+}
+
+export interface Props {
+  items?: BreadcrumbItem[];
+  className?: string;
+}
+
+const { items = [], className = "" } = Astro.props as Props;
+const lastIndex = items.length - 1;
+---
+
+{
+  items.length > 0 && (
+    <nav aria-label="Breadcrumb">
+      <ol class={`flex flex-wrap items-center gap-2 text-sm ${className}`}>
+        {items.map((item, index) => (
+          <li class="flex items-center gap-2">
+            {index > 0 && <span class="opacity-60">/</span>}
+            {item.url && index < lastIndex ? (
+              <a
+                href={item.url}
+                class="hover:text-text transition-colors capitalize"
+              >
+                {capitalize(item.label)}
+              </a>
+            ) : (
+              <span aria-current="page" class="text-text/90 capitalize">
+                {capitalize(item.label)}
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

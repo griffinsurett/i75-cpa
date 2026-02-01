@@ -53,6 +53,16 @@ const columnClasses = {
         )
       }
 
+      <div class="mt-8">
+        <ContentRenderer
+          query={query("social-media")}
+          variant="SocialMediaVariant"
+          title="Follow Us"
+          size="sm"
+          alignment="left"
+        />
+      </div>
+
       {
         shouldShowCollectionCTA(collectionUrl, items.length) && (
           <div class="mt-12 text-left">
@@ -72,13 +82,6 @@ const columnClasses = {
       <HighwayCard>
         <ContactForm />
       </HighwayCard>
-      <ContentRenderer
-        query={query("social-media")}
-        variant="SocialMediaVariant"
-        title="Follow Us"
-        size="lg"
-        alignment="center"
-      />
     </div>
   </div>
 </section>

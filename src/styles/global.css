@@ -45,7 +45,7 @@
   --color-primary: #278476;
   --color-accent: #ffa500;
 
-  --color-text: oklch(18% 0.03 260);
+  --color-text: oklch(96% 0.01 260);
   --color-heading: var(--color-light-primary);
   --color-bg: oklch(99.5% 0.004 260);
   --color-surface: oklch(97.5% 0.006 260);
