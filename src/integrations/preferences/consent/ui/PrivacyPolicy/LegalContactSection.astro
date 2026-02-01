@@ -44,6 +44,8 @@ const {
 // Query contact information dynamically from contact-us collection
 const emailEntry = await find("contact-us", "email");
 const phoneEntry = await find("contact-us", "phone");
+const emailValue = emailEntry?.data?.description ?? emailEntry?.data?.title ?? "";
+const phoneValue = phoneEntry?.data?.description ?? phoneEntry?.data?.title ?? "";
 ---
 
 <h2>{sectionNumber ? `${sectionNumber}. ` : ""}{heading}</h2>
@@ -54,10 +56,10 @@ const phoneEntry = await find("contact-us", "phone");
       <li>
         <strong>Email:</strong>{" "}
         <a
-          href={`${emailEntry.data.linkPrefix || "mailto:"}${emailEntry.data.title}`}
+          href={`${emailEntry.data.linkPrefix || "mailto:"}${emailValue}`}
           class="text-primary underline hover:text-primary-700"
         >
-          {emailEntry.data.title}
+          {emailValue}
         </a>
       </li>
     )
@@ -67,10 +69,10 @@ const phoneEntry = await find("contact-us", "phone");
       <li>
         <strong>Phone:</strong>{" "}
         <a
-          href={`${phoneEntry.data.linkPrefix || "tel:"}${phoneEntry.data.title}`}
+          href={`${phoneEntry.data.linkPrefix || "tel:"}${phoneValue}`}
           class="text-primary underline hover:text-primary-700"
         >
-          {formatPhoneNumber(phoneEntry.data.title)}
+          {formatPhoneNumber(phoneValue)}
         </a>
       </li>
     )

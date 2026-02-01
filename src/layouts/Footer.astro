@@ -8,11 +8,13 @@ import SubscribeForm from "@/components/Form/forms/SubscribeForm.astro";
 import Logo from "@/components/Logo.astro";
 import { siteData } from "@/content/siteData";
 import { hasParent, query, relatedRoots, sortByOrder } from "@/utils/query";
+import { normalizeContactLinks } from "@/utils/contactLinks";
 
 const { class: className = "" } = Astro.props;
 
 const currentYear = new Date().getFullYear();
 const contactEntries = (await query("contact-us").orderBy(sortByOrder()).get()).entries;
+const contactLinks = normalizeContactLinks(contactEntries);
 
 ---
 
@@ -57,21 +59,19 @@ const contactEntries = (await query("contact-us").orderBy(sortByOrder()).get()).
             width={80}
             height={80}
           />
-                    {contactEntries.length > 0 && (
+                    {contactLinks.length > 0 && (
             <ul class="flex flex-col gap-2 list-none m-0 p-0 max-w-[260px]">
-              {contactEntries.map((entry) => {
-                const data = entry.data;
-                const href = data.linkPrefix ? `${data.linkPrefix}${data.title}` : undefined;
+              {contactLinks.map((link) => {
                 return (
                   <li>
                     <Button
                       variant="hoverUnderline"
-                      href={href}
+                      href={link.url}
                       className="text-light-primary/90 hover:text-light-primary text-sm lg:text-base break-all"
-                      leftIcon={data.icon}
+                      leftIcon={link.icon}
                       size="sm"
                     >
-                      {data.title}
+                      {link.displayValue}
                     </Button>
                   </li>
                 );

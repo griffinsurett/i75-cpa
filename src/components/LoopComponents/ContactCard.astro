@@ -16,14 +16,16 @@ import Icon from "@/components/Icon";
 import HighwayCard from "@/components/HighwayCard.astro";
 
 export interface Props {
-  title: string; // Contact info (phone number, email, etc.)
+  title: string; // Label (e.g., "Call Us", "Email Us")
   linkPrefix?: string; // URL prefix (tel:, mailto:, etc.)
   tags?: string[]; // Used to determine default icon
-  description?: string; // Optional label/description
+  description?: string; // Contact value (phone digits, email address)
   icon?: any; // Custom icon (overrides default)
+  displayValue?: string; // Optional formatted value for UI
+  url?: string;
 }
 
-const { title, linkPrefix, tags, description, icon } = Astro.props;
+const { title, linkPrefix, tags, description, icon, displayValue, url } = Astro.props;
 
 // Smart icon selection based on tags if no custom icon provided
 const defaultIcon = tags?.includes("phone")
@@ -34,8 +36,12 @@ const defaultIcon = tags?.includes("phone")
 
 const displayIcon = icon || defaultIcon;
 
+const rawValue = description ?? title ?? "";
+const value = displayValue ?? rawValue;
+const showLabel = !!description && !!title;
+
 // Build full link if prefix provided (tel:, mailto:, etc.)
-const href = linkPrefix ? `${linkPrefix}${title}` : undefined;
+const href = url ?? (linkPrefix && rawValue ? `${linkPrefix}${rawValue}` : undefined);
 ---
 
 <HighwayCard class="bg-primary text-light-primary rounded-2xl shadow-xl ring-2 ring-white/90 border border-white/30 p-6">
@@ -48,10 +54,10 @@ const href = linkPrefix ? `${linkPrefix}${title}` : undefined;
     {/* Contact info */}
     <div class="flex-1">
       {/* Title as link or plain text */}
-      {/* Optional description (label) */}
-      {description && (
+      {/* Label */}
+      {showLabel && (
         <p class="text-sm uppercase tracking-wide text-light-primary/80">
-          {description}
+          {title}
         </p>
       )}
 
@@ -61,10 +67,10 @@ const href = linkPrefix ? `${linkPrefix}${title}` : undefined;
             href={href}
             class="text-lg font-semibold text-light-primary hover:text-white transition-colors block"
           >
-            {title}
+            {value}
           </a>
         ) : (
-          <p class="text-lg font-semibold text-light-primary">{title}</p>
+          <p class="text-lg font-semibold text-light-primary">{value}</p>
         )
       }
     </div>

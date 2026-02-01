@@ -8,6 +8,10 @@ addToMenu:
   - menu: "main-menu"
     parent: "company"
     order: 2
+itemsLinkBehavior:
+  mode: prefixed
+  linkPrefix: linkPrefix
+  valueFormatter: phone
 ---
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { query } from "@/utils/query";
